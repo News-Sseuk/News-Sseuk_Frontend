@@ -6,6 +6,7 @@ import Notfound from "./pages/Notfound";
 import Article from "./pages/Article";
 import MyPage from "./pages/MyPage";
 import Scrap from "./pages/Scrap";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/article/:id" element={<Article />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/scrap" element={<Scrap />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </>
   );
