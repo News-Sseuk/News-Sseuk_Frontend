@@ -32,7 +32,6 @@ const Home = () => {
         <ArticleCard />
         <ArticleCard />
         <ArticleCard />
-        <ArticleCard />
       </Contents>
       <NavigationBarWrapper>
         <NavigationBar />

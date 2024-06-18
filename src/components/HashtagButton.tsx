@@ -15,6 +15,7 @@ const Container = styled.div`
   border-radius: 0.7rem;
   background-color: #eae1e1;
   color: #003d62;
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   cursor: pointer;
+  margin: 0.2rem;
 `;

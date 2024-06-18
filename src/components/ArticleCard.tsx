@@ -11,8 +11,14 @@ const ArticleCard = () => {
         <HashtagButton category={"test"} />
       </HashtagList>
       <Article>
-        <Title></Title>
-        <Content></Content>
+        <Title>
+          인공지능과 블록체인 기술을 활용한 국내법의 혁신과 발전에 대한 전망
+        </Title>
+        <Content>
+          국내법은 인공지능과 블록체인 기술을 활용하여 혁신하고 발전할 것으로
+          예상됩니다. 이러한 기술의 적극적인 도입은 법률 분야에서 효율성을
+          향상시키...
+        </Content>
       </Article>
       <InfoWrapper>
         <Date>2024.05.02 18:00</Date>
@@ -26,9 +32,7 @@ export default ArticleCard;
 
 const Container = styled.div`
   width: 90vw;
-  height: 20vh;
   border-bottom: 1px solid black;
-  background-color: aliceblue;
   display: flex;
   flex-direction: column;
   padding-top: 1rem;
@@ -38,23 +42,44 @@ const HashtagList = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  margin-right: 15rem;
 `;
 
 const Article = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0.5rem 0.8rem;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+`;
 
-const Content = styled.div``;
+const Content = styled.div`
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+`;
 
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
 `;
 
-const Date = styled.div``;
+const Date = styled.div`
+  margin-right: 1rem;
+  font-size: 0.7rem;
+  left: 0;
+`;
 
-const Accuracy = styled.div``;
+const Accuracy = styled.div`
+  background-color: #cde499;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.5rem;
+  border-radius: 0.4rem;
+  color: #003d62;
+  margin-right: 15rem;
+`;
