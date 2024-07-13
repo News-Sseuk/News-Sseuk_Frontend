@@ -7,6 +7,9 @@ import Article from "./pages/Article";
 import MyPage from "./pages/MyPage";
 import Scrap from "./pages/Scrap";
 import Search from "./pages/Search";
+import CategoryEdit from "./pages/CategoryEdit";
+import NotificationEdit from "./pages/NotificationEdit";
+import InfoEdit from "./pages/InfoEdit";
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/scrap" element={<Scrap />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/mypage/category" element={<CategoryEdit />} />
+        <Route path="/mypage/notification" element={<NotificationEdit />} />
+        <Route path="/mypage/edit" element={<InfoEdit />} />
       </Routes>
     </>
   );

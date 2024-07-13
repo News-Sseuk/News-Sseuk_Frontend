@@ -3,15 +3,19 @@ import NavigationBar from "../components/NavigationBar";
 import ArticleCard from "../components/ArticleCard";
 import notification from "../assets/notifications.png";
 import CategoryButton from "../components/home/CategoryButton";
+import { useState } from "react";
 
 const Home = () => {
   const dummyCategory = ["UX/UI", "국내법", "영화", "일본드라마"];
+  const [date, setDate] = useState(new Date());
 
   return (
     <Div>
       <Header>
         <Title>
-          <Text>6월 18일, 오늘의 뉴쓱</Text>
+          <Text>
+            {date.getMonth() + 1}월 {date.getDate()}일, 오늘의 뉴쓱
+          </Text>
           <Icon
             onClick={() => {
               console.log("alarm clicked");
