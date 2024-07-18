@@ -2,8 +2,12 @@ import styled from "styled-components";
 import pfp from "../assets/pfp.jpg";
 import edit from "../assets/edit.png";
 import NavigationBar from "../components/NavigationBar";
+import { useNavigate } from "react-router-dom";
 
 const InfoEdit = () => {
+
+  const nav = useNavigate();
+
   return (
     <Div>
       <InfoWrapper>
@@ -24,10 +28,13 @@ const InfoEdit = () => {
           <Input />
         </EditWrapper>
       </EditContainer>
+      <CompleteButtonContainer>
+        <CompleteButton>수정 완료</CompleteButton>
+      </CompleteButtonContainer>
       <FooterContainer>
-        <FooterText>로그아웃</FooterText>
+        <FooterText onClick={()=>{nav("/login")}}>로그아웃</FooterText>
         <FooterText>|</FooterText>
-        <FooterText>회원탈퇴</FooterText>
+        <FooterText onClick={()=>{nav("/login")}}>회원탈퇴</FooterText>
       </FooterContainer>
       <NavigationBarWrapper>
         <NavigationBar />
@@ -148,4 +155,17 @@ const FooterText = styled.div`
   margin-right: 0.3rem;
   cursor: pointer;
   color: rgba(0, 61, 98, 1);
+`;
+
+const CompleteButton = styled.div`
+  display:flex;
+  background-color: #6DAECA;
+  cursor :pointer;
+  padding: 0.5rem 1rem;
+  border-radius : 10px;
+  width : 9vw;
+`;
+
+const CompleteButtonContainer = styled.div`
+  margin-top:10vh;
 `;

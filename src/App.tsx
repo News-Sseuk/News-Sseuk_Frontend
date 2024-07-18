@@ -10,12 +10,14 @@ import Search from "./pages/Search";
 import CategoryEdit from "./pages/CategoryEdit";
 import NotificationEdit from "./pages/NotificationEdit";
 import InfoEdit from "./pages/InfoEdit";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="*" element={<Notfound />} />
+        <Route path = "/login" element = {<Login/>} />
         <Route path="/" element={<Home />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/article/:id" element={<Article />} />
