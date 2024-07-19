@@ -29,7 +29,7 @@ const InfoEdit = () => {
         </EditWrapper>
       </EditContainer>
       <CompleteButtonContainer>
-        <CompleteButton>수정 완료</CompleteButton>
+        <CompleteButton onClick={()=>{nav("/mypage")}}>수정 완료</CompleteButton>
       </CompleteButtonContainer>
       <FooterContainer>
         <FooterText onClick={()=>{nav("/login")}}>로그아웃</FooterText>
@@ -159,6 +159,8 @@ const FooterText = styled.div`
 
 const CompleteButton = styled.div`
   display:flex;
+  justify-content : center;
+  align-items: center;
   background-color: #6DAECA;
   cursor :pointer;
   padding: 0.5rem 1rem;

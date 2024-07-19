@@ -55,7 +55,7 @@ const Button = styled.div`
     align-items : center;
     background-color : #003D62;
     border-radius : 10px;
-    width : 40vw;
+    width : 20vw;
     height : 6.5vh;
     cursor : pointer;
 `;
@@ -65,8 +65,11 @@ interface ButtonProps {
   }
 
 const KakaoLogin = styled.div<ButtonProps>`
-     width : 40vw;
-    height : 6.5vh;
+  display: flex;
+  justify-content : center;
+  align-items : center;
+  width : 20vw;
+  height : 6.5vh;
   background-image: url(${(props) => props.imgsrc});
   background-size: contain;
   background-repeat: no-repeat;
