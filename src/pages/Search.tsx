@@ -128,6 +128,7 @@ const SearchBar = styled.input`
 const KeywordSection = styled.div`
   width: 100%;
   margin-bottom: 1rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.div`
@@ -151,6 +152,7 @@ const StickyTitle = styled(Title)`
 const KeywordList = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 `;
 
 const RecommendSection = styled.div`
