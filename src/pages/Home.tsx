@@ -7,23 +7,42 @@ import { useState } from "react";
 import Modal from "../components/home/Modal";
 
 const Home = () => {
+  const objectList = [
+    {
+      title: "5월 7일, 서윤 님을 위한 오늘의 뉴-쓱",
+      content: "현재 가족의 모습 달라졋다... 국민 눈높이 새 입법 국회에 맡겨",
+      date: "2024.04.25 19:18",
+      tagList: ["국내법", "헌법재판소"],
+    },
+    {
+      title: "시스템 점검 안내",
+      content: "2024년 7월 10일(수) 00:00~03:00까지 시스템 점검이 진행됩니다.",
+      date: "2024.04.25 19:18",
+      tagList: ["국내법", "헌법재판소"],
+    },
+  ];
+
   const dummyCategory = ["UX/UI", "국내법", "영화", "일본드라마"];
   const [date, setDate] = useState(new Date());
+  const [showModal, setShowModal] = useState(false);
+
+  const handleAlarmClick = () => {
+    setShowModal(!showModal);
+  };
 
   return (
     <Div>
-      <Modal />
-
+      <Modal
+        objectList={objectList}
+        show={showModal}
+        onClose={handleAlarmClick}
+      />
       <Header>
         <Title>
           <Text>
             {date.getMonth() + 1}월 {date.getDate()}일, 오늘의 뉴쓱
           </Text>
-          <Icon
-            onClick={() => {
-              console.log("alarm clicked");
-            }}
-          />
+          <Icon onClick={handleAlarmClick} />
         </Title>
         <CategoryList>
           {dummyCategory.map((category) => (

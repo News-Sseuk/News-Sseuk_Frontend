@@ -1,17 +1,18 @@
 import styled from "styled-components";
-import pfp from "../assets/pfp.jpg";
+import rate1 from "../assets/rate/1.svg";
 import edit from "../assets/edit.png";
 import NavigationBar from "../components/NavigationBar";
 import { useNavigate } from "react-router-dom";
 
 const InfoEdit = () => {
-
   const nav = useNavigate();
 
   return (
     <Div>
       <InfoWrapper>
-        <ProfileImg imgsrc={pfp} />
+        <ProfileImg>
+          <Img src={rate1} />
+        </ProfileImg>
         <Info>
           <Nickname>닉네임 님</Nickname>
           <Rate>쓱싹 등급</Rate>
@@ -29,12 +30,30 @@ const InfoEdit = () => {
         </EditWrapper>
       </EditContainer>
       <CompleteButtonContainer>
-        <CompleteButton onClick={()=>{nav("/mypage")}}>수정 완료</CompleteButton>
+        <CompleteButton
+          onClick={() => {
+            nav("/mypage");
+          }}
+        >
+          수정 완료
+        </CompleteButton>
       </CompleteButtonContainer>
       <FooterContainer>
-        <FooterText onClick={()=>{nav("/login")}}>로그아웃</FooterText>
+        <FooterText
+          onClick={() => {
+            nav("/login");
+          }}
+        >
+          로그아웃
+        </FooterText>
         <FooterText>|</FooterText>
-        <FooterText onClick={()=>{nav("/login")}}>회원탈퇴</FooterText>
+        <FooterText
+          onClick={() => {
+            nav("/login");
+          }}
+        >
+          회원탈퇴
+        </FooterText>
       </FooterContainer>
       <NavigationBarWrapper>
         <NavigationBar />
@@ -65,14 +84,16 @@ interface ImgProps {
   imgsrc: string;
 }
 
-const ProfileImg = styled.div<ImgProps>`
+const ProfileImg = styled.div`
   border-radius: 50%;
-  background-image: url(${(props) => props.imgsrc});
-  background-size: contain;
-  background-repeat: no-repeat;
   width: 6rem;
   height: 6rem;
   margin: 1rem 0 1rem 1rem;
+`;
+
+const Img = styled.img`
+  width: 80%;
+  height: 80%;
 `;
 
 const Info = styled.div`
@@ -158,16 +179,16 @@ const FooterText = styled.div`
 `;
 
 const CompleteButton = styled.div`
-  display:flex;
-  justify-content : center;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  background-color: #6DAECA;
-  cursor :pointer;
+  background-color: #6daeca;
+  cursor: pointer;
   padding: 0.5rem 1rem;
-  border-radius : 10px;
-  width : 9vw;
+  border-radius: 10px;
+  width: 9vw;
 `;
 
 const CompleteButtonContainer = styled.div`
-  margin-top:10vh;
+  margin-top: 10vh;
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import NavigationBar from "../components/NavigationBar";
 import ArticleCard from "../components/ArticleCard";
-import pfp from "../assets/pfp.jpg";
+import rate1 from "../assets/rate/1.svg";
 import edit from "../assets/edit.png";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const MyPage = () => {
     <Div>
       <InfoContainer>
         <InfoWrapper>
-          <ProfileImg imgsrc={pfp} />
+          <ProfileImg imgsrc={rate1} />
           <Info>
             <Nickname>닉네임 님</Nickname>
             <Rate>쓱싹 등급</Rate>
@@ -44,7 +44,7 @@ const MyPage = () => {
       <ReadingBadge>
         <Title>내 리딩 뱃지</Title>
         <BadgeWrapper>
-          <BadgeImage imgsrc={pfp} />
+          <BadgeImage imgsrc={rate1} />
           <Text>00일 연속으로 뉴스를 읽었어요!</Text>
         </BadgeWrapper>
       </ReadingBadge>
