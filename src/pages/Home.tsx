@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import NavigationBar from "../components/NavigationBar";
 import ArticleCard from "../components/ArticleCard";
-import notification from "../assets/notifications.png";
+import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
 import { useState } from "react";
+import Modal from "../components/home/Modal";
 
 const Home = () => {
   const dummyCategory = ["UX/UI", "국내법", "영화", "일본드라마"];
@@ -11,6 +12,8 @@ const Home = () => {
 
   return (
     <Div>
+      <Modal />
+
       <Header>
         <Title>
           <Text>

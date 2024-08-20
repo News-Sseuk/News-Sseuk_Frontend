@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import React from "react";
-import tmp from "../assets/tmp.jpeg";
+import tmp from "../assets/category/경제.png";
 
 const ScrapCard = ({ category }) => {
   return (
     <CategoryWrapper>
-      <Img imgsrc={tmp}></Img>
+      <Img src={tmp}></Img>
       <CategoryName>{category}</CategoryName>
     </CategoryWrapper>
   );
@@ -31,10 +31,7 @@ interface ImgProps {
   imgsrc: string;
 }
 
-const Img = styled.div<ImgProps>`
-  background-image: url(${(props) => props.imgsrc});
-  background-size: cover;
-  background-repeat: no-repeat;
+const Img = styled.img`
   width: 100%;
   height: 80%;
   border: none;
