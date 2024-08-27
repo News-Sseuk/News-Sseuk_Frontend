@@ -17,10 +17,10 @@ function App() {
     <>
       <Routes>
         <Route path="*" element={<Notfound />} />
-        <Route path = "/login" element = {<Login/>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/onboarding" element={<Onboarding />} />
-        <Route path="/article/:id" element={<Article />} />
+        <Route path="/article" element={<Article />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/scrap" element={<Scrap />} />
         <Route path="/search" element={<Search />} />

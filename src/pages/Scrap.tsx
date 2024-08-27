@@ -2,6 +2,8 @@ import NavigationBar from "../components/NavigationBar";
 import styled from "styled-components";
 import ArticleCard from "../components/ArticleCard";
 import ScrapCard from "../components/ScrapCard";
+import left_vector from "../assets/left_vector.png";
+import right_vector from "../assets/right_vector.png";
 import React, { useState } from "react";
 
 /*
@@ -18,13 +20,11 @@ const Scrap = () => {
     <>
       <Div>
         <Header>
-          <Button>{"<"}</Button>
+          <Button src={left_vector} />
           <CarouselContainer>
-            <ScrapCard category={"정치"} />
-            <ScrapCard category={"사회"} />
-            <ScrapCard category={"과학"} />
+            <ScrapCard category={"경제"} />
           </CarouselContainer>
-          <Button>{">"}</Button>
+          <Button src={right_vector} />
         </Header>
         <ContentWrapper>
           <Title>내 스크랩</Title>
@@ -71,23 +71,30 @@ const NavigationBarWrapper = styled.div`
 `;
 
 const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 40%;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   display: flex;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  gap: 0.5rem;
+  gap: 10px;
 `;
 
 const CarouselContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: center;
 `;
 
-const Button = styled.button`
+const Button = styled.img`
+  text-align: center;
   display: flex;
+  width: 30px;
+  height: 30px;
 `;
 
 const ContentWrapper = styled.div`

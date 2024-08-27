@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import home from "../assets/home.png";
-import search from "../assets/search.png";
-import scrap from "../assets/scrap.png";
-import mypage from "../assets/mypage.png";
+import home from "../assets/home.svg";
+import search from "../assets/search.svg";
+import scrap from "../assets/scrap.svg";
+import mypage from "../assets/rate/1.svg";
 
 const NavigationBar = () => {
   const nav = useNavigate();
