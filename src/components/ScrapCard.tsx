@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import tmp from "../assets/category/경제.png"
+import tmp from "../assets/category/culture.png";
 
 const ScrapCard = ({ category }) => {
   return (
