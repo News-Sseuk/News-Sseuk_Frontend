@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import tmp from "../assets/category/경제.png";
+import tmp from "../assets/category/경제.png"
 
 const ScrapCard = ({ category }) => {
   return (
@@ -27,9 +27,9 @@ const CategoryWrapper = styled.div`
   color: #333;
 `;
 
-interface ImgProps {
-  imgsrc: string;
-}
+// interface ImgProps {
+//   imgsrc: string;
+// }
 
 const Img = styled.img`
   width: 100%;

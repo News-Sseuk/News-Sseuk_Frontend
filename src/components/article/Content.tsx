@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import tmp from "../../assets/category/정치.png";
+import tmp from "../../assets/category/경제.png"
 
 const Content = () => {
   return (
