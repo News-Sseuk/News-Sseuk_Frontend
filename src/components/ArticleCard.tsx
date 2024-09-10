@@ -31,7 +31,7 @@ const ArticleCard = () => {
 export default ArticleCard;
 
 const Container = styled.div`
-  width: 90vw;
+  width: 90%;
   border-bottom: 1px solid black;
   display: flex;
   flex-direction: column;
