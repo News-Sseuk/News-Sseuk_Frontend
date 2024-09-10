@@ -2,15 +2,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import Button from "./Button";
 
-// button component 재사용을 위해
-// isEmailValid인 경우 color : '' 하고
-// button component에서는 color 가 없는경우
-
 const SignIn = () => {
-  const [isEmailValid, setIsEmailValid] = useState(false);
-
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
+  const handleLogin = () => {};
 
   return (
     <Container>
@@ -22,7 +15,10 @@ const SignIn = () => {
         <Text>비밀번호</Text>
         <Input></Input>
       </Wrapper>
-      <Button title="회원가입 완료하기"></Button>
+      <Button
+        handleClick={() => handleLogin()}
+        title="뉴쓱의 세계로..."
+      ></Button>
     </Container>
   );
 };

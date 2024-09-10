@@ -1,40 +1,70 @@
 import styled from "styled-components";
 import { useState } from "react";
 import Button from "./Button";
-
-// button component 재사용을 위해
-// isEmailValid인 경우 color : '' 하고
-// button component에서는 color 가 없는경우
+import { fetchEmailValidCheck } from "../../api/fetch";
 
 const SignUp = () => {
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
 
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
+  // 이메일 유효성 검증 함수
+  const handleEmailValidation = async () => {
+    if (isEmailValid) {
+      alert(
+        "중복 확인 완료! 아이디와 비밀번호를 입력한 후 회원가입을 완료해주세요!"
+      );
+    } else {
+      try {
+        const result = await fetchEmailValidCheck(email);
+        if (result.result === false) {
+          alert("중복 이메일입니다. 다시 확인해주세요");
+        } else {
+          setIsEmailValid(true);
+        }
+      } catch {
+        alert("이메일 검증 실패. 다시 시도해주세요");
+      }
+    }
+  };
+
+  // 이름 입력 핸들러
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  // 이메일 입력 핸들러
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
   return (
     <Container>
       <Wrapper>
         <Text>이름</Text>
-        <Input></Input>
+        <Input type="text" value={name} onChange={handleNameChange} />
       </Wrapper>
       <Wrapper>
         <Text>이메일</Text>
-        <Input></Input>
+        <Input type="email" value={email} onChange={handleEmailChange} />
       </Wrapper>
       <Button
+        handleClick={handleEmailValidation}
         title={isEmailValid ? "이메일 중복확인 완료" : "이메일 중복확인"}
         color={isEmailValid ? undefined : "#FFC7C2"}
-      ></Button>
+      />
       <Wrapper>
         <Text>아이디</Text>
-        <Input></Input>
+        <Input />
       </Wrapper>
       <Wrapper>
         <Text>비밀번호</Text>
-        <Input></Input>
+        <Input />
       </Wrapper>
-      <Button title="회원가입 완료하기"></Button>
+      <Button
+        title="회원가입 완료하기"
+        handleClick={() => console.log("회원가입 완료")}
+      />
     </Container>
   );
 };
@@ -57,6 +87,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const Input = styled.input`
   padding: 3px 5px;
   border: none;

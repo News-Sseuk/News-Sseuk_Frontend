@@ -64,6 +64,9 @@ const Div = styled.div`
   height: 100%;
   width: 100%;
   padding: 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const TextContainer = styled.div`

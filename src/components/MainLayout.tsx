@@ -10,11 +10,12 @@ interface MainLayoutProps {
 const MainLayout = ({ children }: MainLayoutProps) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
+  const isOnboardingPage = location.pathname === "/onboarding";
 
   return (
     <LayoutContainer>
       <Content>{children}</Content>
-      {!isLoginPage && <NavigationBar />}
+      {!isLoginPage && !isOnboardingPage && <NavigationBar />}
     </LayoutContainer>
   );
 };
@@ -30,8 +31,11 @@ const LayoutContainer = styled.div`
   flex-grow: 1;
   background-color: white;
   padding: 10px 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
-                                                                                          
+
 const Content = styled.div`
   flex: 1;
   overflow: auto;

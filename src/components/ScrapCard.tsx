@@ -5,7 +5,6 @@ import tmp from "../assets/category/culture.png";
 const ScrapCard = ({ category }) => {
   return (
     <CategoryWrapper>
-      <Img src={tmp}></Img>
       <CategoryName>{category}</CategoryName>
     </CategoryWrapper>
   );

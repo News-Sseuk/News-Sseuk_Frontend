@@ -80,21 +80,21 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  margin-bottom: 1rem;
 `;
 
 const Title = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: space-around;
   align-items: center;
-  margin-bottom: 2rem;
+  gap: 30px;
+  margin-bottom: 10px;
 `;
 
 const Text = styled.div`
   display: flex;
   font-size: 1.2rem;
-  justify-content: flex-start;
   font-weight: 600;
 `;
 
@@ -104,7 +104,6 @@ const Icon = styled.div`
   background-image: url(${notification});
   background-size: contain;
   background-repeat: no-repeat;
-  margin-left: 8rem;
   cursor: pointer;
 `;
 
@@ -118,7 +117,7 @@ const CategoryList = styled.div`
   width: 100%;
   height: 20%;
   margin-top: 10px;
-  padding : 20px;
+  padding: 22px 10px;
 `;
 
 const Contents = styled.div`
@@ -129,5 +128,4 @@ const Contents = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  margin-bottom: 4rem;
 `;

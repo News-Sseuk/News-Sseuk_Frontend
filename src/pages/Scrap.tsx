@@ -1,45 +1,70 @@
-import NavigationBar from "../components/NavigationBar";
 import styled from "styled-components";
 import ArticleCard from "../components/ArticleCard";
 import ScrapCard from "../components/ScrapCard";
 import left_vector from "../assets/left_vector.png";
 import right_vector from "../assets/right_vector.png";
 import React, { useState } from "react";
-
-/*
-카드 스크롤 아이디어
-transform : translate3d(-000px, 0px, 0px); 
-=> 화살표 클릭시 왼쪽/오른쪽으로 넘어감- 크기만큼 배열 인덱스 * 해서 해당 px값을
-props 로 넘겨줘서 styled component에서 x축 에서 해당 px만큼 이동하게 
-+
-크기를 줄여야함
-*/
+import { getImage } from "../utils/get-category-image";
 
 const Scrap = () => {
+  // 사용자가 스크랩한 카테고리 리스트
+  const [scrappedCategories, setScrappedCategories] = useState([
+    "경제",
+    "인권",
+    "기술",
+    "환경",
+  ]);
+
+  // 카테고리에 맞는 이미지 가져오기
+  const images = getImage(scrappedCategories);
+
+  // 현재 인덱스 관리
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // 이전 카테고리로 이동
+  const handlePrevClick = () => {
+    setCurrentIndex((prev) =>
+      prev > 0 ? prev - 1 : scrappedCategories.length - 1
+    );
+  };
+
+  // 다음 카테고리로 이동
+  const handleNextClick = () => {
+    setCurrentIndex((prev) =>
+      prev < scrappedCategories.length - 1 ? prev + 1 : 0
+    );
+  };
+
+  // 현재 보여줄 카테고리와 이미지
+  const currentCategory = scrappedCategories[currentIndex];
+  const currentImage = images[currentIndex]; // 해당 인덱스에 맞는 이미지
+
   return (
     <>
       <Div>
         <Header>
-          <Button src={left_vector} />
+          {/* 이전 카테고리로 */}
+          <Button src={left_vector} onClick={handlePrevClick} />
+
           <CarouselContainer>
-            <ScrapCard category={"경제"} />
+            {/* 현재 인덱스에 맞는 카테고리 이미지와 스크랩카드 */}
+            <CategoryWrapper>
+              <Img src={currentImage}></Img>
+              <CategoryName>{currentCategory}</CategoryName>
+            </CategoryWrapper>
           </CarouselContainer>
-          <Button src={right_vector} />
+          {/* 다음 카테고리로 */}
+          <Button src={right_vector} onClick={handleNextClick} />
         </Header>
+
         <ContentWrapper>
           <Title>내 스크랩</Title>
           <ArticleContainer>
             <ArticleCard />
             <ArticleCard />
             <ArticleCard />
-            <ArticleCard />
-            <ArticleCard />
-            <ArticleCard />
           </ArticleContainer>
         </ContentWrapper>
-        <NavigationBarWrapper>
-          <NavigationBar />
-        </NavigationBarWrapper>
       </Div>
     </>
   );
@@ -54,20 +79,6 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 1rem;
-`;
-
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-bottom: 1rem;
-  margin-top: 3rem;
 `;
 
 const Header = styled.div`
@@ -75,11 +86,9 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 40%;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-  display: flex;
   margin-bottom: 1rem;
-  padding-bottom: 1rem;
+  padding: 30px 20px;
   gap: 10px;
 `;
 
@@ -88,17 +97,25 @@ const CarouselContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const Button = styled.img`
-  text-align: center;
   display: flex;
   width: 30px;
   height: 30px;
+  cursor: pointer;
+`;
+
+// 카테고리 이미지 스타일
+const CategoryImage = styled.img`
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 `;
 
 const ContentWrapper = styled.div`
-  flex: 1 1 auto; /* Fill remaining space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -121,4 +138,36 @@ const ArticleContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const CategoryWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: 100px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+`;
+
+// interface ImgProps {
+//   imgsrc: string;
+// }
+
+const Img = styled.img`
+  width: 100%;
+  height: 80%;
+  border: none;
+  border-radius: 10px 10px 0 0;
+`;
+
+const CategoryName = styled.div`
+  color: rgba(0, 61, 98, 1);
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin: 0.2rem;
 `;

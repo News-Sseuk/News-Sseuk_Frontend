@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import NavigationBar from "../components/NavigationBar";
 import ArticleCard from "../components/ArticleCard";
 import { useState } from "react";
 import searchIcon from "../assets/searchIcon.png";
@@ -73,9 +72,6 @@ const Search = () => {
           </RecommendSection>
         )}
       </Contents>
-      <NavigationBarWrapper>
-        <NavigationBar />
-      </NavigationBarWrapper>
     </Div>
   );
 };
@@ -86,13 +82,14 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  width : 100%;
+  width: 100%;
   overflow: hidden;
-  background-color: white;
+  padding: 10px;
 `;
 
 const Header = styled.div`
   flex: 0 0 auto; /* Fixed height */
+  margin: 10px;
 `;
 
 const Contents = styled.div`
@@ -109,14 +106,15 @@ const SearchBarWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  margin: 0 0 2rem 0;
+  margin-bottom: 30px;
+  gap: 10px;
 `;
 
 const SearchBar = styled.input`
   justify-content: flex-start;
   border: none;
   border-bottom: 2px solid #003d62;
-  width: 30vw;
+  width: 100%;
   margin: 0 0.5rem;
   height: 4vh;
   outline: none;
@@ -213,7 +211,6 @@ const Icon = styled.div`
   width: 1.2rem;
   height: 1.2rem;
   justify-content: flex-start;
-  margin: 0 1rem;
 `;
 
 const RecommendTag = styled.span`
