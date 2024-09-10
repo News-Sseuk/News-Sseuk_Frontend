@@ -37,7 +37,7 @@ export default CategoryEdit;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   background-color: white;
 `;
@@ -69,8 +69,8 @@ const Category = styled.div<CategoryProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 7vw;
-  height: 8vh;
+  width: 7%;
+  height: 8%;
   font-weight : ${(props)=>(props.click? '800' : '600')};
   color: ${(props) => (props.click ? 'rgba(255, 252, 252, 1)' : '#003D62')};
   background-color: ${(props) => (props.click ? '#003D62' : 'rgba(255, 252, 252, 1)')};
@@ -93,8 +93,8 @@ const CompleteButton = styled.div`
   background-color: rgba(205, 228, 153, 1);
   border-radius: 12px;
   border: none;
-  width: 70vw;
-  height: 6vh;
+  width: 70%;
+  height: 6%;
   font-weight: 700;
   cursor: pointer;
   padding: 0 2rem;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const CategoryButton = ({ category }) => {
+const CategoryButton = ({category}) => {
   return <Container>{category}</Container>;
 };
 
@@ -9,8 +9,8 @@ export default CategoryButton;
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 0.5rem 0.9rem;
+  align-items: center; 
+  padding: 2px 15px;
   border: none;
   border-radius: 0.7rem;
   /* background-color: #FFFCFC; */

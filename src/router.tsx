@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter,Outlet} from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Onboarding from "./pages/Onboarding";
@@ -9,10 +9,16 @@ import CategoryEdit from "./pages/CategoryEdit";
 import Notification from "./components/home/Notification";
 import MyPage from "./pages/MyPage";
 import InfoEdit from "./pages/InfoEdit";
+import MainLayout from "./components/MainLayout";
 
 const router = createBrowserRouter([
     {
         path:"/",
+        element: (
+            <MainLayout>
+              <Outlet />
+            </MainLayout>
+          ),
         children:[
             {
             path: "/home",

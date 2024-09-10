@@ -20,7 +20,7 @@ export default Login;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   background-color: white;
 `;
@@ -55,7 +55,7 @@ const Button = styled.div`
     align-items : center;
     background-color : #003D62;
     border-radius : 10px;
-    width : 20vw;
+    width : 20%;
     height : 6.5vh;
     cursor : pointer;
 `;
@@ -68,7 +68,7 @@ const KakaoLogin = styled.div<ButtonProps>`
   display: flex;
   justify-content : center;
   align-items : center;
-  width : 20vw;
+  width : 20%;
   height : 6.5vh;
   background-image: url(${(props) => props.imgsrc});
   background-size: contain;

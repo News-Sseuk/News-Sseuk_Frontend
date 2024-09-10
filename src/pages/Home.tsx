@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import NavigationBar from "../components/NavigationBar";
 import ArticleCard from "../components/ArticleCard";
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
@@ -59,9 +58,6 @@ const Home = () => {
         <ArticleCard />
         <ArticleCard />
       </Contents>
-      <NavigationBarWrapper>
-        <NavigationBar />
-      </NavigationBarWrapper>
     </Div>
   );
 };
@@ -69,19 +65,17 @@ const Home = () => {
 export default Home;
 
 const Div = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding: 1rem;
 `;
 
 const Header = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 100%;
   color: #003d62;
   justify-content: center;
   align-items: center;
@@ -121,31 +115,19 @@ const CategoryList = styled.div`
   align-items: center;
   border-top: 0.5px solid black;
   border-bottom: 0.5px solid black;
-  width: 80vw;
-  height: 6vh;
+  width: 100%;
+  height: 20%;
   margin-top: 10px;
+  padding : 20px;
 `;
 
 const Contents = styled.div`
   flex: 1;
   overflow-y: auto;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
   margin-bottom: 4rem;
-`;
-
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 90vw;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 `;
