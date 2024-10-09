@@ -1,11 +1,21 @@
 import styled from "styled-components";
-import rate1 from "../assets/rate/1.svg";
-import edit from "../assets/edit.png";
-import NavigationBar from "../components/NavigationBar";
+import rate1 from "../../assets/rate/1.svg";
+import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
+import { fetchSignOut } from "../../api/user-controller";
 
 const InfoEdit = () => {
   const nav = useNavigate();
+
+  const handleLogOutClick = async () => {
+    const result = await fetchSignOut();
+    if (result) {
+      alert("로그아웃 되었습니다.");
+      nav("/");
+    } else {
+      alert("다시 시도해주세요");
+    }
+  };
 
   return (
     <Div>
@@ -29,23 +39,9 @@ const InfoEdit = () => {
           <Input />
         </EditWrapper>
       </EditContainer>
-      <CompleteButtonContainer>
-        <CompleteButton
-          onClick={() => {
-            nav("/mypage");
-          }}
-        >
-          수정 완료
-        </CompleteButton>
-      </CompleteButtonContainer>
+      <CompleteButton>수정 완료</CompleteButton>
       <FooterContainer>
-        <FooterText
-          onClick={() => {
-            nav("/login");
-          }}
-        >
-          로그아웃
-        </FooterText>
+        <FooterText onClick={handleLogOutClick}>로그아웃</FooterText>
         <FooterText>|</FooterText>
         <FooterText
           onClick={() => {
@@ -55,9 +51,6 @@ const InfoEdit = () => {
           회원탈퇴
         </FooterText>
       </FooterContainer>
-      <NavigationBarWrapper>
-        <NavigationBar />
-      </NavigationBarWrapper>
     </Div>
   );
 };
@@ -67,9 +60,12 @@ export default InfoEdit;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background-color: white;
+  justify-content: center;
+  align-items: center;
 `;
 
 const InfoWrapper = styled.div`
@@ -134,10 +130,12 @@ const EditButton = styled.div<ImgProps>`
 const EditContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 const EditWrapper = styled.div`
   display: flex;
-  justify-self: flex-start;
 `;
 
 const Title = styled.div`
@@ -150,19 +148,7 @@ const Title = styled.div`
 const Input = styled.input`
   border: none;
   border-bottom: 2px solid black;
-`;
-
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-bottom: 1rem;
-  margin-top: 1rem;
+  outline: none;
 `;
 
 const FooterContainer = styled.div`
@@ -186,9 +172,6 @@ const CompleteButton = styled.div`
   cursor: pointer;
   padding: 0.5rem 1rem;
   border-radius: 10px;
-  width: 9vw;
-`;
-
-const CompleteButtonContainer = styled.div`
-  margin-top: 10vh;
+  width: 80%;
+  margin-top: 30px;
 `;

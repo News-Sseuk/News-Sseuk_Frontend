@@ -1,13 +1,31 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/login/Button";
 
 const Onboarding = () => {
-
   const nav = useNavigate();
+  const handleComplete = () => {
+    //if('api연결 성공')
+    nav("/home");
+  };
 
-  const categories = ["정치","경제","사회","테크","세계","노동","환경","인권","문화","라이프","하나뭐지"];
-  const [clickedStates, setClickedStates] = useState(new Array(categories.length).fill(false));
+  const categories = [
+    "정치",
+    "경제",
+    "사회",
+    "테크",
+    "세계",
+    "노동",
+    "환경",
+    "인권",
+    "문화",
+    "라이프",
+    "하나뭐지",
+  ];
+  const [clickedStates, setClickedStates] = useState(
+    new Array(categories.length).fill(false)
+  );
 
   const handleCategoryClick = (index) => {
     const updatedClickedStates = [...clickedStates];
@@ -23,14 +41,21 @@ const Onboarding = () => {
       </TextContainer>
       <CategoryContainer>
         {categories.map((elm, index) => (
-          <Category key={elm} onClick={() => handleCategoryClick(index)} click={clickedStates[index]}>
+          <Category
+            key={elm}
+            onClick={() => handleCategoryClick(index)}
+            click={clickedStates[index]}
+          >
             {elm}
           </Category>
         ))}
       </CategoryContainer>
-      <ButtonContainer>
-        <CompleteButton onClick={()=>nav("/")}>선택 완료하기</CompleteButton>
-      </ButtonContainer>
+      <Button
+        handleClick={() => {
+          handleComplete();
+        }}
+        title="카테고리 변경하기"
+      />
     </Div>
   );
 };
@@ -40,14 +65,15 @@ export default Onboarding;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
-  background-color: white;
+  padding: 20px 10px;
 `;
 
 const TextContainer = styled.div`
-  margin: 3rem;
   color: #003d62;
+  margin-bottom: 20px;
 `;
 
 const Welcome = styled.div`
@@ -63,9 +89,10 @@ const Text = styled.div`
 const CategoryContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
-  margin: 0 1rem;
-  justify-content: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+  justify-content: center;
+  align-items: center;
 `;
 
 interface CategoryProps {
@@ -76,33 +103,14 @@ const Category = styled.div<CategoryProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 7vw;
-  height: 8vh;
-  font-weight : ${(props)=>(props.click? '800' : '600')};
-  color: ${(props) => (props.click ? 'rgba(255, 252, 252, 1)' : '#003D62')};
-  background-color: ${(props) => (props.click ? '#003D62' : 'rgba(255, 252, 252, 1)')};
+  width: 60px;
+  height: 60px;
+  font-weight: ${(props) => (props.click ? "800" : "600")};
+  color: ${(props) => (props.click ? "rgba(255, 252, 252, 1)" : "#003D62")};
+  background-color: ${(props) =>
+    props.click ? "#003D62" : "rgba(255, 252, 252, 1)"};
   border-radius: 12px;
   border: none;
   cursor: pointer;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 6rem;
-`;
-
-const CompleteButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(205, 228, 153, 1);
-  border-radius: 12px;
-  border: none;
-  width: 69vw;
-  height: 6vh;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 0 3rem;
+  font-size: 13px;
 `;

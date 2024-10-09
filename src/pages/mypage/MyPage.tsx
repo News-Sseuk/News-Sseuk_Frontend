@@ -1,15 +1,21 @@
 import styled from "styled-components";
-import NavigationBar from "../components/NavigationBar";
-import ArticleCard from "../components/ArticleCard";
-import rate1 from "../assets/rate/1.svg";
-import edit from "../assets/edit.png";
+import ArticleCard from "../../components/ArticleCard";
+import rate1 from "../../assets/rate/1.svg";
+import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
+import { tempRefresh } from "../../api/user-controller";
 
 const MyPage = () => {
   const nav = useNavigate();
 
+  const handleTemp = () => {
+    tempRefresh();
+  };
+
   return (
     <Div>
+      {/** refresh api 테스트를 위한 임시 버튼 */}
+      <button onClick={handleTemp}>refreshtoken</button>
       <InfoContainer>
         <InfoWrapper>
           <ProfileImg imgsrc={rate1} />
@@ -57,9 +63,6 @@ const MyPage = () => {
           <ArticleCard />
         </HistoryList>
       </HistorySection>
-      <NavigationBarWrapper>
-        <NavigationBar />
-      </NavigationBarWrapper>
     </Div>
   );
 };
@@ -69,13 +72,13 @@ export default MyPage;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   background-color: white;
 `;
 
 const InfoContainer = styled.div`
-  flex: 0 0 auto; /* Fixed height */
   display: flex;
   flex-direction: column;
   border: 2px solid rgba(0, 0, 0, 0.1);
@@ -99,10 +102,9 @@ const ProfileImg = styled.div<ImgProps>`
   background-image: url(${(props) => props.imgsrc});
   background-size: contain;
   background-repeat: no-repeat;
-  width: 6rem;
-  height: 6rem;
+  width: 100px;
+  height: 100px;
 `;
-
 const Info = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,8 +150,8 @@ const EditButton = styled.div<ImgProps>`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin: 0;
+  justify-content: center;
+  gap: 20px;
 `;
 
 const Button = styled.div`
@@ -157,8 +159,8 @@ const Button = styled.div`
   color: white;
   border: none;
   border-radius: 10px;
-  padding: 0.5rem 2rem;
-  font-size: 0.8rem;
+  padding: 12px 20px;
+  font-size: 12px;
   cursor: pointer;
 `;
 
@@ -205,17 +207,4 @@ const HistoryList = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-bottom: 1rem;
-  margin-top: 1rem;
 `;

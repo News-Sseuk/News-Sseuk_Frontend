@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import HashtagButton from "./HashtagButton";
 
+//개별 기사 페이지 추천 기사 - 3개
+
+
 const ArticleCard = () => {
   return (
     <Container>
@@ -31,24 +34,24 @@ const ArticleCard = () => {
 export default ArticleCard;
 
 const Container = styled.div`
-  width: 90vw;
+  width: 100%;
   border-bottom: 1px solid black;
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
+  padding: 12px;
 `;
 
 const HashtagList = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-right: 15rem;
+  margin-bottom: 10px;
 `;
 
 const Article = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.5rem 0.8rem;
+  line-height: 24px;
 `;
 
 const Title = styled.div`
@@ -67,6 +70,7 @@ const InfoWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const Date = styled.div`
@@ -81,5 +85,4 @@ const Accuracy = styled.div`
   font-size: 0.5rem;
   border-radius: 0.4rem;
   color: #003d62;
-  margin-right: 15rem;
 `;

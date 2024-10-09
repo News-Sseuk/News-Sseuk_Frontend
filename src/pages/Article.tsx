@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from "react-router-dom";
-import NavigationBar from "../components/NavigationBar";
 import styled from "styled-components";
 import HashtagButton from "../components/HashtagButton";
 import arrow_back from "../assets/arrow_back.png";
@@ -26,9 +25,7 @@ const Article = () => {
         </TagContainer>
       </Header>
       <Content />
-      <NavigationBarWrapper>
-        <NavigationBar />
-      </NavigationBarWrapper>
+
     </Div>
   );
 };
@@ -38,23 +35,11 @@ export default Article;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
   background-color: white;
 `;
 
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-bottom: 1rem;
-  margin-top: 1rem;
-`;
 
 const Header = styled.div`
   display: flex;
