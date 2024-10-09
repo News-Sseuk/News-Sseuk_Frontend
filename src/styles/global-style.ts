@@ -14,6 +14,7 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
+  background-color: #FCFAFA;
   margin: 0;
   padding: 0;
   border: 0;
@@ -32,6 +33,8 @@ footer, header, hgroup, main, menu, nav, section {
     display: none;
 }
 body {
+  background-color: #FCFAFA;
+
   line-height: 1;
 }
 menu, ol, ul {

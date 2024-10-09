@@ -3,19 +3,12 @@ import ArticleCard from "../../components/ArticleCard";
 import rate1 from "../../assets/rate/1.svg";
 import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
-import { tempRefresh } from "../../api/user-controller";
 
 const MyPage = () => {
   const nav = useNavigate();
 
-  const handleTemp = () => {
-    tempRefresh();
-  };
-
   return (
     <Div>
-      {/** refresh api 테스트를 위한 임시 버튼 */}
-      <button onClick={handleTemp}>refreshtoken</button>
       <InfoContainer>
         <InfoWrapper>
           <ProfileImg imgsrc={rate1} />

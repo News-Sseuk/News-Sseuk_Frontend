@@ -12,6 +12,7 @@ const Category = ({ category }: CategoryProps) => {
   const handleClick = () => {
     const newSelected = !selected;
     handleCategorySelection(category, newSelected);
+    console.log(selectedCategories);
   };
 
   return (
@@ -29,16 +30,19 @@ interface StyledCategoryProps {
 
 const StyledCategory = styled.div<StyledCategoryProps>`
   display: flex;
-  justify-content: center;
+  text-align: center;
   align-items: center;
-  width: 60px;
+  justify-content: center;
+  width: 80px;
   height: 60px;
   font-weight: ${(props) => (props.selected ? "800" : "600")};
-  color: ${(props) => (props.selected ? "rgba(255, 252, 252, 1)" : "#003D62")};
-  background-color: ${(props) =>
-    props.selected ? "#003D62" : "rgba(255, 252, 252, 1)"};
+  color: ${(props) => (props.selected ? " #FCFAFA" : "#003D62")};
+  background-color: ${(props) => (props.selected ? "#003D62" : "none")};
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
+  padding: 5px 10px;
+  white-space: normal;
+  word-break: keep-all;
 `;

@@ -1,7 +1,5 @@
 import styled from "styled-components";
 import Category from "./Category";
-import { CategoryProvider } from "../../context/CategoryContext";
-
 const categories = [
   "국회/정당",
   "대통령실",
@@ -28,7 +26,7 @@ const categories = [
   "인물",
   "사회 일반",
   "건강정보",
-  "자동차/시승기",
+  "자동차/ 시승기",
   "도로/교통",
   "여행/레저",
   "음식/맛집",
@@ -37,7 +35,7 @@ const categories = [
   "책",
   "종교",
   "날씨",
-  "생활문화 일반",
+  `생활문화 일반`,
   "모바일",
   "인터넷/SNS",
   "통신/뉴미디어",
@@ -55,13 +53,11 @@ const categories = [
 
 const CategoryContainer = () => {
   return (
-    <CategoryProvider>
-      <Container>
-        {categories.map((elem) => (
-          <Category category={elem} />
-        ))}
-      </Container>
-    </CategoryProvider>
+    <Container>
+      {categories.map((elem, index) => (
+        <Category key={index} category={elem} />
+      ))}
+    </Container>
   );
 };
 
