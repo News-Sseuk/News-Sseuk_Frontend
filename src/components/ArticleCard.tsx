@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import HashtagButton from "./HashtagButton";
 
+//개별 기사 페이지 추천 기사 - 3개
+
+
 const ArticleCard = () => {
   return (
     <Container>
@@ -48,6 +51,7 @@ const HashtagList = styled.div`
 const Article = styled.div`
   display: flex;
   flex-direction: column;
+  line-height: 24px;
 `;
 
 const Title = styled.div`

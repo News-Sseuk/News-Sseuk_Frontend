@@ -1,10 +1,15 @@
+//utils
 import styled from "styled-components";
-import kakao_login from "../assets/kakao_login.png";
 import { useState } from "react";
-import HiddenDiv from "../components/login/HiddenDiv";
-import SignUp from "../components/login/SignUp";
-import SignIn from "../components/login/SignIn";
 import { useNavigate } from "react-router-dom";
+
+//asset
+import kakao_login from "../../assets/kakao_login.png";
+
+//component
+import HiddenDiv from "../../components/login/HiddenDiv";
+import SignUp from "../../components/login/SignUp";
+import SignIn from "../../components/login/SignIn";
 
 const Login = () => {
   const [isJoinOpen, setIsJoinOpen] = useState(false);
@@ -22,7 +27,7 @@ const Login = () => {
   };
 
   const handleKaKao = () => {
-    nav("/onboarding");
+    // nav("/onboarding");
   };
 
   return (
@@ -38,7 +43,10 @@ const Login = () => {
             handleClick={handleJoinClick}
             isDropDownOpen={isJoinOpen}
           >
-            <SignUp />
+            <SignUp
+              setIsJoinOpen={setIsJoinOpen}
+              setIsLoginOpen={setIsLoginOpen}
+            />
           </HiddenDiv>
         </DropDownContainer>
         <DropDownContainer>

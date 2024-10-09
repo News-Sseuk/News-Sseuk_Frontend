@@ -1,10 +1,21 @@
 import styled from "styled-components";
-import rate1 from "../assets/rate/1.svg";
-import edit from "../assets/edit.png";
+import rate1 from "../../assets/rate/1.svg";
+import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
+import { fetchSignOut } from "../../api/user-controller";
 
 const InfoEdit = () => {
   const nav = useNavigate();
+
+  const handleLogOutClick = async () => {
+    const result = await fetchSignOut();
+    if (result) {
+      alert("로그아웃 되었습니다.");
+      nav("/");
+    } else {
+      alert("다시 시도해주세요");
+    }
+  };
 
   return (
     <Div>
@@ -28,21 +39,9 @@ const InfoEdit = () => {
           <Input />
         </EditWrapper>
       </EditContainer>
-      <CompleteButton
-        onClick={() => {
-          nav("/mypage");
-        }}
-      >
-        수정 완료
-      </CompleteButton>
+      <CompleteButton>수정 완료</CompleteButton>
       <FooterContainer>
-        <FooterText
-          onClick={() => {
-            nav("/login");
-          }}
-        >
-          로그아웃
-        </FooterText>
+        <FooterText onClick={handleLogOutClick}>로그아웃</FooterText>
         <FooterText>|</FooterText>
         <FooterText
           onClick={() => {

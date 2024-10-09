@@ -57,7 +57,7 @@ interface DropDownProps {
 
 const DropDownDiv = styled.div<DropDownProps>`
   width: 100%;
-  max-height: ${({ open }) => (open ? "333px" : "0")};
+  max-height: ${({ open }) => (open ? "350px" : "0")};
   overflow: hidden;
   opacity: ${({ open }) => (open ? "1" : "0")};
   border: ${({ open }) => (open ? "1px solid #003D62" : "none")};

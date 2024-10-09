@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/login/Button";
+import Button from "../../components/login/Button";
 
 const Onboarding = () => {
   const nav = useNavigate();
@@ -11,18 +11,56 @@ const Onboarding = () => {
   };
 
   const categories = [
-    "정치",
-    "경제",
-    "사회",
-    "테크",
-    "세계",
+    "국회/정당",
+    "대통령실",
+    "북한",
+    "행정",
+    "국방/외교",
+    "정치일반",
+    "금융",
+    "증권",
+    "산업/재계",
+    "중기/벤처",
+    "부동산",
+    "글로벌 경제",
+    "생활경제",
+    "경제 일반",
+    "사건사고",
+    "교육",
     "노동",
+    "언론",
     "환경",
-    "인권",
-    "문화",
-    "라이프",
-    "하나뭐지",
+    "인권/복지",
+    "식품/의료",
+    "지역",
+    "인물",
+    "사회 일반",
+    "건강정보",
+    "자동차/시승기",
+    "도로/교통",
+    "여행/레저",
+    "음식/맛집",
+    "패션/뷰티",
+    "공연/전시",
+    "책",
+    "종교",
+    "날씨",
+    "생활문화 일반",
+    "모바일",
+    "인터넷/SNS",
+    "통신/뉴미디어",
+    "IT 일반",
+    "보안/해킹",
+    "컴퓨터",
+    "게임/리뷰",
+    "과학 일반",
+    "아시아/호주",
+    "미국/중남미",
+    "유럽",
+    "중동/아프리카",
+    "세계 일반",
   ];
+
   const [clickedStates, setClickedStates] = useState(
     new Array(categories.length).fill(false)
   );
@@ -65,8 +103,6 @@ export default Onboarding;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
   overflow: hidden;
   padding: 20px 10px;
 `;
@@ -93,6 +129,7 @@ const CategoryContainer = styled.div`
   margin-bottom: 30px;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
 `;
 
 interface CategoryProps {

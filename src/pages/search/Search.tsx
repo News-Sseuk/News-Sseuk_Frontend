@@ -1,56 +1,61 @@
 import styled from "styled-components";
-import ArticleCard from "../components/ArticleCard";
-import { useState } from "react";
-import searchIcon from "../assets/searchIcon.png";
-import arrow_back from "../assets/arrow_back.png";
+import ArticleCard from "../../components/ArticleCard";
+import { useState, useEffect } from "react";
+import searchIcon from "../../assets/searchIcon.png";
+import arrow_back from "../../assets/arrow_back.png";
+import { fetchTrendingKeyWords } from "../../api/user-controller";
+import RecentSearch from "../../components/search/RecentSearch";
 
 const Search = () => {
   const [isSearching, setSearching] = useState(false);
-  const dummyList = [
-    "헌법재판소",
-    "김밥",
-    "컵라면",
-    "인디고 출력",
-    "블록체인",
-    "메타버스",
-    "비트코인",
-    "고양이",
-  ];
+  const [trendingKeywords, setTrendingKeywords] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    //mount 시 trending keywords
+    async function fetchKeywords() {
+      const data = await fetchTrendingKeyWords();
+      setTrendingKeywords(data);
+      console.log(data);
+    }
+    fetchKeywords();
+  }, []);
+
+  const handleSearchClick = () => {
+    if (!isSearching) {
+      return;
+    }
+    if (isSearching && searchInput) {
+      console.log("search clicked");
+      // 검색 api 연결, local Storage에 검색어 저장
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    const input = e.target.value;
+    setSearchInput(input);
+  };
 
   return (
     <Div>
       <Header>
         <SearchBarWrapper>
-          <Icon />
-          <SearchBar
-            placeholder={" 오늘의 뉴쓱"}
-            onClick={() => setSearching(true)}
-          />
           {isSearching && <Button onClick={() => setSearching(false)} />}
+          <SearchBar
+            placeholder={" 오늘의 뉴-쓱"}
+            value={searchInput}
+            onClick={() => setSearching(true)}
+            onChange={handleSearchChange}
+          />
+          <Icon onClick={handleSearchClick} />
         </SearchBarWrapper>
-        {isSearching && (
-          <Searching>
-            <Title>최근 검색어</Title>
-            <RecentSearched>
-              <Text>최근검색어text</Text>
-              <DeleteButton>X</DeleteButton>
-            </RecentSearched>
-            <RecentSearched>
-              <Text>최근검색어text</Text>
-              <DeleteButton>X</DeleteButton>
-            </RecentSearched>
-            <RecentSearched>
-              <Text>최근검색어text</Text>
-              <DeleteButton>X</DeleteButton>
-            </RecentSearched>
-          </Searching>
-        )}
+        {isSearching && <RecentSearch />}
         {!isSearching && (
           <NotSearching>
             <KeywordSection>
               <Title>지금 뜨는 뉴쓱</Title>
               <KeywordList>
-                {dummyList.map((keyword) => (
+                {trendingKeywords?.map((keyword) => (
                   <RecommendTag key={keyword}>{keyword}</RecommendTag>
                 ))}
               </KeywordList>
@@ -170,30 +175,6 @@ const RecommendList = styled.div`
 
 const NotSearching = styled.div``;
 
-const Searching = styled.div``;
-
-const RecentSearched = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0.1rem 0 0 0;
-`;
-
-const Text = styled.div`
-  color: #003d62;
-  font-weight: 600;
-  font-size: 0.8rem;
-  margin-left: 1rem;
-`;
-
-const DeleteButton = styled.div`
-  font-size: 0.8rem;
-  justify-content: flex-end;
-  margin: 1rem;
-  cursor: pointer;
-`;
-
 const Button = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
@@ -227,17 +208,4 @@ const RecommendTag = styled.span`
   margin: 0.4rem;
   font-weight: 600;
   font-size: 0.8rem;
-`;
-
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 `;

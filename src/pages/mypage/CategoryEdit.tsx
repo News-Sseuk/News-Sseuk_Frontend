@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/login/Button";
+import Button from "../../components/login/Button";
 
 const Onboarding = () => {
   const nav = useNavigate();

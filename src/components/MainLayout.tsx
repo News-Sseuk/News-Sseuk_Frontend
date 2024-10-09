@@ -23,6 +23,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 export default MainLayout;
 
 const LayoutContainer = styled.div`
+  min-width: 300px;
   max-width: 425px;
   width: 100%;
   height: 100vh;

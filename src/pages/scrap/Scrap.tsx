@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import ArticleCard from "../components/ArticleCard";
-import ScrapCard from "../components/ScrapCard";
-import left_vector from "../assets/left_vector.png";
-import right_vector from "../assets/right_vector.png";
+import ArticleCard from "../../components/ArticleCard";
+import ScrapCard from "../../components/ScrapCard";
+import left_vector from "../../assets/left_vector.png";
+import right_vector from "../../assets/right_vector.png";
 import React, { useState } from "react";
-import { getImage } from "../utils/get-category-image";
+import { getImage } from "../../utils/get-category-image";
 
 const Scrap = () => {
   // 사용자가 스크랩한 카테고리 리스트
   const [scrappedCategories, setScrappedCategories] = useState([
-    "경제",
-    "인권",
-    "기술",
-    "환경",
+    "공연/전시",
+    "사건사고",
+    "모바일",
+    "도로/교통",
   ]);
 
   // 카테고리에 맞는 이미지 가져오기

@@ -1,14 +1,21 @@
 import styled from "styled-components";
-import ArticleCard from "../components/ArticleCard";
-import rate1 from "../assets/rate/1.svg";
-import edit from "../assets/edit.png";
+import ArticleCard from "../../components/ArticleCard";
+import rate1 from "../../assets/rate/1.svg";
+import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
+import { tempRefresh } from "../../api/user-controller";
 
 const MyPage = () => {
   const nav = useNavigate();
 
+  const handleTemp = () => {
+    tempRefresh();
+  };
+
   return (
     <Div>
+      {/** refresh api 테스트를 위한 임시 버튼 */}
+      <button onClick={handleTemp}>refreshtoken</button>
       <InfoContainer>
         <InfoWrapper>
           <ProfileImg imgsrc={rate1} />
@@ -200,17 +207,4 @@ const HistoryList = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const NavigationBarWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  padding-bottom: 1rem;
-  margin-top: 1rem;
 `;

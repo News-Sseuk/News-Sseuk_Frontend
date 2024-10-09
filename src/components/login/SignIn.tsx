@@ -1,24 +1,48 @@
+//utils
 import styled from "styled-components";
-import { useState } from "react";
+import useInput from "../../hooks/useInput";
+import { fetchSignIn } from "../../api/user-controller";
+import { useNavigate } from "react-router-dom";
+
+//components
 import Button from "./Button";
+import Input from "./Input";
 
 const SignIn = () => {
-  const handleLogin = () => {};
+  const nav = useNavigate();
+  const { value: email, onChange: onChangeEmail } = useInput("");
+  const { value: password, onChange: onChangePassWord } = useInput("");
+
+  const handleLogin = async () => {
+    const userInfo = { email: email, password: password };
+    try {
+      const result = await fetchSignIn(userInfo); //reponse.data
+      console.log(result);
+      if (result) {
+        nav("/home");
+      }
+    } catch {
+      alert("로그인 실패. 입력값을 확인해주세요");
+    }
+  };
 
   return (
     <Container>
-      <Wrapper>
-        <Text>이메일</Text>
-        <Input></Input>
-      </Wrapper>
-      <Wrapper>
-        <Text>비밀번호</Text>
-        <Input></Input>
-      </Wrapper>
-      <Button
-        handleClick={() => handleLogin()}
-        title="뉴쓱의 세계로..."
-      ></Button>
+      <Input
+        label="이메일"
+        type="email"
+        value={email}
+        onChange={onChangeEmail}
+        placeholder="이메일을 입력해주세요"
+      />
+      <Input
+        label="비밀번호"
+        value={password}
+        onChange={onChangePassWord}
+        type="password"
+        placeholder="영어, 숫자 포함 8~15자리"
+      />
+      <Button handleClick={handleLogin} title="뉴쓱의 세계로..."></Button>
     </Container>
   );
 };
@@ -33,21 +57,4 @@ const Container = styled.div`
   color: black;
   padding: 50px 20px 20px 20px;
   gap: 10px;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-`;
-const Input = styled.input`
-  padding: 3px 5px;
-  border: none;
-  border-bottom: 1px solid ${(props) => props.theme.colors.main};
-  outline: none;
-`;
-
-const Text = styled.span`
-  font-size: 10px;
 `;
