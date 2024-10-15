@@ -3,7 +3,21 @@ import HashtagButton from "./HashtagButton";
 
 //개별 기사 페이지 추천 기사 - 3개
 
-
+/** 
+articleThumbnailDTOs": [
+  {
+    "id": "string",
+    "title": "string",
+    "description": "string",
+    "publishedDate": "2024-10-13T10:03:51.228Z",
+    "category": "string",
+    "hashTagList": [
+      "string"
+    ],
+    "reliability": 0
+  }
+]
+*/
 const ArticleCard = () => {
   return (
     <Container>

@@ -5,22 +5,18 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/login/Button";
 import CategoryContainer from "../../components/onboarding/CategoryContainer";
 import { useCategoryContext } from "../../context/CategoryContext"; // Import the context
+import { fetchOnboardingCategory } from "../../api/user-controller";
 
 const Content = () => {
-  // const nav = useNavigate();
+  const nav = useNavigate();
   const { selectedCategories } = useCategoryContext(); // Access the selected categories
 
-  const handleComplete = () => {
-    // Here you can send the selectedCategories to your API
-    console.log("Selected categories:", selectedCategories);
-
-    // Assuming you have an API function to handle this
-    // api.sendSelectedCategories(selectedCategories).then(() => {
-    //   nav("/home");
-    // });
-
-    // For now, navigate to home after logging
-    // nav("/home");
+  const handleComplete = async () => {
+    const result = await fetchOnboardingCategory(selectedCategories);
+    if (result.isSuccess) {
+      alert("카테고리 설정이 완료되었어요!");
+      nav("/home");
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import rate1 from "../../assets/rate/1.svg";
+import rate1 from "../../assets/rate/뉴싹.svg";
 import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
 import { fetchSignOut } from "../../api/user-controller";

@@ -145,7 +145,6 @@ const Title = styled.div`
 const StickyTitle = styled(Title)`
   position: sticky;
   top: 0;
-  background-color: white;
   z-index: 10;
   padding-left: 1rem;
   margin: 0;

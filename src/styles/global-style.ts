@@ -14,8 +14,8 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-  background-color: #FCFAFA;
   margin: 0;
+  background-color: #FCFAFA;
   padding: 0;
   border: 0;
   font-size: 100%;
@@ -53,6 +53,7 @@ table {
   border-spacing: 0;
 }
 *{
+  background-color: #FCFAFA;
   box-sizing: border-box;
 }
 

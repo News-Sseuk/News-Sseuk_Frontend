@@ -80,9 +80,10 @@ const SignUp = ({ setIsJoinOpen, setIsLoginOpen }) => {
     try {
       const result = await fetchSignUp(loginInfo);
       if (result) {
-        alert("회원가입 성공! 로그인하고 뉴쓱의 세계로! ");
+        alert("회원가입 성공! 카테고리 설정 후 뉴쓱의 세계로! ");
         setIsJoinOpen(false);
         setIsLoginOpen(true);
+        nav("/onboarding");
       }
     } catch {
       alert("회원가입 실패. 다시 시도해주세요");

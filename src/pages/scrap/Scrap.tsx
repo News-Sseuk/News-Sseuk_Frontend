@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import ArticleCard from "../../components/ArticleCard";
-import ScrapCard from "../../components/ScrapCard";
 import left_vector from "../../assets/left_vector.png";
 import right_vector from "../../assets/right_vector.png";
 import React, { useState } from "react";
@@ -75,7 +74,6 @@ export default Scrap;
 const Div = styled.div`
   width: 100%;
   height: 100%;
-  background-color: white;
   display: flex;
   flex-direction: column;
   overflow: hidden;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import HomeIcon from "../assets/home.svg";
 import ScrapIcon from "../assets/scrap.svg";
 import SearchIcon from "../assets/search.svg";
-import MypageIcon from "../assets/rate/1.svg";
+import MypageIcon from "../assets/rate/뉴싹.svg";
 import Home_active from "../assets/home_active.svg";
 import Scrap_active from "../assets/scrap_active.svg";
 import Search_active from "../assets/search_active.svg";
@@ -52,7 +52,6 @@ const NavBar = styled.nav`
   left: 0;
   width: 100%;
   height: 64px;
-  background-color: white;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
