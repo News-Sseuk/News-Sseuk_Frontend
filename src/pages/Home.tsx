@@ -2,10 +2,22 @@ import styled from "styled-components";
 import ArticleCard from "../components/ArticleCard";
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "../components/home/Modal";
+import { useInView } from "react-intersection-observer";
 
 const Home = () => {
+  const { ref, inView, entry } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView) {
+      console.log("이때 api 호출");
+    }
+  }, [inView]);
+
   const objectList = [
     {
       title: "5월 7일, 서윤 님을 위한 오늘의 뉴-쓱",
@@ -70,6 +82,7 @@ const Home = () => {
         <ArticleCard />
         <ArticleCard />
         <ArticleCard />
+        <div ref={ref}>안녕</div>
       </Contents>
     </Div>
   );

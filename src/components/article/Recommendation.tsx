@@ -18,7 +18,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   border-top: 0.5px solid black;
-  padding: 16px 10px;
+  padding: 16px 0px;
   width: 100%;
 `;
 
@@ -29,4 +29,5 @@ const Title = styled.div`
   letter-spacing: 0.01em;
   text-align: left;
   margin-bottom: 10px;
+  padding: 0px 10px;
 `;

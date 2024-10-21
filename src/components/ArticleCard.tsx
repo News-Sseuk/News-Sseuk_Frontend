@@ -25,7 +25,7 @@ const ArticleCard = () => {
   const dummyList = ["헌법재판소", "유산", "가족제도"];
 
   return (
-    <Container onClick={() => nav("/article")}>
+    <Container>
       <HashtagList>
         <HashtagButton isCategory={true} category={category} />
         {dummyList.map((category, idx) => (
@@ -33,7 +33,7 @@ const ArticleCard = () => {
         ))}
       </HashtagList>
       <Article>
-        <Title>
+        <Title onClick={() => nav("/article")}>
           인공지능과 블록체인 기술을 활용한 국내법의 혁신과 발전에 대한 전망
         </Title>
         <Content>
@@ -76,6 +76,7 @@ const Article = styled.div`
 const Title = styled.div`
   font-weight: 700;
   margin-bottom: 0.5rem;
+  cursor: pointer;
 `;
 
 const Content = styled.div`
