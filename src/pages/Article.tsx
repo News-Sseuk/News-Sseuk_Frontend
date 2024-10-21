@@ -6,7 +6,9 @@ import Content from "../components/article/Content";
 
 const Article = () => {
   const nav = useNavigate();
-  const { id } = useParams();
+  const category = "정치";
+  const dummyList = ["헌법재판소", "유산", "가족제도"];
+  // const { id } = useParams();
   return (
     <Div>
       <Header>
@@ -18,14 +20,13 @@ const Article = () => {
           <Img src={arrow_back} />
         </BackButton>
         <TagContainer>
-          <HashtagButton category={"정치"} />
-          <HashtagButton category={"헌법재판소"} />
-          <HashtagButton category={"유산"} />
-          <HashtagButton category={"가족제도"} />
+          <HashtagButton isCategory={true} category={category}></HashtagButton>
+          {dummyList.map((category, idx) => (
+            <HashtagButton key={idx} category={category} />
+          ))}
         </TagContainer>
       </Header>
       <Content />
-
     </Div>
   );
 };
@@ -37,9 +38,9 @@ const Div = styled.div`
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  background-color: white;
+  justify-content: center;
+  align-items: center;
 `;
-
 
 const Header = styled.div`
   display: flex;

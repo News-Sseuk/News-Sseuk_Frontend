@@ -10,13 +10,14 @@ const Search = () => {
   const [isSearching, setSearching] = useState(false);
   const [trendingKeywords, setTrendingKeywords] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
-    //mount 시 trending keywords
     async function fetchKeywords() {
+      setLoading(true); // 데이터 fetch 시작 시 로딩 상태 true
       const data = await fetchTrendingKeyWords();
       setTrendingKeywords(data);
-      console.log(data);
+      setLoading(false); // 데이터 fetch 완료 후 로딩 상태 false
     }
     fetchKeywords();
   }, []);
@@ -54,11 +55,15 @@ const Search = () => {
           <NotSearching>
             <KeywordSection>
               <Title>지금 뜨는 뉴쓱</Title>
-              <KeywordList>
-                {trendingKeywords?.map((keyword) => (
-                  <RecommendTag key={keyword}>{keyword}</RecommendTag>
-                ))}
-              </KeywordList>
+              {loading ? ( // 로딩 상태에 따른 UI
+                <LoadingText>로딩 중...</LoadingText>
+              ) : (
+                <KeywordList>
+                  {trendingKeywords?.map((keyword) => (
+                    <RecommendTag key={keyword}>{keyword}</RecommendTag>
+                  ))}
+                </KeywordList>
+              )}
             </KeywordSection>
           </NotSearching>
         )}
@@ -82,6 +87,14 @@ const Search = () => {
 };
 
 export default Search;
+
+// 스타일 컴포넌트들...
+
+const LoadingText = styled.div`
+  text-align: center;
+  color: #003d62;
+  font-weight: 600;
+`;
 
 const Div = styled.div`
   display: flex;

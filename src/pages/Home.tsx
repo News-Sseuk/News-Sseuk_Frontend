@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ArticleCard from "../components/ArticleCard";
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Modal from "../components/home/Modal";
 
 const Home = () => {
@@ -26,16 +26,29 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleAlarmClick = () => {
-    setShowModal(!showModal);
+    handleOpenModal();
+  };
+
+  const dialogRef = useRef();
+
+  const handleOpenModal = () => {
+    dialogRef.current.showModal();
+  };
+
+  const handleCloseModal = () => {
+    dialogRef.current.close();
   };
 
   return (
     <Div>
-      <Modal
-        objectList={objectList}
-        show={showModal}
-        onClose={handleAlarmClick}
-      />
+      <dialog ref={dialogRef}>
+        <Modal
+          objectList={objectList}
+          show={showModal}
+          handleCloseModal={handleCloseModal}
+        />
+      </dialog>
+
       <Header>
         <Title>
           <Text>

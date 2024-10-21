@@ -139,7 +139,7 @@ export const fetchSignOut = async () => {
 export const fetchTrendingKeyWords = async () => {
   try {
     const result = await axiosInstance.get("/trending/keywords");
-    if (result.data.isSucccess) {
+    if (result.data.isSuccess) {
       return result.data.result;
     }
   } catch (err) {
