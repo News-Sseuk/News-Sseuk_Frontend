@@ -10,6 +10,7 @@ import Notification from "./components/home/Notification";
 import MyPage from "./pages/mypage/MyPage";
 import MainLayout from "./components/MainLayout";
 import InfoEdit from "./pages/mypage/InfoEdit";
+import Test from "./pages/test";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+      },
+      {
+        path: "/test",
+        element: <Test />,
       },
     ],
   },

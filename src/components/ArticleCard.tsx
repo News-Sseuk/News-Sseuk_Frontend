@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import HashtagButton from "./HashtagButton";
+import { useNavigate } from "react-router-dom";
 
 //개별 기사 페이지 추천 기사 - 3개
 
@@ -19,13 +20,17 @@ articleThumbnailDTOs": [
 ]
 */
 const ArticleCard = () => {
+  const nav = useNavigate();
+  const category = "정치";
+  const dummyList = ["헌법재판소", "유산", "가족제도"];
+
   return (
-    <Container>
+    <Container onClick={() => nav("/article")}>
       <HashtagList>
-        <HashtagButton category={"test"} />
-        <HashtagButton category={"test"} />
-        <HashtagButton category={"test"} />
-        <HashtagButton category={"test"} />
+        <HashtagButton isCategory={true} category={category} />
+        {dummyList.map((category, idx) => (
+          <HashtagButton key={idx} category={category} />
+        ))}
       </HashtagList>
       <Article>
         <Title>
