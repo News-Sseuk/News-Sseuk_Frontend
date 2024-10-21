@@ -5,37 +5,41 @@ import CategoryButton from "../components/home/CategoryButton";
 import { useState, useRef, useEffect } from "react";
 import Modal from "../components/home/Modal";
 import { useInView } from "react-intersection-observer";
+import { fetchUserPrefers } from "../api/user-controller";
+
+// api 순서
+// 홈 navgiate => api로 받아와서 해당 사용자의 관심 카테고리를 저장
+// 카테고리를 렌더
+// 해당 카테고리 클릭시에 기사 get api 호출
+// default : 카테고리 배열 중 index 0 인 애 호출
+// 마지막 기사 보일 떄, 해당 id -> 백에 넘겨서 새로운 기사들을 받아야 함
 
 const Home = () => {
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
+  const { ref, inView } = useInView({
     threshold: 0,
   });
+
+  const [categories, setCategories] = useState([]); // State to hold categories
+  const [date, setDate] = useState(new Date());
+  const [showModal, setShowModal] = useState(false);
+
+  // Fetch categories on mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const prefer = await fetchUserPrefers();
+      console.log(prefer);
+      if (prefer && prefer.result) {
+        setCategories(prefer.result); // Assuming result contains the category array
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (inView) {
       console.log("이때 api 호출");
     }
   }, [inView]);
-
-  const objectList = [
-    {
-      title: "5월 7일, 서윤 님을 위한 오늘의 뉴-쓱",
-      content: "현재 가족의 모습 달라졋다... 국민 눈높이 새 입법 국회에 맡겨",
-      date: "2024.04.25 19:18",
-      tagList: ["국내법", "헌법재판소"],
-    },
-    {
-      title: "시스템 점검 안내",
-      content: "2024년 7월 10일(수) 00:00~03:00까지 시스템 점검이 진행됩니다.",
-      date: "2024.04.25 19:18",
-      tagList: ["국내법", "헌법재판소"],
-    },
-  ];
-
-  const dummyCategory = ["UX/UI", "국내법", "영화", "일본드라마"];
-  const [date, setDate] = useState(new Date());
-  const [showModal, setShowModal] = useState(false);
 
   const handleAlarmClick = () => {
     handleOpenModal();
@@ -54,11 +58,11 @@ const Home = () => {
   return (
     <Div>
       <dialog ref={dialogRef}>
-        <Modal
+        {/* <Modal
           objectList={objectList}
           show={showModal}
           handleCloseModal={handleCloseModal}
-        />
+        /> */}
       </dialog>
 
       <Header>
@@ -69,12 +73,17 @@ const Home = () => {
           <Icon onClick={handleAlarmClick} />
         </Title>
         <CategoryList>
-          {dummyCategory.map((category) => (
-            <CategoryButton
-              key={dummyCategory.indexOf(category)}
-              category={category}
-            />
-          ))}
+          {categories.length > 0 ? (
+            categories.map((category, index) => (
+              <CategoryButton
+                key={index}
+                category={category}
+                isClicked={index === 0}
+              />
+            ))
+          ) : (
+            <p>카테고리를 불러오는 중...</p>
+          )}
         </CategoryList>
       </Header>
       <Contents>
@@ -135,14 +144,19 @@ const Icon = styled.div`
 const CategoryList = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  gap: 10px;
   align-items: center;
-  border-top: 0.5px solid black;
-  border-bottom: 0.5px solid black;
+  border-top: 0.5px solid ${({ theme }) => theme.colors.main};
+  border-bottom: 0.5px solid ${({ theme }) => theme.colors.main};
   width: 100%;
   height: 20%;
   margin-top: 10px;
-  padding: 22px 10px;
+  padding: 24px 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Contents = styled.div`

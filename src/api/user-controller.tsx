@@ -181,3 +181,18 @@ export const fetchUserInfo = async () => {
     handleApiError(err);
   }
 };
+
+//홈 api
+export const fetchUserPrefers = async () => {
+  try {
+    const response = await axiosInstance.get("/myPrefers");
+    return {
+      code: response.data.code,
+      message: response.data.message,
+      result: response.data.result,
+      isSuccess: response.data.isSuccess,
+    };
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
