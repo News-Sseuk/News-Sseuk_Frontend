@@ -84,7 +84,7 @@ const HeaderWrapper = styled.div`
 
 const Header = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 26px;
 `;
 
 const Footer = styled.div`

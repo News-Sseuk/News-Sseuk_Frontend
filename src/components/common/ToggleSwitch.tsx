@@ -30,24 +30,22 @@ const ToggleContainer = styled.div`
 
 const ToggleSwitch = styled.div<{ isActive: boolean }>`
   width: 50px;
-  height: 24px;
+  height: 22px;
   border-radius: 12px;
-  background-color: ${({ isActive }) => (isActive ? "#16324f" : "#e4e7ec")};
+  background-color: ${({ theme }) => theme.colors.main};
   display: flex;
   align-items: center;
   position: relative;
-  padding: 0 4px;
+  padding: 1px 4px;
   transition: background-color 0.3s ease;
 `;
 
 const ToggleCircle = styled.div<{ isActive: boolean }>`
   position: absolute;
-  top: 2px;
-  left: ${({ isActive }) => (isActive ? "26px" : "2px")};
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${({ isActive }) => (isActive ? "#a5d63f" : "#f29d9d")};
+  left: ${({ isActive }) => (isActive ? "23px" : "-18px")};
+  height: 22px;
+  border-radius: 10px;
+  background-color: ${({ isActive }) => (isActive ? "#a5d63f" : "#FFC7C2")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,4 +53,5 @@ const ToggleCircle = styled.div<{ isActive: boolean }>`
   font-size: 0.75rem;
   font-weight: bold;
   transition: left 0.3s ease;
+  padding: 1px 10px;
 `;
