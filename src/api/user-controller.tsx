@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use(
       };
       if (accessToken) {
         try {
-          const { data } = await axiosInstance.post(`${baseURL}/user/refresh`, {
+          const { data } = await axiosInstance.post(`/user/refresh`, {
             accessToken,
           });
           localStorage.setItem("accessToken", data.result.accessToken); // 새로운 accessToken 저장
@@ -186,6 +186,32 @@ export const fetchUserInfo = async () => {
 export const fetchUserPrefers = async () => {
   try {
     const response = await axiosInstance.get("/myPrefers");
+    return {
+      code: response.data.code,
+      message: response.data.message,
+      result: response.data.result,
+      isSuccess: response.data.isSuccess,
+    };
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+export type FetchCategoryArticleParams = {
+  category: string;
+  cursortime: string;
+};
+
+// 카테고리별 기사 불러오기
+export const fetchCategoryArticle = async ({
+  category,
+  cursortime,
+}: FetchCategoryArticleParams) => {
+  try {
+    const response = await axiosInstance.get(
+      `/article/${encodeURIComponent(category)}/${cursortime}`
+    );
+    console.log("at api", category);
     return {
       code: response.data.code,
       message: response.data.message,

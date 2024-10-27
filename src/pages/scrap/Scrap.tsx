@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ArticleCard from "../../components/ArticleCard";
+import ArticleCard from "../../components/common/ArticleCard";
 import left_vector from "../../assets/left_vector.png";
 import right_vector from "../../assets/right_vector.png";
 import React, { useState } from "react";

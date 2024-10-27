@@ -8,9 +8,10 @@ import Search from "./pages/search/Search";
 import CategoryEdit from "./pages/mypage/CategoryEdit";
 import Notification from "./components/home/Notification";
 import MyPage from "./pages/mypage/MyPage";
-import MainLayout from "./components/MainLayout";
+import MainLayout from "./components/common/MainLayout";
 import InfoEdit from "./pages/mypage/InfoEdit";
 import Test from "./pages/test";
+import Loading from "./pages/Loading";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/home",
+        path: "/home/:category",
         element: <Home />,
       },
       {

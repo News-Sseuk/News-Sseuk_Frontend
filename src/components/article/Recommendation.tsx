@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import ArticleCard from "../ArticleCard";
+import ArticleCard from "../common/ArticleCard";
 
+// 개별 기사 페이지 추천 -> 3개
 const Recommendation = () => {
   return (
     <Container>

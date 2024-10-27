@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ArticleCard from "../../components/ArticleCard";
+import ArticleCard from "../../components/common/ArticleCard";
 import { useState, useEffect } from "react";
 import searchIcon from "../../assets/searchIcon.png";
 import arrow_back from "../../assets/arrow_back.png";

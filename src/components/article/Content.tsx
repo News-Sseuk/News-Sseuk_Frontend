@@ -2,7 +2,7 @@ import styled from "styled-components";
 import tmp from "../../assets/category/culture.png";
 import Summary from "./Summary";
 import Recommendation from "./Recommendation";
-import Accuracy from "../Accuracy";
+import Accuracy from "../common/Accuracy";
 
 const Content = () => {
   return (

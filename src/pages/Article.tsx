@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import HashtagButton from "../components/HashtagButton";
+import HashtagButton from "../components/common/HashtagButton";
 import arrow_back from "../assets/arrow_back.png";
 import Content from "../components/article/Content";
 

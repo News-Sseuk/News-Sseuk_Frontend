@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ArticleCard from "../../components/ArticleCard";
+import ArticleCard from "../../components/common/ArticleCard";
 import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";

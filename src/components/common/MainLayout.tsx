@@ -11,11 +11,12 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
   const isOnboardingPage = location.pathname === "/onboarding";
+  const isLoadingPage = location.pathname === "/test";
 
   return (
     <LayoutContainer>
       <Content>{children}</Content>
-      {!isLoginPage && !isOnboardingPage && <NavigationBar />}
+      {!isLoginPage && !isOnboardingPage && !isLoadingPage && <NavigationBar />}
     </LayoutContainer>
   );
 };

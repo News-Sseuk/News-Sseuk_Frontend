@@ -1,43 +1,60 @@
+//utils
 import styled from "styled-components";
-import ArticleCard from "../components/ArticleCard";
+import { useState, useRef, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useNavigate, useParams } from "react-router-dom";
+
+//components
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
-import { useState, useRef, useEffect } from "react";
-import Modal from "../components/home/Modal";
-import { useInView } from "react-intersection-observer";
-import { fetchUserPrefers } from "../api/user-controller";
+// import Modal from "../components/home/Modal";
+import ArticleList from "../components/home/ArticleList";
 
-// api 순서
-// 홈 navgiate => api로 받아와서 해당 사용자의 관심 카테고리를 저장
-// 카테고리를 렌더
-// 해당 카테고리 클릭시에 기사 get api 호출
-// default : 카테고리 배열 중 index 0 인 애 호출
-// 마지막 기사 보일 떄, 해당 id -> 백에 넘겨서 새로운 기사들을 받아야 함
+//apis
+import { fetchCategoryArticle } from "../api/user-controller";
+
+//atom
 
 const Home = () => {
   const { ref, inView } = useInView({
     threshold: 0,
   });
-
-  const [categories, setCategories] = useState([]); // State to hold categories
+  const [articleArray, setArticleArray] = useState([]);
   const [date, setDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
+  const [cursorTime, setCursorTime] = useState("");
 
-  // Fetch categories on mount
+  const nav = useNavigate();
+  const { category } = useParams();
+  console.log(category);
+  const categoryList = JSON.parse(localStorage.getItem("category"));
+  console.log(categoryList);
+
+  // url 변경시 (category 클릭시) 해당 카테고리 기사 가져오는 api
   useEffect(() => {
-    const fetchCategories = async () => {
-      const prefer = await fetchUserPrefers();
-      console.log(prefer);
-      if (prefer && prefer.result) {
-        setCategories(prefer.result); // Assuming result contains the category array
+    const fetchArticles = async () => {
+      const cursortime = new Date().toISOString();
+      const decodedCategory = decodeURIComponent(category);
+      console.log("decodedCategory", decodedCategory);
+      if (category) {
+        const articles = await fetchCategoryArticle({
+          category: decodedCategory,
+          cursortime,
+        });
+        setArticleArray(articles);
+        console.log();
       }
     };
-    fetchCategories();
-  }, []);
+    fetchArticles();
+  }, [category]);
+
+  const handleCategoryClick = (newCategory: string) => {
+    nav(`/home/${encodeURIComponent(newCategory)}`); // URL 변경
+  };
 
   useEffect(() => {
     if (inView) {
-      console.log("이때 api 호출");
+      console.log("cur category : ", category);
     }
   }, [inView]);
 
@@ -73,24 +90,18 @@ const Home = () => {
           <Icon onClick={handleAlarmClick} />
         </Title>
         <CategoryList>
-          {categories.length > 0 ? (
-            categories.map((category, index) => (
-              <CategoryButton
-                key={index}
-                category={category}
-                isClicked={index === 0}
-              />
-            ))
-          ) : (
-            <p>카테고리를 불러오는 중...</p>
-          )}
+          {categoryList.map((cat, index) => (
+            <CategoryButton
+              key={index}
+              category={cat}
+              isClicked={cat === category}
+              handleClick={handleCategoryClick}
+            />
+          ))}
         </CategoryList>
       </Header>
       <Contents>
-        <ArticleCard />
-        <ArticleCard />
-        <ArticleCard />
-        <ArticleCard />
+        <ArticleList />
         <div ref={ref}>안녕</div>
       </Contents>
     </Div>

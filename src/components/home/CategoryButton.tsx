@@ -3,13 +3,24 @@ import styled from "styled-components";
 type CategoryButtonProps = {
   category: string;
   isClicked?: boolean;
+  handleClick: (newCategory: string) => void;
 };
 
 const CategoryButton: React.FC<CategoryButtonProps> = ({
   category,
   isClicked = false,
+  handleClick,
 }) => {
-  return <Container isClicked={isClicked}>{category}</Container>;
+  return (
+    <Container
+      isClicked={isClicked}
+      onClick={() => {
+        handleClick(category);
+      }}
+    >
+      {category}
+    </Container>
+  );
 };
 
 export default CategoryButton;

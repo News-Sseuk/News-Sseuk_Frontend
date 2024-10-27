@@ -1,14 +1,16 @@
 import styled from "styled-components";
-import HomeIcon from "../assets/home.svg";
-import ScrapIcon from "../assets/scrap.svg";
-import SearchIcon from "../assets/search.svg";
-import MypageIcon from "../assets/rate/뉴싹.svg";
-import Home_active from "../assets/home_active.svg";
-import Scrap_active from "../assets/scrap_active.svg";
-import Search_active from "../assets/search_active.svg";
-import Mypage_active from "../assets/mypage_active.svg";
+import HomeIcon from "../../assets/home.svg";
+import ScrapIcon from "../../assets/scrap.svg";
+import SearchIcon from "../../assets/search.svg";
+import MypageIcon from "../../assets/rate/뉴싹.svg";
+import Home_active from "../../assets/home_active.svg";
+import Scrap_active from "../../assets/scrap_active.svg";
+import Search_active from "../../assets/search_active.svg";
+import Mypage_active from "../../assets/mypage_active.svg";
 
 import { Link, useLocation, LinkProps } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { categoryListState } from "../../store/atom";
 
 interface NavItemProps extends LinkProps {
   isActive?: boolean;
@@ -17,20 +19,15 @@ interface NavItemProps extends LinkProps {
 const NavigationBar = () => {
   const location = useLocation();
   const checkActive = (path: string) => location.pathname.includes(path);
-
+  const category = JSON.parse(localStorage.getItem("category"));
+  console.log("navigation bar", category);
   return (
     <NavBar>
       <NavItem
-        to="/home"
-        isActive={checkActive("/") && location.pathname === "/home"}
+        to={`/home/${encodeURIComponent(category[0])}`}
+        isActive={checkActive("/home")}
       >
-        <Icon
-          src={
-            checkActive("/") && location.pathname === "/home"
-              ? Home_active
-              : HomeIcon
-          }
-        />
+        <Icon src={checkActive("/home") ? Home_active : HomeIcon} />
       </NavItem>
       <NavItem to="/search" isActive={checkActive("/search")}>
         <Icon src={checkActive("/search") ? Search_active : SearchIcon} />
