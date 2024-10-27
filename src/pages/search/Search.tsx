@@ -5,57 +5,68 @@ import searchIcon from "../../assets/searchIcon.png";
 import arrow_back from "../../assets/arrow_back.png";
 import { fetchTrendingKeyWords } from "../../api/user-controller";
 import RecentSearch from "../../components/search/RecentSearch";
+import SearchResult from "./SearchResult";
+
+// 검색 상태를 나타내는 Enum
+const SEARCH_STATUS = {
+  IDLE: "IDLE", // 검색 전
+  SEARCHING: "SEARCHING", // 검색 중
+  RESULT: "RESULT", // 검색 후
+};
 
 const Search = () => {
-  const [isSearching, setSearching] = useState(false);
+  const [searchStatus, setSearchStatus] = useState(SEARCH_STATUS.IDLE); // 검색 상태 관리
   const [trendingKeywords, setTrendingKeywords] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchKeywords() {
-      setLoading(true); // 데이터 fetch 시작 시 로딩 상태 true
+      setLoading(true);
       const data = await fetchTrendingKeyWords();
       setTrendingKeywords(data);
-      setLoading(false); // 데이터 fetch 완료 후 로딩 상태 false
+      setLoading(false);
     }
     fetchKeywords();
   }, []);
 
   const handleSearchClick = () => {
-    if (!isSearching) {
-      return;
-    }
-    if (isSearching && searchInput) {
-      console.log("search clicked");
-      // 검색 api 연결, local Storage에 검색어 저장
+    if (searchInput) {
+      console.log("검색 요청 시작");
+      // 검색 API 호출 및 결과 상태 업데이트
+      setSearchStatus(SEARCH_STATUS.RESULT);
     }
   };
 
   const handleSearchChange = (e) => {
     const input = e.target.value;
     setSearchInput(input);
+    setSearchStatus(SEARCH_STATUS.SEARCHING);
   };
 
   return (
     <Div>
       <Header>
         <SearchBarWrapper>
-          {isSearching && <Button onClick={() => setSearching(false)} />}
+          {searchStatus === SEARCH_STATUS.SEARCHING && (
+            <Button onClick={() => setSearchStatus(SEARCH_STATUS.IDLE)} />
+          )}
           <SearchBar
-            placeholder={" 오늘의 뉴-쓱"}
+            placeholder=" 오늘의 뉴-쓱"
             value={searchInput}
-            onClick={() => setSearching(true)}
+            onClick={() => setSearchStatus(SEARCH_STATUS.SEARCHING)}
             onChange={handleSearchChange}
           />
           <Icon onClick={handleSearchClick} />
         </SearchBarWrapper>
-        {isSearching && <RecentSearch />}
-        {!isSearching && (
+
+        {/* 검색 상태에 따른 렌더링 */}
+        {searchStatus === SEARCH_STATUS.SEARCHING && <RecentSearch />}
+        {searchStatus === SEARCH_STATUS.IDLE && (
           <NotSearching>
             <KeywordSection>
               <Title>지금 뜨는 뉴쓱</Title>
-              {loading ? ( // 로딩 상태에 따른 UI
+              {loading ? (
                 <LoadingText>로딩 중...</LoadingText>
               ) : (
                 <KeywordList>
@@ -68,8 +79,10 @@ const Search = () => {
           </NotSearching>
         )}
       </Header>
+
       <Contents>
-        {!isSearching && (
+        {/* 추천 섹션 */}
+        {searchStatus === SEARCH_STATUS.IDLE && (
           <RecommendSection>
             <StickyTitle>00님을 위한 추천</StickyTitle>
             <RecommendList>
@@ -80,6 +93,11 @@ const Search = () => {
               <ArticleCard />
             </RecommendList>
           </RecommendSection>
+        )}
+
+        {/* 검색 결과 */}
+        {searchStatus === SEARCH_STATUS.RESULT && (
+          <SearchResult searchQuery={searchInput} />
         )}
       </Contents>
     </Div>
@@ -106,13 +124,13 @@ const Div = styled.div`
 `;
 
 const Header = styled.div`
-  flex: 0 0 auto; /* Fixed height */
+  flex: 0 0 auto;
   margin: 10px;
 `;
 
 const Contents = styled.div`
-  flex: 1 1 auto; /* Fill remaining space and allow shrinking */
-  overflow-y: auto; /* Enable vertical scrolling */
+  flex: 1 1 auto;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -129,7 +147,6 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchBar = styled.input`
-  justify-content: flex-start;
   border: none;
   border-bottom: 2px solid #003d62;
   width: 100%;
@@ -179,7 +196,7 @@ const RecommendList = styled.div`
   overflow-y: auto;
   width: 100%;
   overflow-x: hidden;
-  height: calc(100vh - 25vh); /* Adjust the height accordingly */
+  height: calc(100vh - 25vh);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -214,8 +231,6 @@ const RecommendTag = styled.span`
   padding: 0.3rem 0.4rem;
   border: none;
   border-radius: 0.7rem;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
   margin: 0.4rem;
   font-weight: 600;
