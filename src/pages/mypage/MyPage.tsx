@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchUserInfo } from "../../api/user-controller";
 import { getImage } from "../../utils/get-rate-image";
+import tmp from "../../assets/rate/뉴싹.svg";
 
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState(null); // Store user data
@@ -39,7 +40,7 @@ const MyPage = () => {
     <Div>
       <InfoContainer>
         <InfoWrapper>
-          <ProfileImg src={userGrade} />
+          <ProfileImg src={tmp} />
           <Info>
             <Nickname>{userInfo?.name} 님</Nickname>
             <Rate>{userInfo?.grade} 등급</Rate>
@@ -71,8 +72,8 @@ const MyPage = () => {
       <ReadingBadge>
         <Title>내 리딩 뱃지</Title>
         <BadgeWrapper>
-          <BadgeImage imgsrc={userInfo?.grade} />
-          <Text>{userInfo?.days}일 연속으로 뉴스를 읽었어요!</Text>
+          <BadgeImage src={tmp} />
+          <Text>{userInfo?.days} 일 연속으로 뉴스를 읽었어요!</Text>
         </BadgeWrapper>
       </ReadingBadge>
       <HistorySection>
@@ -83,7 +84,7 @@ const MyPage = () => {
               <ArticleCard key={article.id} article={article} />
             ))
           ) : (
-            <div>아직 읽은 기사가 없어요</div>
+            <NoHistory>아직 읽은 기사가 없어요</NoHistory>
           )}
         </HistoryList>
       </HistorySection>
@@ -223,4 +224,10 @@ const HistoryList = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const NoHistory = styled.div`
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
 `;
