@@ -16,6 +16,7 @@ type ArticleType = {
   summary?: string;
   reliability?: number;
   publishedDate?: string;
+  id?: string;
 };
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const Content = (props: Props) => {
+  console.log(props.data.id);
   return (
     <Container>
       <Title>{props.data?.title} </Title>
@@ -39,7 +41,7 @@ const Content = (props: Props) => {
       )}
       <StyledContent>{props.data?.content}</StyledContent>
       <Summary content={props.data?.summary} />
-      <Recommendation />
+      <Recommendation id={props.data?.id} />
     </Container>
   );
 };

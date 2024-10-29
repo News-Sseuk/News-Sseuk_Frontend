@@ -224,6 +224,18 @@ export const fetchCategoryArticle = async ({
 //기록기반  (검색 페이지)
 
 //내용기반 추천 (개별기사 하단부)
+export const fetchContentRecommend = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(
+      `/api/personalrecommend/find/${id}`
+    );
+    if (response.data) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
 
 // 개인정보 수정 (/mypage/edit)
 

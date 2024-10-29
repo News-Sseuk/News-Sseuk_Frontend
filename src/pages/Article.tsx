@@ -11,7 +11,6 @@ const Article = () => {
   const nav = useNavigate();
   const { id } = useParams<{ id: string }>();
   console.log(id);
-  const category = "정치";
   const dummyList = ["헌법재판소", "유산", "가족제도"];
   const [article, setArticle] = useState<ArticleType>();
 
@@ -42,7 +41,10 @@ const Article = () => {
           <Img src={arrow_back} />
         </BackButton>
         <TagContainer>
-          <HashtagButton isCategory={true} category={category}></HashtagButton>
+          <HashtagButton
+            isCategory={true}
+            category={article?.category}
+          ></HashtagButton>
           {dummyList.map((category, idx) => (
             <HashtagButton key={idx} category={category} />
           ))}

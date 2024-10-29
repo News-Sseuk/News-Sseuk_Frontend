@@ -16,7 +16,7 @@ type ArticleListProps = {
 const ArticleList = ({ articleArray }: ArticleListProps) => {
   return (
     <div>
-      {articleArray.map((article) => (
+      {articleArray?.map((article) => (
         <ArticleCard key={article.id} data={article} />
       ))}
     </div>

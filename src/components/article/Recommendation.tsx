@@ -1,14 +1,29 @@
 import styled from "styled-components";
-import ArticleCard from "../common/ArticleCard";
+import ArticleList from "../home/ArticleList";
+import { useEffect } from "react";
+import { fetchContentRecommend } from "../../api/user-controller";
 
 // 개별 기사 페이지 추천 -> 3개
-const Recommendation = () => {
+const Recommendation = ({ id }) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (id) {
+          const data = await fetchContentRecommend(id);
+          if (data) {
+            console.log(data);
+          }
+        }
+      } catch {
+        console.log("내용 기반 추천 기사 fetching 오류 발생");
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <Container>
       <Title>관련 기사도 확인해보세요</Title>
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
+      <ArticleList />
     </Container>
   );
 };

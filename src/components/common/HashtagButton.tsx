@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 type HashtagButtonProps = {
-  category: string;
+  category: string | undefined;
   isCategory?: boolean;
 };
 

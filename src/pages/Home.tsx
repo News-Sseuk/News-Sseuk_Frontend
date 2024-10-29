@@ -1,61 +1,60 @@
-//utils
-import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
 
-//components
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
-// import Modal from "../components/home/Modal";
 import ArticleList from "../components/home/ArticleList";
-
-//apis
 import { fetchCategoryArticle } from "../api/user-controller";
 
-//atom
-
 const Home = () => {
-  const { ref, inView } = useInView({
-    threshold: 0,
-  });
+  const { ref, inView } = useInView({ threshold: 0 });
   const [articleArray, setArticleArray] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [showModal, setShowModal] = useState(false);
-  const [cursorTime, setCursorTime] = useState("");
+  const [cursorTime, setCursorTime] = useState(new Date().toISOString());
 
   const nav = useNavigate();
   const { category } = useParams();
-  console.log(category);
   const categoryList = JSON.parse(localStorage.getItem("category"));
 
-  // url 변경시 (category 클릭시) 해당 카테고리 기사 가져오는 api
-  useEffect(() => {
-    const fetchArticles = async () => {
-      const cursortime = new Date().toISOString();
-      const decodedCategory = decodeURIComponent(category);
-      console.log("decodedCategory", decodedCategory);
-      if (category) {
-        const articles = await fetchCategoryArticle({
-          category: decodedCategory,
-          cursortime,
-        });
-        setArticleArray(articles);
-        console.log(articles);
-      }
-    };
-    fetchArticles();
-  }, [category]);
+  // API 호출 함수
+  const fetchArticles = async (newCursorTime) => {
+    const decodedCategory = decodeURIComponent(category);
 
-  const handleCategoryClick = (newCategory: string) => {
-    nav(`/home/${encodeURIComponent(newCategory)}`); // URL 변경
+    if (category) {
+      const articles = await fetchCategoryArticle({
+        category: decodedCategory,
+        cursortime: newCursorTime,
+      });
+
+      if (articles && articles.length > 0) {
+        setArticleArray((prev) => [...prev, ...articles]);
+
+        // 마지막 article의 date를 ISO 형식으로 변환하여 cursorTime으로 설정
+        const lastArticleDate = articles[articles.length - 1].date;
+        const dateObject = new Date(lastArticleDate.replace(" ", "T"));
+        setCursorTime(dateObject.toISOString());
+      }
+    }
   };
 
+  // category 변경 시 처음 API 호출
+  useEffect(() => {
+    setArticleArray([]); // 새로운 카테고리로 변경 시 기존 기사 초기화
+    fetchArticles(new Date().toISOString()); // 처음에는 현재 시간을 cursortime으로 사용
+  }, [category]);
+
+  // 무한 스크롤: inView가 true일 때마다 fetchArticles 호출
   useEffect(() => {
     if (inView) {
-      console.log("cur category : ", category);
+      fetchArticles(cursorTime);
     }
   }, [inView]);
+
+  const handleCategoryClick = (newCategory) => {
+    nav(`/home/${encodeURIComponent(newCategory)}`); // URL 변경
+  };
 
   const handleAlarmClick = () => {
     handleOpenModal();
@@ -73,13 +72,7 @@ const Home = () => {
 
   return (
     <Div>
-      <dialog ref={dialogRef}>
-        {/* <Modal
-          objectList={objectList}
-          show={showModal}
-          handleCloseModal={handleCloseModal}
-        /> */}
-      </dialog>
+      <dialog ref={dialogRef}>{/* <Modal /> */}</dialog>
 
       <Header>
         <Title>
@@ -101,7 +94,7 @@ const Home = () => {
       </Header>
       <Contents>
         <ArticleList articleArray={articleArray} />
-        <div ref={ref}>안녕</div>
+        <div ref={ref}></div>
       </Contents>
     </Div>
   );
@@ -109,6 +102,7 @@ const Home = () => {
 
 export default Home;
 
+// 스타일 컴포넌트 정의
 const Div = styled.div`
   width: 100%;
   height: 100%;
