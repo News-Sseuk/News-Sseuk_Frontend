@@ -24,7 +24,6 @@ interface Props {
 }
 
 const Content = (props: Props) => {
-  console.log(props.data.id);
   return (
     <Container>
       <Title>{props.data?.title} </Title>

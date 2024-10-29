@@ -36,6 +36,7 @@ const LayoutContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  margin: 0 auto;
 `;
 
 const Content = styled.div`

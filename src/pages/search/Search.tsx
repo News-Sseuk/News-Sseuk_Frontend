@@ -1,11 +1,18 @@
+//utils
 import styled from "styled-components";
-import ArticleCard from "../../components/common/ArticleCard";
 import { useState, useEffect } from "react";
+
+//assets
 import searchIcon from "../../assets/searchIcon.png";
 import arrow_back from "../../assets/arrow_back.png";
+
+//api
 import { fetchTrendingKeyWords } from "../../api/user-controller";
+
+//component
 import RecentSearch from "../../components/search/RecentSearch";
 import SearchResult from "./SearchResult";
+import ArticleList from "../../components/home/ArticleList";
 
 const SEARCH_STATUS = {
   IDLE: "IDLE", // 검색 전
@@ -87,13 +94,7 @@ const Search = () => {
         {searchStatus === SEARCH_STATUS.IDLE && (
           <RecommendSection>
             <StickyTitle>{userName} 님을 위한 추천</StickyTitle>
-            <RecommendList>
-              <ArticleCard />
-              <ArticleCard />
-              <ArticleCard />
-              <ArticleCard />
-              <ArticleCard />
-            </RecommendList>
+            <RecommendList></RecommendList>
           </RecommendSection>
         )}
 

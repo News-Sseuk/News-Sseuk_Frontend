@@ -219,9 +219,27 @@ export const fetchCategoryArticle = async ({
   }
 };
 
+// export interface searchApiInterface {
+//   keyword: string;
+//   onOff :
+// }
+
 //검색
+// export const fetchSearch = async() =>{
+
+// }
 
 //기록기반  (검색 페이지)
+export const fetchRecordRecommend = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/recommending`);
+    if (response.data) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
 
 //내용기반 추천 (개별기사 하단부)
 export const fetchContentRecommend = async (id: string) => {
@@ -279,6 +297,21 @@ export const fetchArticle = async (id: string) => {
       return response.data.result;
     }
   } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+interface UserHistory {
+  articleList: string[];
+}
+
+export const postUserHistory = async (articleList: UserHistory) => {
+  try {
+    const result = await axiosInstance.post("/api/userHistory", articleList);
+    if (result.status === 200) {
+      console.log("history 전송 성공");
+    }
+  } catch (err) {
     handleApiError(err);
   }
 };
