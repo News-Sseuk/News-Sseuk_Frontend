@@ -1,17 +1,24 @@
 import ArticleCard from "../common/ArticleCard";
 
-// article 객체 배열을 받아서
-// map으로 articleCard에 뿌려주기 위한 컴포넌트
-const ArticleList = () => {
+export interface ArticleType {
+  category: string;
+  description: string;
+  hashTagList: string[];
+  id: string;
+  publishedDate: string;
+  reliability: number;
+  title: string;
+}
+
+type ArticleListProps = {
+  articleArray: ArticleType[];
+};
+const ArticleList = ({ articleArray }: ArticleListProps) => {
   return (
     <div>
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
-      <ArticleCard />
+      {articleArray.map((article) => (
+        <ArticleCard key={article.id} data={article} />
+      ))}
     </div>
   );
 };

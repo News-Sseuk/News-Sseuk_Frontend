@@ -19,6 +19,7 @@ const MyPage = () => {
         const response = await fetchUserInfo();
         if (response.isSuccess) {
           setUserInfo(response.result); // Set user data to state
+          localStorage.setItem("userName", response.result.name);
           console.log(response.result);
         } else {
           console.error("Failed to fetch user info:", response.message);

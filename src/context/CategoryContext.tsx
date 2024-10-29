@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 interface CategoryContextType {
   selectedCategories: string[];
@@ -14,7 +20,17 @@ interface CategoryProviderProps {
 }
 
 export const CategoryProvider = ({ children }: CategoryProviderProps) => {
-  const [selectedCategories, setSelectedCategory] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategory] = useState<string[]>(() => {
+    const storedCategories = localStorage.getItem("selectedCategories");
+    return storedCategories ? JSON.parse(storedCategories) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedCategories",
+      JSON.stringify(selectedCategories)
+    );
+  }, [selectedCategories]);
 
   const handleCategorySelection = (category: string, isSelected: boolean) => {
     setSelectedCategory((current) =>
@@ -23,6 +39,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         : current.filter((t) => t !== category)
     );
   };
+
   return (
     <CategoryContext.Provider
       value={{ selectedCategories, handleCategorySelection }}

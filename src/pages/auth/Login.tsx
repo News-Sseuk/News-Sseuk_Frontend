@@ -58,7 +58,6 @@ const Login = () => {
             <SignIn />
           </HiddenDiv>
         </DropDownContainer>
-        <KakaoLogin onClick={() => handleKaKao()} src={kakao_login} />
       </ButtonContainer>
     </Div>
   );

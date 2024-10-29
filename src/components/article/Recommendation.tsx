@@ -5,7 +5,7 @@ import ArticleCard from "../common/ArticleCard";
 const Recommendation = () => {
   return (
     <Container>
-      <Title>00님을 위한 추천</Title>
+      <Title>관련 기사도 확인해보세요</Title>
       <ArticleCard />
       <ArticleCard />
       <ArticleCard />

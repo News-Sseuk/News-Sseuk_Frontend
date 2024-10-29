@@ -7,7 +7,6 @@ import { fetchTrendingKeyWords } from "../../api/user-controller";
 import RecentSearch from "../../components/search/RecentSearch";
 import SearchResult from "./SearchResult";
 
-// 검색 상태를 나타내는 Enum
 const SEARCH_STATUS = {
   IDLE: "IDLE", // 검색 전
   SEARCHING: "SEARCHING", // 검색 중
@@ -19,12 +18,14 @@ const Search = () => {
   const [trendingKeywords, setTrendingKeywords] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     async function fetchKeywords() {
       setLoading(true);
       const data = await fetchTrendingKeyWords();
-      setTrendingKeywords(data);
+      setTrendingKeywords(data.trending);
+      setUserName(data.name);
       setLoading(false);
     }
     fetchKeywords();
@@ -33,7 +34,8 @@ const Search = () => {
   const handleSearchClick = () => {
     if (searchInput) {
       console.log("검색 요청 시작");
-      // 검색 API 호출 및 결과 상태 업데이트
+
+      // 검색 상태 업데이트
       setSearchStatus(SEARCH_STATUS.RESULT);
     }
   };
@@ -84,7 +86,7 @@ const Search = () => {
         {/* 추천 섹션 */}
         {searchStatus === SEARCH_STATUS.IDLE && (
           <RecommendSection>
-            <StickyTitle>00님을 위한 추천</StickyTitle>
+            <StickyTitle>{userName} 님을 위한 추천</StickyTitle>
             <RecommendList>
               <ArticleCard />
               <ArticleCard />

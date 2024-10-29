@@ -3,12 +3,34 @@ import styled from "styled-components";
 import HashtagButton from "../components/common/HashtagButton";
 import arrow_back from "../assets/arrow_back.png";
 import Content from "../components/article/Content";
+import { useEffect, useState } from "react";
+import { fetchArticle } from "../api/user-controller";
+import type { ArticleType } from "../components/home/ArticleList";
 
 const Article = () => {
   const nav = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  console.log(id);
   const category = "정치";
   const dummyList = ["헌법재판소", "유산", "가족제도"];
-  // const { id } = useParams();
+  const [article, setArticle] = useState<ArticleType>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (id) {
+          const data = await fetchArticle(id);
+          if (data) {
+            setArticle(data);
+          }
+        }
+      } catch {
+        console.log("개별 기사 fetching 오류 발생");
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Div>
       <Header>
@@ -26,7 +48,7 @@ const Article = () => {
           ))}
         </TagContainer>
       </Header>
-      <Content />
+      {id ? <Content data={article} /> : <p>invalid approach!</p>}
     </Div>
   );
 };

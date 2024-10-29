@@ -211,13 +211,61 @@ export const fetchCategoryArticle = async ({
     const response = await axiosInstance.get(
       `/article/${encodeURIComponent(category)}/${cursortime}`
     );
-    console.log("at api", category);
-    return {
-      code: response.data.code,
-      message: response.data.message,
-      result: response.data.result,
-      isSuccess: response.data.isSuccess,
-    };
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+//검색
+
+//기록기반  (검색 페이지)
+
+//내용기반 추천 (개별기사 하단부)
+
+// 개인정보 수정 (/mypage/edit)
+
+interface UpdateData {
+  name: string;
+}
+
+export const updateUserInfo = async (data: UpdateData) => {
+  try {
+    const response = await axiosInstance.patch(`mypage/name`, data);
+    console.log("Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating data:", error);
+    throw error;
+  }
+};
+
+//카테고리 수정 (/mypage/category)
+
+interface UpdateCategory {
+  preferCategory: string[];
+}
+
+export const updateCategory = async (categoryList: UpdateCategory) => {
+  try {
+    const response = await axiosInstance.patch(`mypage/category`, categoryList);
+    console.log("Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating data:", error);
+    throw error;
+  }
+};
+
+//개별기사 불러오기
+export const fetchArticle = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(`/redis/article/${id}`);
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
   } catch (err: any) {
     handleApiError(err);
   }

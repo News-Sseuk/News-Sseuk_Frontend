@@ -1,60 +1,31 @@
 import styled from "styled-components";
 import HashtagButton from "./HashtagButton";
 import { useNavigate } from "react-router-dom";
+import type { ArticleType } from "../home/ArticleList";
 
-/** 
-articleThumbnailDTOs": [
-  {
-    "id": "string",
-    "title": "string",
-    "description": "string",
-    "publishedDate": "2024-10-13T10:03:51.228Z",
-    "category": "string",
-    "hashTagList": [
-      "string"
-    ],
-    "reliability": 0
-  }
-]
-*/
-
-interface articleType {
-  id: string;
-  title: string;
-  description: string;
-  publishedDate: string;
-  category: string;
-  hashTagList: string[];
-  reliability: number;
-}
-
-const dummyArticle: articleType = {
-  id: "1",
-  title: "dummy title",
-  description: "article description",
-  publishedDate: "2024-10-22",
-  category: "category",
-  hashTagList: ["dummy1", "hashtag1", "yeah"],
-  reliability: 33,
-};
-const ArticleCard = () => {
+const ArticleCard = ({ data }: { data: ArticleType }) => {
   const nav = useNavigate();
+  const dummy = ["dummy1", "hashtag", "hashtag"];
 
   return (
     <Container>
       <HashtagList>
-        <HashtagButton isCategory={true} category={dummyArticle.category} />
-        {dummyArticle.hashTagList.map((category, idx) => (
-          <HashtagButton key={idx} category={category} />
-        ))}
+        <HashtagButton isCategory={true} category={data?.category} />
+        {data?.hashTagList?.length !== 0
+          ? data?.hashTagList?.map((category, idx) => (
+              <HashtagButton key={idx} category={category} />
+            ))
+          : dummy.map((category, idx) => (
+              <HashtagButton key={idx} category={category} />
+            ))}
       </HashtagList>
       <Article>
-        <Title onClick={() => nav("/article")}>{dummyArticle.title} </Title>
-        <Content>{dummyArticle.description}</Content>
+        <Title onClick={() => nav(`/article/${data.id}`)}>{data?.title} </Title>
+        <Content>{data?.description}...</Content>
       </Article>
       <InfoWrapper>
-        <Date> {dummyArticle.publishedDate}</Date>
-        <Accuracy>{dummyArticle.reliability}%</Accuracy>
+        <Date> {data?.publishedDate}</Date>
+        <Accuracy>{data?.reliability ?? "90"}%</Accuracy>
       </InfoWrapper>
     </Container>
   );

@@ -31,7 +31,6 @@ const SearchResult = () => {
 
   const handleOrder = (state: string) => {
     setIsLatestOrder(state);
-    console.log(isLatestOrder);
   };
 
   return (
@@ -50,6 +49,7 @@ const SearchResult = () => {
               onClick={() => {
                 handleOrder("최신순");
               }}
+              isActive={isLatestOrder === "최신순"}
             >
               최신순
             </Order>
@@ -57,6 +57,7 @@ const SearchResult = () => {
               onClick={() => {
                 handleOrder("신뢰도순");
               }}
+              isActive={isLatestOrder === "신뢰도순"}
             >
               신뢰도순
             </Order>
@@ -114,4 +115,8 @@ const OrderContainer = styled.div`
   gap: 10px;
 `;
 
-const Order = styled.div``;
+const Order = styled.div<{ isActive: boolean }>`
+  color: ${(props) => (props.isActive ? "#000000" : "#00000033")};
+  font-weight: ${(props) => (props.isActive ? "bold" : "normal")};
+  cursor: pointer;
+`;

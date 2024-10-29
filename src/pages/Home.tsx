@@ -28,7 +28,6 @@ const Home = () => {
   const { category } = useParams();
   console.log(category);
   const categoryList = JSON.parse(localStorage.getItem("category"));
-  console.log(categoryList);
 
   // url 변경시 (category 클릭시) 해당 카테고리 기사 가져오는 api
   useEffect(() => {
@@ -42,7 +41,7 @@ const Home = () => {
           cursortime,
         });
         setArticleArray(articles);
-        console.log();
+        console.log(articles);
       }
     };
     fetchArticles();
@@ -101,7 +100,7 @@ const Home = () => {
         </CategoryList>
       </Header>
       <Contents>
-        <ArticleList />
+        <ArticleList articleArray={articleArray} />
         <div ref={ref}>안녕</div>
       </Contents>
     </Div>
@@ -157,6 +156,7 @@ const CategoryList = styled.div`
   flex-direction: row;
   gap: 10px;
   align-items: center;
+  justify-content: center;
   border-top: 0.5px solid ${({ theme }) => theme.colors.main};
   border-bottom: 0.5px solid ${({ theme }) => theme.colors.main};
   width: 100%;

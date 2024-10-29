@@ -53,5 +53,5 @@ const ToggleCircle = styled.div<{ isActive: boolean }>`
   font-size: 0.75rem;
   font-weight: bold;
   transition: left 0.3s ease;
-  padding: 1px 10px;
+  padding: 2px 10px;
 `;

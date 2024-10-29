@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import ArticleCard from "../../components/common/ArticleCard";
 import left_vector from "../../assets/left_vector.png";
 import right_vector from "../../assets/right_vector.png";
-import React, { useState } from "react";
+import { useState } from "react";
 import { getImage } from "../../utils/get-category-image";
+import ArticleList from "../../components/home/ArticleList";
 
 const Scrap = () => {
   // 사용자가 스크랩한 카테고리 리스트
@@ -59,9 +59,7 @@ const Scrap = () => {
         <ContentWrapper>
           <Title>내 스크랩</Title>
           <ArticleContainer>
-            <ArticleCard />
-            <ArticleCard />
-            <ArticleCard />
+            <ArticleList />
           </ArticleContainer>
         </ContentWrapper>
       </Div>
@@ -141,8 +139,8 @@ const ArticleContainer = styled.div`
 const CategoryWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 150px;
-  height: 100px;
+  width: 170px;
+  height: 120px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);

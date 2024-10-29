@@ -3,14 +3,19 @@ import share from "../../assets/share.svg";
 import scrap from "../../assets/scrap.svg";
 import report from "../../assets/report.svg";
 
-const Summary = () => {
+interface Props {
+  content: string | undefined;
+}
+
+const Summary = (props: Props) => {
   return (
     <Container>
       <Title>요약</Title>
-      <Content>
-        헌법재판소가 가족 제도와 사회 변화에 맞는 입법, 상속인의 재산권 침해
-        등을 이유로 유류분 제도를 헌법 위배로 결정했습니다.
-      </Content>
+      {props.content ? (
+        <Content>{props.content}</Content>
+      ) : (
+        <Content>요약 내용이 없습니다</Content>
+      )}
       <IconContainer>
         <Icon src={share} />
         <Icon src={scrap} />
@@ -28,6 +33,7 @@ const Container = styled.div`
   border-top: 0.5px solid black;
   padding: 16px 10px;
   margin-bottom: 10px;
+  width: 100%;
 `;
 
 const Title = styled.div`
