@@ -1,15 +1,36 @@
 import styled from "styled-components";
-import rate1 from "../../assets/rate/1.svg";
+import rate1 from "../../assets/rate/뉴싹.svg";
 import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
-import { fetchSignOut } from "../../api/user-controller";
+import { fetchSignOut, updateUserInfo } from "../../api/user-controller";
+import { useEffect, useState } from "react";
+import arrow_back from "../../assets/arrow_back.png";
 
 const InfoEdit = () => {
+  const [username, setUserName] = useState(localStorage.getItem("userName"));
+  const [newName, setNewName] = useState(username);
+  useEffect(() => {
+    const nickname = localStorage.getItem("userName");
+    if (nickname) {
+      setUserName(nickname);
+    } else {
+      alert("세션이 만료되었습니다. 다시 로그인하세요");
+      () => {
+        handleLogOutClick();
+      };
+    }
+  }, []);
   const nav = useNavigate();
+
+  const handleNameChange = (e) => {
+    const input = e.target.value;
+    setNewName(input);
+  };
 
   const handleLogOutClick = async () => {
     const result = await fetchSignOut();
     if (result) {
+      localStorage.clear();
       alert("로그아웃 되었습니다.");
       nav("/");
     } else {
@@ -17,14 +38,34 @@ const InfoEdit = () => {
     }
   };
 
+  const handleEdit = async () => {
+    const result = await updateUserInfo(newName);
+    if (result.isSuccess) {
+      alert("수정이 완료되었어요!");
+      setUserName(newName);
+      setNewName(newName);
+      localStorage.setItem("userName", newName);
+    } else {
+      alert("다시 시도해주세요");
+    }
+  };
+
   return (
     <Div>
+      <BackButton
+        onClick={() => {
+          nav(-1);
+        }}
+      >
+        <BackImg src={arrow_back} />
+        <div>뒤로 가기</div>
+      </BackButton>
       <InfoWrapper>
         <ProfileImg>
           <Img src={rate1} />
         </ProfileImg>
         <Info>
-          <Nickname>닉네임 님</Nickname>
+          <Nickname>{username} 님</Nickname>
           <Rate>쓱싹 등급</Rate>
         </Info>
         <EditButton imgsrc={edit} />
@@ -32,14 +73,10 @@ const InfoEdit = () => {
       <EditContainer>
         <EditWrapper>
           <Title>이름</Title>
-          <Input />
-        </EditWrapper>
-        <EditWrapper>
-          <Title>이메일</Title>
-          <Input />
+          <Input value={newName} onChange={handleNameChange}></Input>
         </EditWrapper>
       </EditContainer>
-      <CompleteButton>수정 완료</CompleteButton>
+      <CompleteButton onClick={handleEdit}>수정 완료</CompleteButton>
       <FooterContainer>
         <FooterText onClick={handleLogOutClick}>로그아웃</FooterText>
         <FooterText>|</FooterText>
@@ -61,11 +98,10 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
   overflow: hidden;
-  background-color: white;
   justify-content: center;
   align-items: center;
+  padding: 20px 10px;
 `;
 
 const InfoWrapper = styled.div`
@@ -133,6 +169,7 @@ const EditContainer = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 `;
 const EditWrapper = styled.div`
   display: flex;
@@ -154,7 +191,8 @@ const Input = styled.input`
 const FooterContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 22rem;
+  position: fixed;
+  bottom: 120px;
 `;
 
 const FooterText = styled.div`
@@ -175,3 +213,15 @@ const CompleteButton = styled.div`
   width: 80%;
   margin-top: 30px;
 `;
+
+const BackButton = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 50px;
+  cursor: pointer;
+  gap: 20px;
+`;
+
+const BackImg = styled.img``;

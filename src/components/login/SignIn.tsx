@@ -1,8 +1,13 @@
 //utils
 import styled from "styled-components";
 import useInput from "../../hooks/useInput";
-import { fetchSignIn } from "../../api/user-controller";
+import { fetchSignIn, fetchUserPrefers } from "../../api/user-controller";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { useEffect } from "react";
+
+//data
+import { categoryListState } from "../../store/atom";
 
 //components
 import Button from "./Button";
@@ -10,8 +15,11 @@ import Input from "./Input";
 
 const SignIn = () => {
   const nav = useNavigate();
-  const { value: email, onChange: onChangeEmail } = useInput("");
-  const { value: password, onChange: onChangePassWord } = useInput("");
+  const { value: email, onChange: onChangeEmail } = useInput({ initValue: "" });
+  const { value: password, onChange: onChangePassWord } = useInput({
+    initValue: "",
+  });
+  const setCategoryList = useSetRecoilState(categoryListState);
 
   const handleLogin = async () => {
     const userInfo = { email: email, password: password };
@@ -19,7 +27,17 @@ const SignIn = () => {
       const result = await fetchSignIn(userInfo); //reponse.data
       console.log(result);
       if (result) {
-        nav("/home");
+        try {
+          const data = await fetchUserPrefers();
+          if (data && data.result) {
+            setCategoryList(data.result);
+            localStorage.setItem("category", JSON.stringify(data.result));
+            nav(`/home/${encodeURIComponent(data.result[0])}`);
+          }
+        } catch {
+          alert("아직 카테고리를 설정하지 않았어요. 카테고리를 설정해주세요!");
+          nav("/onboarding");
+        }
       }
     } catch {
       alert("로그인 실패. 입력값을 확인해주세요");

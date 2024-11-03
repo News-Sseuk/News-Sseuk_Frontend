@@ -36,13 +36,13 @@ axiosInstance.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      const refreshToken = {
-        refreshToken: localStorage.getItem("refreshToken"),
+      const accessToken = {
+        accessToken: localStorage.getItem("accessToken"),
       };
-      if (refreshToken) {
+      if (accessToken) {
         try {
-          const { data } = await axiosInstance.post(`${baseURL}/user/refresh`, {
-            refreshToken,
+          const { data } = await axiosInstance.post(`/user/refresh`, {
+            accessToken,
           });
           localStorage.setItem("accessToken", data.result.accessToken); // 새로운 accessToken 저장
           axiosInstance.defaults.headers[
@@ -61,21 +61,6 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export const tempRefresh = async () => {
-  const refreshToken = localStorage.getItem("refreshToken");
-  console.log(refreshToken);
-  try {
-    const { data } = await axiosInstance.post(`${baseURL}/user/refresh`, {
-      accessToken: refreshToken,
-    });
-    console.log(data);
-    console.log(data.result.accessToken);
-    return data;
-  } catch (err) {
-    console.log("버그당", err);
-  }
-};
 
 // interface EmailValidResponse {
 //   code: string;
@@ -105,14 +90,7 @@ export const fetchSignIn = async (loginInfo) => {
     const response = await axiosInstance.post("/user/signin", loginInfo);
     if (response.data.isSuccess) {
       // 로그인 성공 시 토큰 저장
-      localStorage.setItem(
-        "accessToken",
-        response.data.result.token.accessToken
-      );
-      localStorage.setItem(
-        "refreshToken",
-        response.data.result.token.refreshToken
-      );
+      localStorage.setItem("accessToken", response.data.result.accessToken);
     }
     return response.data;
   } catch (err) {
@@ -124,7 +102,10 @@ export const fetchSignIn = async (loginInfo) => {
 export const fetchSignUp = async (loginInfo) => {
   try {
     const response = await axiosInstance.post("/user/signup", loginInfo);
-    return response;
+    if (response.data.isSuccess) {
+      localStorage.setItem("accessToken", response.data.result.accessToken);
+    }
+    return response.data.isSuccess;
   } catch (err) {
     handleApiError(err);
   }
@@ -153,12 +134,12 @@ export const fetchSignOut = async () => {
   }
 };
 
-//검색창 하단 - 지금 뜨는 뉴쓱
+//검색창 하단 - 지금 뜨는 뉴쓱 키워드
 
 export const fetchTrendingKeyWords = async () => {
   try {
     const result = await axiosInstance.get("/trending/keywords");
-    if (result.data.isSucccess) {
+    if (result.data.isSuccess) {
       return result.data.result;
     }
   } catch (err) {
@@ -166,11 +147,171 @@ export const fetchTrendingKeyWords = async () => {
   }
 };
 
-//검색 결과
-export const fetchSearch = async () => {
+//온보딩
+// 카테고리 선택 후 login화면으로 navigate
+
+export const fetchOnboardingCategory = async (selectedCategories) => {
   try {
-    const result = await axiosInstance.patch("/search/");
-    return result;
+    const body = { preferCategory: selectedCategories };
+    const result = await axiosInstance.patch("/mypage/category", body);
+    return result.data;
+  } catch (err) {
+    handleApiError(err);
+  }
+};
+
+//마이페이지 정보 불러오기
+export const fetchUserInfo = async () => {
+  try {
+    const response = await axiosInstance.get(`/mypage`);
+    if (response.data.isSuccess) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+//홈 api
+export const fetchUserPrefers = async () => {
+  try {
+    const response = await axiosInstance.get("/myPrefers");
+    return {
+      code: response.data.code,
+      message: response.data.message,
+      result: response.data.result,
+      isSuccess: response.data.isSuccess,
+    };
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+export type FetchCategoryArticleParams = {
+  category: string;
+  cursortime: string;
+};
+
+// 카테고리별 기사 불러오기
+export const fetchCategoryArticle = async ({
+  category,
+  cursortime,
+}: FetchCategoryArticleParams) => {
+  try {
+    const response = await axiosInstance.get(
+      `/article/${encodeURIComponent(category)}/${cursortime}`
+    );
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+export interface searchApiInterface {
+  keyword: string;
+  onOff: string;
+  sort: string;
+  cursorTime: string;
+}
+
+//검색
+export const fetchSearch = async (props: searchApiInterface) => {
+  try {
+    const response = await axiosInstance.post(
+      `/search/${props.keyword}/${props.onOff}/${props.sort}/${props.cursorTime}`
+    );
+    if (response.data.isSuccess) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+//기록기반  (검색 페이지)
+export const fetchRecordRecommend = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/recommending`);
+    if (response.data) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+//내용기반 추천 (개별기사 하단부)
+export const fetchContentRecommend = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(
+      `/api/personalrecommend/find/${id}`
+    );
+    if (response.data) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+// 개인정보 수정 (/mypage/edit)
+
+interface UpdateData {
+  name: string;
+}
+
+export const updateUserInfo = async (data: UpdateData) => {
+  try {
+    const response = await axiosInstance.patch(`mypage/name`, data);
+    console.log("Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating data:", error);
+    throw error;
+  }
+};
+
+//카테고리 수정 (/mypage/category)
+
+interface UpdateCategory {
+  preferCategory: string[];
+}
+
+export const updateCategory = async (categoryList: UpdateCategory) => {
+  try {
+    const response = await axiosInstance.patch(`mypage/category`, categoryList);
+    console.log("Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating data:", error);
+    throw error;
+  }
+};
+
+//개별기사 불러오기
+export const fetchArticle = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(`/redis/article/${id}`);
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+interface UserHistory {
+  articleList: string[];
+}
+
+export const postUserHistory = async (articleList: UserHistory) => {
+  try {
+    const result = await axiosInstance.post("/api/userHistory", articleList);
+    if (result.status === 200) {
+      console.log("history 전송 성공");
+    }
   } catch (err) {
     handleApiError(err);
   }

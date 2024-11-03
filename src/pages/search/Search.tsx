@@ -1,80 +1,110 @@
+//utils
 import styled from "styled-components";
-import ArticleCard from "../../components/ArticleCard";
 import { useState, useEffect } from "react";
+
+//assets
 import searchIcon from "../../assets/searchIcon.png";
 import arrow_back from "../../assets/arrow_back.png";
-import { fetchTrendingKeyWords } from "../../api/user-controller";
+
+//api
+import {
+  fetchTrendingKeyWords,
+  fetchRecordRecommend,
+} from "../../api/user-controller";
+
+//component
 import RecentSearch from "../../components/search/RecentSearch";
+import SearchResult from "./SearchResult";
+import ArticleList from "../../components/home/ArticleList";
+
+const SEARCH_STATUS = {
+  IDLE: "IDLE", // 검색 전
+  SEARCHING: "SEARCHING", // 검색 중
+  RESULT: "RESULT", // 검색 후
+};
 
 const Search = () => {
-  const [isSearching, setSearching] = useState(false);
+  const [searchStatus, setSearchStatus] = useState(SEARCH_STATUS.IDLE); // 검색 상태 관리
   const [trendingKeywords, setTrendingKeywords] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    //mount 시 trending keywords
     async function fetchKeywords() {
+      setLoading(true);
       const data = await fetchTrendingKeyWords();
-      setTrendingKeywords(data);
-      console.log(data);
+      setTrendingKeywords(data.trending);
+      setUserName(data.name);
+      setLoading(false);
     }
     fetchKeywords();
   }, []);
 
-  const handleSearchClick = () => {
-    if (!isSearching) {
-      return;
-    }
-    if (isSearching && searchInput) {
-      console.log("search clicked");
-      // 검색 api 연결, local Storage에 검색어 저장
-    }
-  };
+  // const handleSearchClick = async () => {
+  //   if (searchInput) {
+  //     const searchOptions = {keyword : searchInput, onOff: }
+  //     const response = await fetchSearch()
+
+  //     // 검색 상태 업데이트
+  //     setSearchStatus(SEARCH_STATUS.RESULT);
+  //   }
+  // };
 
   const handleSearchChange = (e) => {
     const input = e.target.value;
     setSearchInput(input);
+    setSearchStatus(SEARCH_STATUS.SEARCHING);
   };
 
   return (
     <Div>
       <Header>
         <SearchBarWrapper>
-          {isSearching && <Button onClick={() => setSearching(false)} />}
+          {searchStatus === SEARCH_STATUS.SEARCHING && (
+            <Button onClick={() => setSearchStatus(SEARCH_STATUS.IDLE)} />
+          )}
           <SearchBar
-            placeholder={" 오늘의 뉴-쓱"}
+            placeholder=" 오늘의 뉴-쓱"
             value={searchInput}
-            onClick={() => setSearching(true)}
+            onClick={() => setSearchStatus(SEARCH_STATUS.SEARCHING)}
             onChange={handleSearchChange}
           />
           <Icon onClick={handleSearchClick} />
         </SearchBarWrapper>
-        {isSearching && <RecentSearch />}
-        {!isSearching && (
+
+        {/* 검색 상태에 따른 렌더링 */}
+        {searchStatus === SEARCH_STATUS.SEARCHING && <RecentSearch />}
+        {searchStatus === SEARCH_STATUS.IDLE && (
           <NotSearching>
             <KeywordSection>
               <Title>지금 뜨는 뉴쓱</Title>
-              <KeywordList>
-                {trendingKeywords?.map((keyword) => (
-                  <RecommendTag key={keyword}>{keyword}</RecommendTag>
-                ))}
-              </KeywordList>
+              {loading ? (
+                <LoadingText>로딩 중...</LoadingText>
+              ) : (
+                <KeywordList>
+                  {trendingKeywords?.map((keyword) => (
+                    <RecommendTag key={keyword}>{keyword}</RecommendTag>
+                  ))}
+                </KeywordList>
+              )}
             </KeywordSection>
           </NotSearching>
         )}
       </Header>
+
       <Contents>
-        {!isSearching && (
+        {/* 추천 섹션 */}
+        {searchStatus === SEARCH_STATUS.IDLE && (
           <RecommendSection>
-            <StickyTitle>00님을 위한 추천</StickyTitle>
-            <RecommendList>
-              <ArticleCard />
-              <ArticleCard />
-              <ArticleCard />
-              <ArticleCard />
-              <ArticleCard />
-            </RecommendList>
+            <StickyTitle>{userName} 님을 위한 추천</StickyTitle>
+            <RecommendList></RecommendList>
           </RecommendSection>
+        )}
+
+        {/* 검색 결과 */}
+        {searchStatus === SEARCH_STATUS.RESULT && (
+          <SearchResult searchQuery={searchInput} />
         )}
       </Contents>
     </Div>
@@ -82,6 +112,14 @@ const Search = () => {
 };
 
 export default Search;
+
+// 스타일 컴포넌트들...
+
+const LoadingText = styled.div`
+  text-align: center;
+  color: #003d62;
+  font-weight: 600;
+`;
 
 const Div = styled.div`
   display: flex;
@@ -93,13 +131,13 @@ const Div = styled.div`
 `;
 
 const Header = styled.div`
-  flex: 0 0 auto; /* Fixed height */
+  flex: 0 0 auto;
   margin: 10px;
 `;
 
 const Contents = styled.div`
-  flex: 1 1 auto; /* Fill remaining space and allow shrinking */
-  overflow-y: auto; /* Enable vertical scrolling */
+  flex: 1 1 auto;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -116,7 +154,6 @@ const SearchBarWrapper = styled.div`
 `;
 
 const SearchBar = styled.input`
-  justify-content: flex-start;
   border: none;
   border-bottom: 2px solid #003d62;
   width: 100%;
@@ -145,7 +182,6 @@ const Title = styled.div`
 const StickyTitle = styled(Title)`
   position: sticky;
   top: 0;
-  background-color: white;
   z-index: 10;
   padding-left: 1rem;
   margin: 0;
@@ -167,7 +203,7 @@ const RecommendList = styled.div`
   overflow-y: auto;
   width: 100%;
   overflow-x: hidden;
-  height: calc(100vh - 25vh); /* Adjust the height accordingly */
+  height: calc(100vh - 25vh);
   &::-webkit-scrollbar {
     display: none;
   }
@@ -202,8 +238,6 @@ const RecommendTag = styled.span`
   padding: 0.3rem 0.4rem;
   border: none;
   border-radius: 0.7rem;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
   margin: 0.4rem;
   font-weight: 600;

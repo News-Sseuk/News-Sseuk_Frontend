@@ -1,41 +1,79 @@
+import { useState, useRef, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import ArticleCard from "../components/ArticleCard";
+
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
-import { useState } from "react";
-import Modal from "../components/home/Modal";
+import ArticleList from "../components/home/ArticleList";
+import { fetchCategoryArticle } from "../api/user-controller";
 
 const Home = () => {
-  const objectList = [
-    {
-      title: "5월 7일, 서윤 님을 위한 오늘의 뉴-쓱",
-      content: "현재 가족의 모습 달라졋다... 국민 눈높이 새 입법 국회에 맡겨",
-      date: "2024.04.25 19:18",
-      tagList: ["국내법", "헌법재판소"],
-    },
-    {
-      title: "시스템 점검 안내",
-      content: "2024년 7월 10일(수) 00:00~03:00까지 시스템 점검이 진행됩니다.",
-      date: "2024.04.25 19:18",
-      tagList: ["국내법", "헌법재판소"],
-    },
-  ];
-
-  const dummyCategory = ["UX/UI", "국내법", "영화", "일본드라마"];
+  const { ref, inView } = useInView({ threshold: 0 });
+  const [articleArray, setArticleArray] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [showModal, setShowModal] = useState(false);
+  const [cursorTime, setCursorTime] = useState(new Date().toISOString());
+
+  const nav = useNavigate();
+  const { category } = useParams();
+  const categoryList = JSON.parse(localStorage.getItem("category"));
+
+  // API 호출 함수
+  const fetchArticles = async (newCursorTime) => {
+    const decodedCategory = decodeURIComponent(category);
+
+    if (category) {
+      const articles = await fetchCategoryArticle({
+        category: decodedCategory,
+        cursortime: newCursorTime,
+      });
+
+      if (articles && articles.length > 0) {
+        setArticleArray((prev) => [...prev, ...articles]);
+
+        // 마지막 article의 date를 ISO 형식으로 변환하여 cursorTime으로 설정
+        const lastArticleDate = articles[articles.length - 1].date;
+        const dateObject = new Date(lastArticleDate.replace(" ", "T"));
+        setCursorTime(dateObject.toISOString());
+      }
+    }
+  };
+
+  // category 변경 시 처음 API 호출
+  useEffect(() => {
+    setArticleArray([]); // 새로운 카테고리로 변경 시 기존 기사 초기화
+    fetchArticles(new Date().toISOString()); // 처음에는 현재 시간을 cursortime으로 사용
+  }, [category]);
+
+  // 무한 스크롤: inView가 true일 때마다 fetchArticles 호출
+  useEffect(() => {
+    if (inView) {
+      fetchArticles(cursorTime);
+    }
+  }, [inView]);
+
+  const handleCategoryClick = (newCategory) => {
+    nav(`/home/${encodeURIComponent(newCategory)}`); // URL 변경
+  };
 
   const handleAlarmClick = () => {
-    setShowModal(!showModal);
+    handleOpenModal();
+  };
+
+  const dialogRef = useRef();
+
+  const handleOpenModal = () => {
+    dialogRef.current.showModal();
+  };
+
+  const handleCloseModal = () => {
+    dialogRef.current.close();
   };
 
   return (
     <Div>
-      <Modal
-        objectList={objectList}
-        show={showModal}
-        onClose={handleAlarmClick}
-      />
+      <dialog ref={dialogRef}>{/* <Modal /> */}</dialog>
+
       <Header>
         <Title>
           <Text>
@@ -44,19 +82,19 @@ const Home = () => {
           <Icon onClick={handleAlarmClick} />
         </Title>
         <CategoryList>
-          {dummyCategory.map((category) => (
+          {categoryList.map((cat, index) => (
             <CategoryButton
-              key={dummyCategory.indexOf(category)}
-              category={category}
+              key={index}
+              category={cat}
+              isClicked={cat === category}
+              handleClick={handleCategoryClick}
             />
           ))}
         </CategoryList>
       </Header>
       <Contents>
-        <ArticleCard />
-        <ArticleCard />
-        <ArticleCard />
-        <ArticleCard />
+        <ArticleList articleArray={articleArray} />
+        <div ref={ref}></div>
       </Contents>
     </Div>
   );
@@ -64,10 +102,10 @@ const Home = () => {
 
 export default Home;
 
+// 스타일 컴포넌트 정의
 const Div = styled.div`
   width: 100%;
   height: 100%;
-  background-color: white;
   display: flex;
   flex-direction: column;
 `;
@@ -110,14 +148,20 @@ const Icon = styled.div`
 const CategoryList = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  gap: 10px;
   align-items: center;
-  border-top: 0.5px solid black;
-  border-bottom: 0.5px solid black;
+  justify-content: center;
+  border-top: 0.5px solid ${({ theme }) => theme.colors.main};
+  border-bottom: 0.5px solid ${({ theme }) => theme.colors.main};
   width: 100%;
   height: 20%;
   margin-top: 10px;
-  padding: 22px 10px;
+  padding: 24px 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Contents = styled.div`

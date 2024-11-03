@@ -11,11 +11,12 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
   const isOnboardingPage = location.pathname === "/onboarding";
+  const isLoadingPage = location.pathname === "/test";
 
   return (
     <LayoutContainer>
       <Content>{children}</Content>
-      {!isLoginPage && !isOnboardingPage && <NavigationBar />}
+      {!isLoginPage && !isOnboardingPage && !isLoadingPage && <NavigationBar />}
     </LayoutContainer>
   );
 };
@@ -23,18 +24,19 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 export default MainLayout;
 
 const LayoutContainer = styled.div`
+  background-color: #fcfafa;
   min-width: 300px;
-  max-width: 425px;
+  max-width: 780px;
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  background-color: white;
   padding: 10px 20px;
   &::-webkit-scrollbar {
     display: none;
   }
+  margin: 0 auto;
 `;
 
 const Content = styled.div`

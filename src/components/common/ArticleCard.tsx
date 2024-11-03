@@ -1,31 +1,31 @@
 import styled from "styled-components";
 import HashtagButton from "./HashtagButton";
+import { useNavigate } from "react-router-dom";
+import type { ArticleType } from "../home/ArticleList";
 
-//개별 기사 페이지 추천 기사 - 3개
+const ArticleCard = ({ data }: { data: ArticleType }) => {
+  const nav = useNavigate();
+  const dummy = ["dummy1", "hashtag", "hashtag"];
 
-
-const ArticleCard = () => {
   return (
     <Container>
       <HashtagList>
-        <HashtagButton category={"test"} />
-        <HashtagButton category={"test"} />
-        <HashtagButton category={"test"} />
-        <HashtagButton category={"test"} />
+        <HashtagButton isCategory={true} category={data?.category} />
+        {data?.hashTagList?.length !== 0
+          ? data?.hashTagList?.map((category, idx) => (
+              <HashtagButton key={idx} category={category} />
+            ))
+          : dummy.map((category, idx) => (
+              <HashtagButton key={idx} category={category} />
+            ))}
       </HashtagList>
       <Article>
-        <Title>
-          인공지능과 블록체인 기술을 활용한 국내법의 혁신과 발전에 대한 전망
-        </Title>
-        <Content>
-          국내법은 인공지능과 블록체인 기술을 활용하여 혁신하고 발전할 것으로
-          예상됩니다. 이러한 기술의 적극적인 도입은 법률 분야에서 효율성을
-          향상시키...
-        </Content>
+        <Title onClick={() => nav(`/article/${data.id}`)}>{data?.title} </Title>
+        <Content>{data?.description}...</Content>
       </Article>
       <InfoWrapper>
-        <Date>2024.05.02 18:00</Date>
-        <Accuracy>98%</Accuracy>
+        <Date> {data?.publishedDate}</Date>
+        <Accuracy>{data?.reliability ?? "90"}%</Accuracy>
       </InfoWrapper>
     </Container>
   );
@@ -57,6 +57,7 @@ const Article = styled.div`
 const Title = styled.div`
   font-weight: 700;
   margin-bottom: 0.5rem;
+  cursor: pointer;
 `;
 
 const Content = styled.div`

@@ -1,26 +1,40 @@
 import styled from "styled-components";
 
-interface CategoryButtonProps {
+type CategoryButtonProps = {
   category: string;
-}
+  isClicked?: boolean;
+  handleClick: (newCategory: string) => void;
+};
 
-const CategoryButton = ({ category }: CategoryButtonProps) => {
-  return <Container>{category}</Container>;
+const CategoryButton: React.FC<CategoryButtonProps> = ({
+  category,
+  isClicked = false,
+  handleClick,
+}) => {
+  return (
+    <Container
+      isClicked={isClicked}
+      onClick={() => {
+        handleClick(category);
+      }}
+    >
+      {category}
+    </Container>
+  );
 };
 
 export default CategoryButton;
 
-const Container = styled.div`
+const Container = styled.div<{ isClicked: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 15px;
+  padding: 11px 15px;
   border: none;
-  border-radius: 0.7rem;
-  /* background-color: #FFFCFC; */
-  background-color: #003d62;
-  color: white;
-  /* color: #003d62; */
+  border-radius: 10px;
+  background-color: ${({ isClicked }) => (isClicked ? "#003d62" : "#FFFCFC")};
+  color: ${({ isClicked }) => (isClicked ? "#FFFCFC" : "#003d62")};
   font-size: 10px;
+  font-weight: 700;
   cursor: pointer;
 `;

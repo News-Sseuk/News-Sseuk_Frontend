@@ -1,19 +1,46 @@
 import styled from "styled-components";
-import tmp from "../../assets/category/culture.png"
+import tmp from "../../assets/category/culture.png";
+import Summary from "./Summary";
+import Recommendation from "./Recommendation";
+import Accuracy from "../common/Accuracy";
+// import { useEffect, useState } from "react";
 
-const Content = () => {
+type ArticleType = {
+  title?: string;
+  press?: string;
+  category?: string;
+  content?: string;
+  hashTagList?: string[];
+  image?: string[];
+  journalist?: string;
+  summary?: string;
+  reliability?: number;
+  publishedDate?: string;
+  id?: string;
+};
+
+interface Props {
+  data: ArticleType;
+}
+
+const Content = (props: Props) => {
   return (
     <Container>
-      <Title>
-        헌재 가족의 모습 달라졌다... 국민 눈높이 새 입법 국회에 맡겨
-      </Title>
+      <Title>{props.data?.title} </Title>
       <InfoContainer>
-        <Text>2024.05.02 18:00</Text>
-        <Text>경향신문</Text>
-        <Text>유선희 기자</Text>
-        <Text>90%</Text>
+        <Text>{props.data?.publishedDate}</Text>
+        <Text>{props.data?.press}</Text>
+        <Text>{props.data?.journalist}</Text>
+        <Accuracy></Accuracy>
       </InfoContainer>
-      <Img src={tmp} />
+      {props.data?.image?.length !== 0 ? (
+        <Img src={props.data?.image[0]} />
+      ) : (
+        <Img src={tmp} />
+      )}
+      <StyledContent>{props.data?.content}</StyledContent>
+      <Summary content={props.data?.summary} />
+      <Recommendation id={props.data?.id} />
     </Container>
   );
 };
@@ -25,19 +52,26 @@ const Container = styled.div`
   flex-direction: column;
   width: 90%;
   height: 100vh;
-  padding: 10px 20px;
+  align-items: center;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Title = styled.div`
   font-weight: 700;
   font-size: 20px;
+  line-height: 29px;
 `;
 
 const InfoContainer = styled.div`
   display: flex;
   gap: 10px;
-  margin: 10px 20px;
   justify-content: flex-start;
+  margin: 10px 0;
+  width: 100%;
+  align-items: center;
 `;
 
 const Text = styled.div`
@@ -45,8 +79,16 @@ const Text = styled.div`
   font-size: 8px;
 `;
 
+const StyledContent = styled.div`
+  font-weight: 400;
+  line-height: 21px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  white-space: pre-line;
+`;
+
 const Img = styled.img`
-  width: 90%;
+  width: 100%;
   height: 30%;
-  margin: 20px;
+  margin: 20px 0;
 `;

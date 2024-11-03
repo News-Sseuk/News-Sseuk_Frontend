@@ -1,27 +1,49 @@
 import styled from "styled-components";
-import ArticleCard from "../../components/ArticleCard";
-import rate1 from "../../assets/rate/1.svg";
+import ArticleCard from "../../components/common/ArticleCard";
 import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
-import { tempRefresh } from "../../api/user-controller";
+import { useEffect, useState } from "react";
+import { fetchUserInfo } from "../../api/user-controller";
+import { getImage } from "../../utils/get-rate-image";
+import tmp from "../../assets/rate/뉴싹.svg";
 
 const MyPage = () => {
+  const [userInfo, setUserInfo] = useState(null); // Store user data
+  const [userGrade, setUserGrade] = useState(null);
   const nav = useNavigate();
+  //뉴쓱, 쓱싹, 싹싹
 
-  const handleTemp = () => {
-    tempRefresh();
-  };
+  useEffect(() => {
+    // Fetch user info when component mounts
+    const fetchData = async () => {
+      try {
+        const response = await fetchUserInfo();
+        if (response.isSuccess) {
+          setUserInfo(response.result); // Set user data to state
+          localStorage.setItem("userName", response.result.name);
+          console.log(response.result);
+        } else {
+          console.error("Failed to fetch user info:", response.message);
+          return <div>error</div>;
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    fetchData();
+    const imageSrc = getImage(userInfo?.grade);
+    setUserGrade(imageSrc);
+  }, []);
 
   return (
     <Div>
-      {/** refresh api 테스트를 위한 임시 버튼 */}
-      <button onClick={handleTemp}>refreshtoken</button>
       <InfoContainer>
         <InfoWrapper>
-          <ProfileImg imgsrc={rate1} />
+          <ProfileImg src={tmp} />
           <Info>
-            <Nickname>닉네임 님</Nickname>
-            <Rate>쓱싹 등급</Rate>
+            <Nickname>{userInfo?.name} 님</Nickname>
+            <Rate>{userInfo?.grade} 등급</Rate>
           </Info>
           <EditButton
             imgsrc={edit}
@@ -50,17 +72,20 @@ const MyPage = () => {
       <ReadingBadge>
         <Title>내 리딩 뱃지</Title>
         <BadgeWrapper>
-          <BadgeImage imgsrc={rate1} />
-          <Text>00일 연속으로 뉴스를 읽었어요!</Text>
+          <BadgeImage src={tmp} />
+          <Text>{userInfo?.days} 일 연속으로 뉴스를 읽었어요!</Text>
         </BadgeWrapper>
       </ReadingBadge>
       <HistorySection>
         <Title>기사 히스토리</Title>
         <HistoryList>
-          <ArticleCard />
-          <ArticleCard />
-          <ArticleCard />
-          <ArticleCard />
+          {userInfo?.articleThumbnailDTOs ? (
+            userInfo.articleThumbnailDTOs.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))
+          ) : (
+            <NoHistory>아직 읽은 기사가 없어요</NoHistory>
+          )}
         </HistoryList>
       </HistorySection>
     </Div>
@@ -75,7 +100,6 @@ const Div = styled.div`
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-color: white;
 `;
 
 const InfoContainer = styled.div`
@@ -93,18 +117,11 @@ const InfoWrapper = styled.div`
   margin: 1rem 0;
 `;
 
-interface ImgProps {
-  imgsrc: string;
-}
-
-const ProfileImg = styled.div<ImgProps>`
-  border-radius: 50%;
-  background-image: url(${(props) => props.imgsrc});
-  background-size: contain;
-  background-repeat: no-repeat;
+const ProfileImg = styled.img`
   width: 100px;
   height: 100px;
 `;
+
 const Info = styled.div`
   display: flex;
   flex-direction: column;
@@ -207,4 +224,10 @@ const HistoryList = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+`;
+
+const NoHistory = styled.div`
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
 `;

@@ -1,0 +1,106 @@
+{
+  "code": "string",
+  "message": "string",
+  "result": {
+    "id": "string",
+    "title": "string",
+    "press": "string",
+    "journalist": "string",
+    "image": ["string"],
+    "content": "string",
+    "category": "string",
+    "hashTagList": [
+      {
+        "id": 0,
+        "article": {
+          "id": 0,
+          "nosqlId": "string",
+          "reliability": 0,
+          "category": "PRESIDENTIAL_OFFICE",
+          "summary": "string",
+          "crawledTime": "2024-10-21T12:31:20.371Z",
+          "articleHashTagList": ["string"],
+          "recommendedArticle": {
+            "createdTime": "2024-10-21T12:31:20.372Z",
+            "updatedTime": "2024-10-21T12:31:20.372Z",
+            "id": 0,
+            "user": {
+              "createdTime": "2024-10-21T12:31:20.372Z",
+              "updatedTime": "2024-10-21T12:31:20.372Z",
+              "id": 0,
+              "email": "string",
+              "name": "string",
+              "password": "string",
+              "interestedCategory": ["PRESIDENTIAL_OFFICE"],
+              "notificationSetting": "recommend",
+              "role": "string",
+              "grade": "뉴싹",
+              "userAttendanceList": [
+                {
+                  "createdTime": "2024-10-21T12:31:20.372Z",
+                  "updatedTime": "2024-10-21T12:31:20.372Z",
+                  "id": 0,
+                  "user": "string",
+                  "attendanceDate": {
+                    "year": 0,
+                    "month": "JANUARY",
+                    "monthValue": 0,
+                    "leapYear": true
+                  },
+                  "attendance": 0
+                }
+              ]
+            },
+            "articleList": ["string"]
+          },
+          "userHistory": {
+            "id": 0,
+            "user": {
+              "createdTime": "2024-10-21T12:31:20.372Z",
+              "updatedTime": "2024-10-21T12:31:20.372Z",
+              "id": 0,
+              "email": "string",
+              "name": "string",
+              "password": "string",
+              "interestedCategory": ["PRESIDENTIAL_OFFICE"],
+              "notificationSetting": "recommend",
+              "role": "string",
+              "grade": "뉴싹",
+              "userAttendanceList": [
+                {
+                  "createdTime": "2024-10-21T12:31:20.372Z",
+                  "updatedTime": "2024-10-21T12:31:20.372Z",
+                  "id": 0,
+                  "user": "string",
+                  "attendanceDate": {
+                    "year": 0,
+                    "month": "JANUARY",
+                    "monthValue": 0,
+                    "leapYear": true
+                  },
+                  "attendance": 0
+                }
+              ]
+            },
+            "articleList": ["string"],
+            "searchHistoryList": ["string"]
+          },
+          "relatedArticle": {
+            "id": 0,
+            "article": "string",
+            "articleList": [0]
+          }
+        },
+        "hashTag": {
+          "id": 0,
+          "name": "string",
+          "articleHashTagList": ["string"]
+        }
+      }
+    ],
+    "reliability": 0,
+    "summary": "string",
+    "publishedDate": "string"
+  },
+  "isSuccess": true
+}

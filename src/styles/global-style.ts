@@ -15,6 +15,7 @@ figure, figcaption, footer, header, hgroup,
 main, menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
   margin: 0;
+  background-color: #FCFAFA;
   padding: 0;
   border: 0;
   font-size: 100%;
@@ -32,6 +33,8 @@ footer, header, hgroup, main, menu, nav, section {
     display: none;
 }
 body {
+  background-color: #FCFAFA;
+
   line-height: 1;
 }
 menu, ol, ul {
@@ -50,6 +53,7 @@ table {
   border-spacing: 0;
 }
 *{
+  background-color: #FCFAFA;
   box-sizing: border-box;
 }
 
