@@ -44,6 +44,7 @@ const categoryMapping: { [key: string]: string } = {
   "패션/뷰티": "life",
   날씨: "life",
   "생활문화 일반": "life",
+  연애: "life",
 
   // 문화
   "공연/전시": "culture",

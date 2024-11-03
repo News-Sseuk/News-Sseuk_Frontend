@@ -20,10 +20,7 @@ interface CategoryProviderProps {
 }
 
 export const CategoryProvider = ({ children }: CategoryProviderProps) => {
-  const [selectedCategories, setSelectedCategory] = useState<string[]>(() => {
-    const storedCategories = localStorage.getItem("selectedCategories");
-    return storedCategories ? JSON.parse(storedCategories) : [];
-  });
+  const [selectedCategories, setSelectedCategory] = useState<string[]>([]);
 
   useEffect(() => {
     localStorage.setItem(

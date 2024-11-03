@@ -7,7 +7,10 @@ import searchIcon from "../../assets/searchIcon.png";
 import arrow_back from "../../assets/arrow_back.png";
 
 //api
-import { fetchTrendingKeyWords } from "../../api/user-controller";
+import {
+  fetchTrendingKeyWords,
+  fetchRecordRecommend,
+} from "../../api/user-controller";
 
 //component
 import RecentSearch from "../../components/search/RecentSearch";
@@ -38,14 +41,15 @@ const Search = () => {
     fetchKeywords();
   }, []);
 
-  const handleSearchClick = () => {
-    if (searchInput) {
-      console.log("검색 요청 시작");
+  // const handleSearchClick = async () => {
+  //   if (searchInput) {
+  //     const searchOptions = {keyword : searchInput, onOff: }
+  //     const response = await fetchSearch()
 
-      // 검색 상태 업데이트
-      setSearchStatus(SEARCH_STATUS.RESULT);
-    }
-  };
+  //     // 검색 상태 업데이트
+  //     setSearchStatus(SEARCH_STATUS.RESULT);
+  //   }
+  // };
 
   const handleSearchChange = (e) => {
     const input = e.target.value;

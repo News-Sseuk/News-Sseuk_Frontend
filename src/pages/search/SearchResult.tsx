@@ -1,13 +1,24 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Toggle from "../../components/common/ToggleSwitch";
-import { useEffect, useState } from "react";
 import ArticleList from "../../components/home/ArticleList";
+import { fetchSearch } from "../../api/user-controller";
+import type { searchApiInterface } from "../../api/user-controller";
 
-const SearchResult = () => {
+const SearchResult = ({ searchQuery }: { searchQuery: string }) => {
   const [filterState, setFilterState] = useState(false);
   const [date, setDate] = useState("");
   const [number, setNumber] = useState(0);
   const [isLatestOrder, setIsLatestOrder] = useState("최신순");
+  const [articles, setArticles] = useState([]);
+
+  const handleToggle = () => {
+    setFilterState(!filterState);
+  };
+
+  const handleOrder = (state: string) => {
+    setIsLatestOrder(state);
+  };
 
   useEffect(() => {
     const currentDate = new Date();
@@ -22,22 +33,30 @@ const SearchResult = () => {
     })}`;
     setDate(formattedDate);
 
-    // 검색 결과 api
-  }, []);
+    // 필터 상태와 정렬 기준 변경 시 검색 API 호출
+    const fetchSearchResults = async () => {
+      const searchParams: searchApiInterface = {
+        keyword: searchQuery,
+        onOff: filterState ? "on" : "off",
+        sort: isLatestOrder === "최신순" ? "latest" : "reliable",
+        cursorTime: formattedDate,
+      };
 
-  const handleToggle = () => {
-    setFilterState(!filterState);
-  };
+      const result = await fetchSearch(searchParams);
+      if (result) {
+        setArticles(result.data); // 예시로 데이터 설정
+        setNumber(result.data.length);
+      }
+    };
 
-  const handleOrder = (state: string) => {
-    setIsLatestOrder(state);
-  };
+    fetchSearchResults();
+  }, [filterState, isLatestOrder, searchQuery]);
 
   return (
     <Container>
       <HeaderWrapper>
         <Header>
-          <SearchText>"한강 위 고양이"</SearchText>
+          <SearchText>"{searchQuery}"</SearchText>
           <Toggle isActive={filterState} onToggle={handleToggle}></Toggle>
         </Header>
         <Footer>
@@ -46,17 +65,13 @@ const SearchResult = () => {
           </InfoText>
           <OrderContainer>
             <Order
-              onClick={() => {
-                handleOrder("최신순");
-              }}
+              onClick={() => handleOrder("최신순")}
               isActive={isLatestOrder === "최신순"}
             >
               최신순
             </Order>
             <Order
-              onClick={() => {
-                handleOrder("신뢰도순");
-              }}
+              onClick={() => handleOrder("신뢰도순")}
               isActive={isLatestOrder === "신뢰도순"}
             >
               신뢰도순
@@ -64,12 +79,14 @@ const SearchResult = () => {
           </OrderContainer>
         </Footer>
       </HeaderWrapper>
-      <ArticleList />
+      <ArticleList articles={articles} />
     </Container>
   );
 };
 
 export default SearchResult;
+
+// 스타일 컴포넌트들은 기존과 동일
 
 const Container = styled.div`
   display: flex;

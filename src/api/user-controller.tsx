@@ -147,16 +147,6 @@ export const fetchTrendingKeyWords = async () => {
   }
 };
 
-//검색 결과
-export const fetchSearch = async () => {
-  try {
-    const result = await axiosInstance.patch("/search/");
-    return result;
-  } catch (err) {
-    handleApiError(err);
-  }
-};
-
 //온보딩
 // 카테고리 선택 후 login화면으로 navigate
 
@@ -219,15 +209,26 @@ export const fetchCategoryArticle = async ({
   }
 };
 
-// export interface searchApiInterface {
-//   keyword: string;
-//   onOff :
-// }
+export interface searchApiInterface {
+  keyword: string;
+  onOff: string;
+  sort: string;
+  cursorTime: string;
+}
 
 //검색
-// export const fetchSearch = async() =>{
-
-// }
+export const fetchSearch = async (props: searchApiInterface) => {
+  try {
+    const response = await axiosInstance.post(
+      `/search/${props.keyword}/${props.onOff}/${props.sort}/${props.cursorTime}`
+    );
+    if (response.data.isSuccess) {
+      return response.data;
+    }
+  } catch (err: any) {
+    handleApiError(err);
+  }
+};
 
 //기록기반  (검색 페이지)
 export const fetchRecordRecommend = async () => {
