@@ -27,6 +27,7 @@ const SignIn = () => {
       const result = await fetchSignIn(userInfo); //reponse.data
       console.log(result);
       if (result) {
+        // 로그인 시, category 불러와서 localStorage에 category로 저장
         try {
           const data = await fetchUserPrefers();
           if (data && data.result) {

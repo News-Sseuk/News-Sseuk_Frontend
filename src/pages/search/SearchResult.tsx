@@ -4,20 +4,23 @@ import Toggle from "../../components/common/ToggleSwitch";
 import ArticleList from "../../components/home/ArticleList";
 import { fetchSearch } from "../../api/user-controller";
 import type { searchApiInterface } from "../../api/user-controller";
+import { useParams } from "react-router-dom";
 
-const SearchResult = ({ searchQuery }: { searchQuery: string }) => {
-  const [filterState, setFilterState] = useState(false);
+const SearchResult = () => {
+  const { query } = useParams<{ query: string }>();
+
+  const [isFiltered, setIsFiltered] = useState(true); // 필터링 on/off
   const [date, setDate] = useState("");
   const [number, setNumber] = useState(0);
-  const [isLatestOrder, setIsLatestOrder] = useState("최신순");
-  const [articles, setArticles] = useState([]);
+  const [isLatest, setIsLatest] = useState(true); // 최신순 / 신뢰도순
+  const [articles, setArticles] = useState([]); // 검색 결과
 
   const handleToggle = () => {
-    setFilterState(!filterState);
+    setIsFiltered(!isFiltered);
   };
 
-  const handleOrder = (state: string) => {
-    setIsLatestOrder(state);
+  const handleOrder = (booleanValue: boolean) => {
+    setIsLatest(booleanValue);
   };
 
   useEffect(() => {
@@ -36,9 +39,9 @@ const SearchResult = ({ searchQuery }: { searchQuery: string }) => {
     // 필터 상태와 정렬 기준 변경 시 검색 API 호출
     const fetchSearchResults = async () => {
       const searchParams: searchApiInterface = {
-        keyword: searchQuery,
-        onOff: filterState ? "on" : "off",
-        sort: isLatestOrder === "최신순" ? "latest" : "reliable",
+        keyword: query as string,
+        onOff: isFiltered ? "on" : "off",
+        sort: isLatest ? "latest" : "reliable",
         cursorTime: formattedDate,
       };
 
@@ -50,14 +53,14 @@ const SearchResult = ({ searchQuery }: { searchQuery: string }) => {
     };
 
     fetchSearchResults();
-  }, [filterState, isLatestOrder, searchQuery]);
+  }, [isFiltered, isLatest, query]);
 
   return (
     <Container>
       <HeaderWrapper>
         <Header>
-          <SearchText>"{searchQuery}"</SearchText>
-          <Toggle isActive={filterState} onToggle={handleToggle}></Toggle>
+          <SearchText>"{query}"</SearchText>
+          <Toggle isActive={isFiltered} onToggle={handleToggle}></Toggle>
         </Header>
         <Footer>
           <InfoText>
@@ -65,14 +68,14 @@ const SearchResult = ({ searchQuery }: { searchQuery: string }) => {
           </InfoText>
           <OrderContainer>
             <Order
-              onClick={() => handleOrder("최신순")}
-              isActive={isLatestOrder === "최신순"}
+              onClick={() => handleOrder(true)}
+              isActive={isLatest === true}
             >
               최신순
             </Order>
             <Order
-              onClick={() => handleOrder("신뢰도순")}
-              isActive={isLatestOrder === "신뢰도순"}
+              onClick={() => handleOrder(false)}
+              isActive={isLatest === false}
             >
               신뢰도순
             </Order>

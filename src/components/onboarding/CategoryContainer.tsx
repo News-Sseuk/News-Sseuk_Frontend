@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { useCategoryContext } from "../../context/CategoryContext"; // CategoryContext import
 import Category from "./Category";
+
 const categories = [
   "국회_정당",
   "대통령실",
@@ -35,7 +37,7 @@ const categories = [
   "책",
   "종교",
   "날씨",
-  `생활문화 일반`,
+  "생활문화 일반",
   "모바일",
   "인터넷_SNS",
   "통신_뉴미디어",
@@ -49,20 +51,33 @@ const categories = [
   "유럽",
   "중동_아프리카",
   "세계 일반",
-  "연애",
+  "연예",
 ];
 
 const CategoryContainer = () => {
+  const { selectedCategories, handleCategorySelection } = useCategoryContext();
+
   return (
     <Container>
-      {categories.map((elem, index) => (
-        <Category key={index} category={elem} />
+      {categories.map((category) => (
+        <Category
+          key={category}
+          category={category}
+          isSelected={selectedCategories.includes(category)}
+          onClick={() =>
+            handleCategorySelection(
+              category,
+              !selectedCategories.includes(category)
+            )
+          }
+        />
       ))}
     </Container>
   );
 };
 
 export default CategoryContainer;
+
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;

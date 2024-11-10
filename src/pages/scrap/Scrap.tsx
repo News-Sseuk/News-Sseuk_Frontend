@@ -42,17 +42,14 @@ const Scrap = () => {
     <>
       <Div>
         <Header>
-          {/* 이전 카테고리로 */}
           <Button src={left_vector} onClick={handlePrevClick} />
 
           <CarouselContainer>
-            {/* 현재 인덱스에 맞는 카테고리 이미지와 스크랩카드 */}
             <CategoryWrapper>
               <Img src={currentImage}></Img>
               <CategoryName>{currentCategory}</CategoryName>
             </CategoryWrapper>
           </CarouselContainer>
-          {/* 다음 카테고리로 */}
           <Button src={right_vector} onClick={handleNextClick} />
         </Header>
 

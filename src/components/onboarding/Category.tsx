@@ -1,22 +1,14 @@
 import styled from "styled-components";
-import { useCategoryContext } from "../../context/CategoryContext";
 
 interface CategoryProps {
   category: string;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
-const Category = ({ category }: CategoryProps) => {
-  const { selectedCategories, handleCategorySelection } = useCategoryContext();
-  const selected = selectedCategories.includes(category);
-
-  const handleClick = () => {
-    const newSelected = !selected;
-    handleCategorySelection(category, newSelected);
-    console.log(selectedCategories);
-  };
-
+const Category = ({ category, isSelected, onClick }: CategoryProps) => {
   return (
-    <StyledCategory selected={selected} onClick={handleClick}>
+    <StyledCategory selected={isSelected} onClick={onClick}>
       {category}
     </StyledCategory>
   );
@@ -24,11 +16,7 @@ const Category = ({ category }: CategoryProps) => {
 
 export default Category;
 
-interface StyledCategoryProps {
-  selected: boolean;
-}
-
-const StyledCategory = styled.div<StyledCategoryProps>`
+const StyledCategory = styled.div<{ selected: boolean }>`
   display: flex;
   text-align: center;
   align-items: center;

@@ -1,6 +1,7 @@
 //utils
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //assets
 import searchIcon from "../../assets/searchIcon.png";
@@ -30,6 +31,8 @@ const Search = () => {
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
 
+  const nav = useNavigate();
+
   useEffect(() => {
     async function fetchKeywords() {
       setLoading(true);
@@ -41,15 +44,13 @@ const Search = () => {
     fetchKeywords();
   }, []);
 
-  // const handleSearchClick = async () => {
-  //   if (searchInput) {
-  //     const searchOptions = {keyword : searchInput, onOff: }
-  //     const response = await fetchSearch()
-
-  //     // 검색 상태 업데이트
-  //     setSearchStatus(SEARCH_STATUS.RESULT);
-  //   }
-  // };
+  const handleSearchClick = async (searchInput: string) => {
+    if (searchInput) {
+      nav(`/search/${searchInput}`, { replace: true });
+      // 검색 상태 업데이트
+      setSearchStatus(SEARCH_STATUS.RESULT);
+    }
+  };
 
   const handleSearchChange = (e) => {
     const input = e.target.value;
@@ -70,7 +71,7 @@ const Search = () => {
             onClick={() => setSearchStatus(SEARCH_STATUS.SEARCHING)}
             onChange={handleSearchChange}
           />
-          <Icon onClick={handleSearchClick} />
+          <Icon onClick={() => handleSearchClick(searchInput)} />
         </SearchBarWrapper>
 
         {/* 검색 상태에 따른 렌더링 */}
@@ -94,7 +95,6 @@ const Search = () => {
       </Header>
 
       <Contents>
-        {/* 추천 섹션 */}
         {searchStatus === SEARCH_STATUS.IDLE && (
           <RecommendSection>
             <StickyTitle>{userName} 님을 위한 추천</StickyTitle>

@@ -7,16 +7,18 @@ import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
 import ArticleList from "../components/home/ArticleList";
 import { fetchCategoryArticle } from "../api/user-controller";
+import { useCategoryContext } from "../context/CategoryContext";
 
 const Home = () => {
   const { ref, inView } = useInView({ threshold: 0 });
   const [articleArray, setArticleArray] = useState([]);
   const [date, setDate] = useState(new Date());
+  console.log(date);
   const [cursorTime, setCursorTime] = useState(new Date().toISOString());
 
   const nav = useNavigate();
   const { category } = useParams();
-  const categoryList = JSON.parse(localStorage.getItem("category"));
+  const { selectedCategories } = useCategoryContext();
 
   // API 호출 함수
   const fetchArticles = async (newCursorTime) => {
@@ -82,7 +84,7 @@ const Home = () => {
           <Icon onClick={handleAlarmClick} />
         </Title>
         <CategoryList>
-          {categoryList.map((cat, index) => (
+          {selectedCategories.map((cat, index) => (
             <CategoryButton
               key={index}
               category={cat}

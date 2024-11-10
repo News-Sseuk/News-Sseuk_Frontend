@@ -1,12 +1,7 @@
 import Content from "../../components/onboarding/Content";
-import { CategoryProvider } from "../../context/CategoryContext";
 
 const Onboarding = () => {
-  return (
-    <CategoryProvider>
-      <Content />
-    </CategoryProvider>
-  );
+  return <Content />;
 };
 
 export default Onboarding;

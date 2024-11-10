@@ -9,8 +9,7 @@ import Search_active from "../../assets/search_active.svg";
 import Mypage_active from "../../assets/mypage_active.svg";
 
 import { Link, useLocation, LinkProps } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { categoryListState } from "../../store/atom";
+import { useCategoryContext } from "../../context/CategoryContext";
 
 interface NavItemProps extends LinkProps {
   isActive?: boolean;
@@ -18,13 +17,13 @@ interface NavItemProps extends LinkProps {
 
 const NavigationBar = () => {
   const location = useLocation();
+  const { selectedCategories } = useCategoryContext();
   const checkActive = (path: string) => location.pathname.includes(path);
-  const category = JSON.parse(localStorage.getItem("category"));
-  console.log("navigation bar", category);
+
   return (
     <NavBar>
       <NavItem
-        to={`/home/${encodeURIComponent(category[0])}`}
+        to={`/home/${encodeURIComponent(selectedCategories[0])}`}
         isActive={checkActive("/home")}
       >
         <Icon src={checkActive("/home") ? Home_active : HomeIcon} />

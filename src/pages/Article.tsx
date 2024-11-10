@@ -4,7 +4,7 @@ import HashtagButton from "../components/common/HashtagButton";
 import arrow_back from "../assets/arrow_back.png";
 import Content from "../components/article/Content";
 import { useEffect, useState } from "react";
-import { fetchArticle, postUserHistory } from "../api/user-controller"; // postUserHistory 가져오기
+import { fetchArticle } from "../api/user-controller"; // postUserHistory 가져오기
 import type { ArticleType } from "../components/home/ArticleList";
 
 const Article = () => {
@@ -22,13 +22,6 @@ const Article = () => {
           const data = await fetchArticle(id);
           if (data) {
             setArticle(data);
-
-            // 사용자의 읽은 기사를 history에 추가
-            try {
-              await postUserHistory({ articleList: [id] }); // ID를 배열로 전달
-            } catch {
-              console.log("history 추가 오류");
-            }
           }
         }
       } catch {

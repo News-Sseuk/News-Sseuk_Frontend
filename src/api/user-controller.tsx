@@ -173,6 +173,7 @@ export const fetchUserInfo = async () => {
 };
 
 //홈 api
+//사용자의 관심 카테고리 가져오는 api
 export const fetchUserPrefers = async () => {
   try {
     const response = await axiosInstance.get("/myPrefers");
@@ -298,21 +299,6 @@ export const fetchArticle = async (id: string) => {
       return response.data.result;
     }
   } catch (err: any) {
-    handleApiError(err);
-  }
-};
-
-interface UserHistory {
-  articleList: string[];
-}
-
-export const postUserHistory = async (articleList: UserHistory) => {
-  try {
-    const result = await axiosInstance.post("/api/userHistory", articleList);
-    if (result.status === 200) {
-      console.log("history 전송 성공");
-    }
-  } catch (err) {
     handleApiError(err);
   }
 };
