@@ -322,3 +322,15 @@ export const fetchReport = async (props: reportProps) => {
     handleApiError(err);
   }
 };
+
+//개별 기사 스크랩
+export const postScrap = async (articleId: string) => {
+  try {
+    const response = await axiosInstance.post(`/scrap/${articleId}`);
+    if (response.data.isSuccess) {
+      return true;
+    }
+  } catch (err) {
+    handleApiError(err);
+  }
+};

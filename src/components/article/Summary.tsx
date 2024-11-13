@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { useState } from "react";
 import Report from "./Report";
 import Share from "./Share"; // Share 컴포넌트 import
+import { postScrap } from "../../api/user-controller";
 
 interface Props {
   content: string | undefined;
@@ -23,8 +24,15 @@ const Summary = (props: Props) => {
     setModalType("share");
   };
 
-  const handleScrapClick = () => {
-    console.log("scrap clicked");
+  const handleScrapClick = async () => {
+    try {
+      const isSuccess = await postScrap(props.id);
+      if (isSuccess) {
+        alert("기사 스크랩 완료!");
+      }
+    } catch (error) {
+      console.error("스크랩 API 호출 중 오류 발생:", error);
+    }
   };
 
   const closeModal = () => {
@@ -98,6 +106,7 @@ const Icon = styled.img`
   width: 30px;
   height: 27px;
   color: ${({ theme }) => theme.colors.main};
+  cursor: pointer;
 `;
 
 const Dimmed = styled.div`
