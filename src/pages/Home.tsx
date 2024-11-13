@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { createPortal } from "react-dom";
 
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
@@ -56,33 +57,21 @@ const Home = () => {
   }, [inView]);
 
   const handleCategoryClick = (newCategory) => {
-    nav(`/home/${encodeURIComponent(newCategory)}`); // URL 변경
+    nav(`/home/${encodeURIComponent(newCategory)}`);
   };
 
-  const handleAlarmClick = () => {
-    handleOpenModal();
-  };
-
-  const dialogRef = useRef();
-
-  const handleOpenModal = () => {
-    dialogRef.current.showModal();
-  };
-
-  const handleCloseModal = () => {
-    dialogRef.current.close();
-  };
+  // const handleAlarmClick = () => {
+  //   handleOpenModal();
+  // };
 
   return (
     <Div>
-      <dialog ref={dialogRef}>{/* <Modal /> */}</dialog>
-
       <Header>
         <Title>
           <Text>
             {new Date().getMonth() + 1}월 {new Date().getDate()}일, 오늘의 뉴쓱
           </Text>
-          <Icon onClick={handleAlarmClick} />
+          <Icon />
         </Title>
         <CategoryList>
           {selectedCategories.map((cat, index) => (

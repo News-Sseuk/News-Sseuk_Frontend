@@ -39,7 +39,7 @@ const Content = (props: Props) => {
         <Img src={tmp} />
       )}
       <StyledContent>{props.data?.content}</StyledContent>
-      <Summary content={props.data?.summary} />
+      <Summary articleId={props.data?.id} content={props.data?.summary} />
       <Recommendation id={props.data?.id} />
     </Container>
   );

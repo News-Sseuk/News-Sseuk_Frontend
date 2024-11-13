@@ -14,7 +14,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const isLoadingPage = location.pathname === "/test";
 
   return (
-    <LayoutContainer>
+    <LayoutContainer id="layout">
       <Content>{children}</Content>
       {!isLoginPage && !isOnboardingPage && !isLoadingPage && <NavigationBar />}
     </LayoutContainer>

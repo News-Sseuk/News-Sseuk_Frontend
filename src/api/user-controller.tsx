@@ -267,7 +267,6 @@ interface UpdateData {
 export const updateUserInfo = async (data: UpdateData) => {
   try {
     const response = await axiosInstance.patch(`mypage/name`, data);
-    console.log("Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error updating data:", error);
@@ -300,6 +299,26 @@ export const fetchArticle = async (id: string) => {
       return response.data.result;
     }
   } catch (err: any) {
+    handleApiError(err);
+  }
+};
+
+interface reportProps {
+  articleId: string;
+  reason: string;
+}
+
+//신고하기
+export const fetchReport = async (props: reportProps) => {
+  try {
+    const body = { reason: props.reason };
+    const response = await axiosInstance.post(
+      `/report/${props.articleId}`,
+      body
+    );
+    if (response.status === 200) return true;
+    else false;
+  } catch (err) {
     handleApiError(err);
   }
 };
