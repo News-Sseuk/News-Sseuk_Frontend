@@ -8,13 +8,14 @@ import CategoryButton from "../components/home/CategoryButton";
 import ArticleList from "../components/home/ArticleList";
 import { fetchCategoryArticle } from "../api/user-controller";
 import { useCategoryContext } from "../context/CategoryContext";
+import { getCursorTime } from "../utils/get-cursor-time";
 
 const Home = () => {
   const { ref, inView } = useInView({ threshold: 0 });
   const [articleArray, setArticleArray] = useState([]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState();
   console.log(date);
-  const [cursorTime, setCursorTime] = useState(new Date().toISOString());
+  const [cursorTime, setCursorTime] = useState(getCursorTime());
 
   const nav = useNavigate();
   const { category } = useParams();
@@ -44,7 +45,7 @@ const Home = () => {
   // category 변경 시 처음 API 호출
   useEffect(() => {
     setArticleArray([]); // 새로운 카테고리로 변경 시 기존 기사 초기화
-    fetchArticles(new Date().toISOString()); // 처음에는 현재 시간을 cursortime으로 사용
+    fetchArticles(getCursorTime());
   }, [category]);
 
   // 무한 스크롤: inView가 true일 때마다 fetchArticles 호출
@@ -79,7 +80,7 @@ const Home = () => {
       <Header>
         <Title>
           <Text>
-            {date.getMonth() + 1}월 {date.getDate()}일, 오늘의 뉴쓱
+            {new Date().getMonth() + 1}월 {new Date().getDate()}일, 오늘의 뉴쓱
           </Text>
           <Icon onClick={handleAlarmClick} />
         </Title>

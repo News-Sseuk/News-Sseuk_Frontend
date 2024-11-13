@@ -229,6 +229,7 @@ export const fetchSearch = async (props: searchApiInterface) => {
   } catch (err: any) {
     handleApiError(err);
   }
+  Í;
 };
 
 //기록기반  (검색 페이지)

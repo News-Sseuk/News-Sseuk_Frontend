@@ -51,7 +51,7 @@ const categories = [
   "유럽",
   "중동_아프리카",
   "세계 일반",
-  "연예",
+  "연애",
 ];
 
 const CategoryContainer = () => {

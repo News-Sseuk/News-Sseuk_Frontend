@@ -5,6 +5,7 @@ import ArticleList from "../../components/home/ArticleList";
 import { fetchSearch } from "../../api/user-controller";
 import type { searchApiInterface } from "../../api/user-controller";
 import { useParams } from "react-router-dom";
+import { getCursorTime } from "../../utils/get-cursor-time";
 
 const SearchResult = () => {
   const { query } = useParams<{ query: string }>();
@@ -42,7 +43,7 @@ const SearchResult = () => {
         keyword: query as string,
         onOff: isFiltered ? "on" : "off",
         sort: isLatest ? "latest" : "reliable",
-        cursorTime: formattedDate,
+        cursorTime: getCursorTime(),
       };
 
       const result = await fetchSearch(searchParams);
@@ -88,8 +89,6 @@ const SearchResult = () => {
 };
 
 export default SearchResult;
-
-// 스타일 컴포넌트들은 기존과 동일
 
 const Container = styled.div`
   display: flex;
