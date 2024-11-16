@@ -4,17 +4,19 @@ import Toggle from "../../components/common/ToggleSwitch";
 import ArticleList from "../../components/home/ArticleList";
 import { fetchSearch } from "../../api/user-controller";
 import type { searchApiInterface } from "../../api/user-controller";
-import { useParams } from "react-router-dom";
 import { getCursorTime } from "../../utils/get-cursor-time";
+import type { ArticleType } from "../../components/home/ArticleList";
 
-const SearchResult = () => {
-  const { query } = useParams<{ query: string }>();
+interface Props {
+  searchQuery: string;
+}
 
+const SearchResult = (props: Props) => {
   const [isFiltered, setIsFiltered] = useState(false); // 필터링 on/off
   const [date, setDate] = useState("");
   const [number, setNumber] = useState(0);
   const [isLatest, setIsLatest] = useState(true); // 최신순 / 신뢰도순
-  const [articles, setArticles] = useState([]); // 검색 결과
+  const [articles, setArticles] = useState<ArticleType[]>([]); // 검색 결과
 
   const handleToggle = () => {
     setIsFiltered(!isFiltered);
@@ -40,7 +42,7 @@ const SearchResult = () => {
     // 필터 상태와 정렬 기준 변경 시 검색 API 호출
     const fetchSearchResults = async () => {
       const searchParams: searchApiInterface = {
-        keyword: query as string,
+        keyword: props.searchQuery as string,
         onOff: isFiltered ? "on" : "off",
         sort: isLatest ? "latest" : "reliable",
         cursorTime: getCursorTime(),
@@ -54,13 +56,13 @@ const SearchResult = () => {
     };
 
     fetchSearchResults();
-  }, [isFiltered, isLatest, query]);
+  }, [isFiltered, isLatest, props.searchQuery]);
 
   return (
     <Container>
       <HeaderWrapper>
         <Header>
-          <SearchText>"{query}"</SearchText>
+          <SearchText>"{props.searchQuery}"</SearchText>
           <Toggle isActive={isFiltered} onToggle={handleToggle}></Toggle>
         </Header>
         <Footer>
@@ -83,7 +85,7 @@ const SearchResult = () => {
           </OrderContainer>
         </Footer>
       </HeaderWrapper>
-      <ArticleList articles={articles} />
+      <ArticleList articleArray={articles} />
     </Container>
   );
 };

@@ -3,7 +3,6 @@ import tmp from "../../assets/category/culture.png";
 import Summary from "./Summary";
 import Recommendation from "./Recommendation";
 import Accuracy from "../common/Accuracy";
-// import { useEffect, useState } from "react";
 
 type ArticleType = {
   title?: string;
@@ -16,7 +15,7 @@ type ArticleType = {
   summary?: string;
   reliability?: number;
   publishedDate?: string;
-  id?: string;
+  id: string;
 };
 
 interface Props {
@@ -33,13 +32,13 @@ const Content = (props: Props) => {
         <Text>{props.data?.journalist}</Text>
         <Accuracy></Accuracy>
       </InfoContainer>
-      {props.data?.image?.length !== 0 ? (
+      {props.data?.image?.length !== undefined ? (
         <Img src={props.data?.image[0]} />
       ) : (
         <Img src={tmp} />
       )}
       <StyledContent>{props.data?.content}</StyledContent>
-      <Summary articleId={props.data?.id} content={props.data?.summary} />
+      <Summary articleId={props.data?.id} content={props.data?.summary ?? ""} />
       <Recommendation id={props.data?.id} />
     </Container>
   );

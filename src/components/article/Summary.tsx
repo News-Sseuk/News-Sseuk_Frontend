@@ -9,8 +9,8 @@ import Share from "./Share"; // Share 컴포넌트 import
 import { postScrap } from "../../api/user-controller";
 
 interface Props {
-  content: string | undefined;
-  articleId: string | undefined;
+  content: string;
+  articleId: string;
 }
 
 const Summary = (props: Props) => {
@@ -42,7 +42,7 @@ const Summary = (props: Props) => {
   return (
     <Container>
       <Title>요약</Title>
-      {props.content ? (
+      {props.content.length > 0 ? (
         <Content>{props.content}</Content>
       ) : (
         <Content>요약 내용이 없습니다</Content>

@@ -23,10 +23,10 @@ const Scrap = () => {
         if (categories) {
           setScrappedCategories(categories);
           if (categories.length > 0) {
-            // const articleResponse = await getScrappedArticles(categories[0]);
-            // if (articleResponse) {
-            //   setArticles(articleResponse);
-            // }
+            const articleResponse = await getScrappedArticles(categories[0]);
+            if (articleResponse) {
+              setArticles(articleResponse);
+            }
           }
         }
       } catch (error) {
@@ -36,24 +36,24 @@ const Scrap = () => {
     fetchData();
   }, []);
 
-  // 카테고리 변경 시 기사 업데이트
-  // useEffect(() => {
-  //   const fetchArticles = async () => {
-  //     if (scrappedCategories.length > 0) {
-  //       const category = scrappedCategories[currentIndex];
-  //       try {
-  //         const articlesResponse = await getScrappedArticles(category);
-  //         if (articlesResponse) {
-  //           setArticles(articlesResponse.result);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching articles:", error);
-  //       }
-  //     }
-  //   };
+  //카테고리 변경 시 기사 업데이트
+  useEffect(() => {
+    const fetchArticles = async () => {
+      if (scrappedCategories.length > 0) {
+        const category = scrappedCategories[currentIndex];
+        try {
+          const articlesResponse = await getScrappedArticles(category);
+          if (articlesResponse) {
+            setArticles(articlesResponse.result);
+          }
+        } catch (error) {
+          console.error("Error fetching articles:", error);
+        }
+      }
+    };
 
-  //   fetchArticles();
-  // }, [currentIndex, scrappedCategories]);
+    fetchArticles();
+  }, [currentIndex, scrappedCategories]);
 
   // 카테고리에 맞는 이미지 가져오기
   const images = getImage(scrappedCategories);

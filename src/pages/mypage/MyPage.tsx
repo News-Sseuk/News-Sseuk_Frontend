@@ -1,18 +1,22 @@
 import styled from "styled-components";
-import ArticleCard from "../../components/common/ArticleCard";
 import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchUserInfo } from "../../api/user-controller";
-import { getImage } from "../../utils/get-rate-image";
 import tmp from "../../assets/rate/뉴싹.svg";
 import { getHistory } from "../../api/user-controller";
 import ArticleList from "../../components/home/ArticleList";
+import { ArticleType } from "../../components/home/ArticleList";
+
+interface UserInfoType {
+  name: string;
+  grade: string;
+  days: number;
+}
 
 const MyPage = () => {
-  const [userInfo, setUserInfo] = useState(null); // Store user data
-  const [userGrade, setUserGrade] = useState(null);
-  const [history, setHistory] = useState(null);
+  const [userInfo, setUserInfo] = useState<UserInfoType>(); // Store user data
+  const [history, setHistory] = useState<ArticleType[]>();
   const nav = useNavigate();
 
   useEffect(() => {
@@ -26,7 +30,6 @@ const MyPage = () => {
         if (userResponse.isSuccess) {
           setUserInfo(userResponse.result);
           localStorage.setItem("userName", userResponse.result.name);
-          console.log(userResponse.result);
         } else {
           console.error("Failed to fetch user info:", userResponse.message);
         }
@@ -42,11 +45,6 @@ const MyPage = () => {
     };
 
     fetchData();
-
-    if (userInfo) {
-      const imageSrc = getImage(userInfo.grade);
-      setUserGrade(imageSrc);
-    }
   }, []);
 
   return (
@@ -161,6 +159,10 @@ const Rate = styled.div`
   font-size: 0.8rem;
   margin: 0.5rem 0 0 0;
 `;
+
+interface ImgProps {
+  imgsrc: string;
+}
 
 const EditButton = styled.div<ImgProps>`
   background-image: url(${(props) => props.imgsrc});

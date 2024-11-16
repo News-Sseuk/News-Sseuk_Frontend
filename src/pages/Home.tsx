@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { createPortal } from "react-dom";
 
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
