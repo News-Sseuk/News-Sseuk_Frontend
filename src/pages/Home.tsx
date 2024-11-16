@@ -14,8 +14,6 @@ import { getCursorTime } from "../utils/get-cursor-time";
 const Home = () => {
   const { ref, inView } = useInView({ threshold: 0 });
   const [articleArray, setArticleArray] = useState([]);
-  const [date, setDate] = useState();
-  console.log(date);
   const [cursorTime, setCursorTime] = useState(getCursorTime());
 
   const nav = useNavigate();

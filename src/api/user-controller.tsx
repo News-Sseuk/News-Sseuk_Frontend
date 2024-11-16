@@ -140,7 +140,7 @@ export const fetchTrendingKeyWords = async () => {
   try {
     const result = await axiosInstance.get("/trending/keywords");
     if (result.data.isSuccess) {
-      return result.data.result;
+      return result.data;
     }
   } catch (err) {
     handleApiError(err);
@@ -329,6 +329,46 @@ export const postScrap = async (articleId: string) => {
     const response = await axiosInstance.post(`/scrap/${articleId}`);
     if (response.data.isSuccess) {
       return true;
+    }
+  } catch (err) {
+    handleApiError(err);
+  }
+};
+
+// 마이페이지 - 기사 기록 10개
+export const getHistory = async () => {
+  try {
+    const response = await axiosInstance.get("/history");
+    if (response.data.isSuccess) {
+      return response.data;
+    }
+  } catch (err) {
+    handleApiError(err);
+  }
+};
+
+//스크랩 - 사용자가 스크랩한 기사의 카테고리 get해오는 api
+
+export const getScrappedCategories = async () => {
+  try {
+    const response = await axiosInstance.get("/scrap/categories");
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
+  } catch (err) {
+    handleApiError(err);
+  }
+};
+
+//스크랩 - 카테고리별 스크랩 기사 리스트 get 해오는 api
+
+export const getScrappedArticles = async (category: string) => {
+  try {
+    const response = await axiosInstance.get(`scrap/`, {
+      params: { category: category },
+    });
+    if (response.data.isSuccess) {
+      return response.data.result;
     }
   } catch (err) {
     handleApiError(err);

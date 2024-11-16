@@ -3,13 +3,20 @@ import ArticleList from "../home/ArticleList";
 import { useEffect } from "react";
 import { fetchContentRecommend } from "../../api/user-controller";
 
+interface Props {
+  id: string;
+}
+
 // 개별 기사 페이지 추천 -> 3개
-const Recommendation = ({ id }) => {
+const Recommendation = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
+      console.log("fetchData api 실행");
       try {
         if (id) {
-          const data = await fetchContentRecommend(id);
+          const data = await fetchContentRecommend(props.id);
+          console.log(data);
+
           if (data) {
             console.log(data);
           }
@@ -19,7 +26,7 @@ const Recommendation = ({ id }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [props.id]);
   return (
     <Container>
       <Title>관련 기사도 확인해보세요</Title>

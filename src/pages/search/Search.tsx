@@ -1,4 +1,3 @@
-//utils
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,24 +29,35 @@ const Search = () => {
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
+  const [recommend, setRecommend] = useState([]);
 
   const nav = useNavigate();
 
   useEffect(() => {
-    async function fetchKeywords() {
+    async function fetchData() {
       setLoading(true);
-      const data = await fetchTrendingKeyWords();
-      setTrendingKeywords(data.trending);
-      setUserName(data.name);
-      setLoading(false);
+      try {
+        const [keywordsData, recommendData] = await Promise.all([
+          fetchTrendingKeyWords(),
+          fetchRecordRecommend(),
+        ]);
+
+        setTrendingKeywords(keywordsData.result.trending || []);
+        setUserName(keywordsData.result.name || "");
+        console.log("keywordsData :>> ", keywordsData);
+        setRecommend(recommendData || []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
     }
-    fetchKeywords();
+    fetchData();
   }, []);
 
-  const handleSearchClick = async (searchInput: string) => {
+  const handleSearchClick = (searchInput) => {
     if (searchInput) {
       nav(`/search/${searchInput}`, { replace: true });
-      // 검색 상태 업데이트
       setSearchStatus(SEARCH_STATUS.RESULT);
     }
   };
@@ -84,7 +94,7 @@ const Search = () => {
                 <LoadingText>로딩 중...</LoadingText>
               ) : (
                 <KeywordList>
-                  {trendingKeywords?.map((keyword) => (
+                  {trendingKeywords.map((keyword) => (
                     <RecommendTag key={keyword}>{keyword}</RecommendTag>
                   ))}
                 </KeywordList>
@@ -98,7 +108,13 @@ const Search = () => {
         {searchStatus === SEARCH_STATUS.IDLE && (
           <RecommendSection>
             <StickyTitle>{userName} 님을 위한 추천</StickyTitle>
-            <RecommendList></RecommendList>
+            <RecommendList>
+              {recommend.length > 0 ? (
+                <ArticleList articleArray={recommend} />
+              ) : (
+                <NoHistory>더 많은 기사를 읽어보세요</NoHistory>
+              )}
+            </RecommendList>
           </RecommendSection>
         )}
 
@@ -242,4 +258,10 @@ const RecommendTag = styled.span`
   margin: 0.4rem;
   font-weight: 600;
   font-size: 0.8rem;
+`;
+
+const NoHistory = styled.div`
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
 `;

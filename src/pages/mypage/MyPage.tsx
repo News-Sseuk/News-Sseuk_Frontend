@@ -6,34 +6,47 @@ import { useEffect, useState } from "react";
 import { fetchUserInfo } from "../../api/user-controller";
 import { getImage } from "../../utils/get-rate-image";
 import tmp from "../../assets/rate/뉴싹.svg";
+import { getHistory } from "../../api/user-controller";
+import ArticleList from "../../components/home/ArticleList";
 
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState(null); // Store user data
   const [userGrade, setUserGrade] = useState(null);
+  const [history, setHistory] = useState(null);
   const nav = useNavigate();
-  //뉴쓱, 쓱싹, 싹싹
 
   useEffect(() => {
-    // Fetch user info when component mounts
     const fetchData = async () => {
       try {
-        const response = await fetchUserInfo();
-        if (response.isSuccess) {
-          setUserInfo(response.result); // Set user data to state
-          localStorage.setItem("userName", response.result.name);
-          console.log(response.result);
+        const [userResponse, historyResponse] = await Promise.all([
+          fetchUserInfo(),
+          getHistory(),
+        ]);
+
+        if (userResponse.isSuccess) {
+          setUserInfo(userResponse.result);
+          localStorage.setItem("userName", userResponse.result.name);
+          console.log(userResponse.result);
         } else {
-          console.error("Failed to fetch user info:", response.message);
-          return <div>error</div>;
+          console.error("Failed to fetch user info:", userResponse.message);
+        }
+
+        if (historyResponse) {
+          setHistory(historyResponse.result);
+        } else {
+          console.error("Failed to fetch history:", historyResponse.message);
         }
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-    const imageSrc = getImage(userInfo?.grade);
-    setUserGrade(imageSrc);
+
+    if (userInfo) {
+      const imageSrc = getImage(userInfo.grade);
+      setUserGrade(imageSrc);
+    }
   }, []);
 
   return (
@@ -79,10 +92,8 @@ const MyPage = () => {
       <HistorySection>
         <Title>기사 히스토리</Title>
         <HistoryList>
-          {userInfo?.articleThumbnailDTOs ? (
-            userInfo.articleThumbnailDTOs.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))
+          {history && history.length > 0 ? (
+            <ArticleList articleArray={history} />
           ) : (
             <NoHistory>아직 읽은 기사가 없어요</NoHistory>
           )}

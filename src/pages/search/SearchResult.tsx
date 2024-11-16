@@ -10,7 +10,7 @@ import { getCursorTime } from "../../utils/get-cursor-time";
 const SearchResult = () => {
   const { query } = useParams<{ query: string }>();
 
-  const [isFiltered, setIsFiltered] = useState(true); // 필터링 on/off
+  const [isFiltered, setIsFiltered] = useState(false); // 필터링 on/off
   const [date, setDate] = useState("");
   const [number, setNumber] = useState(0);
   const [isLatest, setIsLatest] = useState(true); // 최신순 / 신뢰도순

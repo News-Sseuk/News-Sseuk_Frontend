@@ -10,7 +10,7 @@ import { postScrap } from "../../api/user-controller";
 
 interface Props {
   content: string | undefined;
-  id: string;
+  articleId: string | undefined;
 }
 
 const Summary = (props: Props) => {
@@ -26,7 +26,7 @@ const Summary = (props: Props) => {
 
   const handleScrapClick = async () => {
     try {
-      const isSuccess = await postScrap(props.id);
+      const isSuccess = await postScrap(props.articleId);
       if (isSuccess) {
         alert("기사 스크랩 완료!");
       }
@@ -57,7 +57,7 @@ const Summary = (props: Props) => {
           <>
             <Dimmed onClick={closeModal} />
             {modalType === "report" ? (
-              <Report articleId={props.id} onClose={closeModal} />
+              <Report articleId={props.articleId} onClose={closeModal} />
             ) : (
               <Share onClose={closeModal} /> // Share 모달 추가
             )}

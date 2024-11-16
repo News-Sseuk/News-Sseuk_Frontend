@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 //components
 import ArticleList from "../components/home/ArticleList";
 import notification from "../assets/notification.svg";
-import CategoryButton from "../components/home/CategoryButton";
 // import Modal from "../components/home/Modal";
 import Toggle from "../components/common/ToggleSwitch";
 

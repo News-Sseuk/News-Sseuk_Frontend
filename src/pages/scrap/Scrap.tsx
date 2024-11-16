@@ -4,21 +4,61 @@ import right_vector from "../../assets/right_vector.png";
 import { useState } from "react";
 import { getImage } from "../../utils/get-category-image";
 import ArticleList from "../../components/home/ArticleList";
+import { useEffect } from "react";
+import {
+  getScrappedCategories,
+  getScrappedArticles,
+} from "../../api/user-controller";
 
 const Scrap = () => {
-  // 사용자가 스크랩한 카테고리 리스트
-  const [scrappedCategories, setScrappedCategories] = useState([
-    "공연/전시",
-    "사건사고",
-    "모바일",
-    "도로/교통",
-  ]);
+  const [scrappedCategories, setScrappedCategories] = useState([]);
+  const [articles, setArticles] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 1. 카테고리 불러오는 api
+        const categories = await getScrappedCategories();
+        if (categories) {
+          setScrappedCategories(categories);
+          if (categories.length > 0) {
+            // const articleResponse = await getScrappedArticles(categories[0]);
+            // if (articleResponse) {
+            //   setArticles(articleResponse);
+            // }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // 카테고리 변경 시 기사 업데이트
+  // useEffect(() => {
+  //   const fetchArticles = async () => {
+  //     if (scrappedCategories.length > 0) {
+  //       const category = scrappedCategories[currentIndex];
+  //       try {
+  //         const articlesResponse = await getScrappedArticles(category);
+  //         if (articlesResponse) {
+  //           setArticles(articlesResponse.result);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching articles:", error);
+  //       }
+  //     }
+  //   };
+
+  //   fetchArticles();
+  // }, [currentIndex, scrappedCategories]);
 
   // 카테고리에 맞는 이미지 가져오기
   const images = getImage(scrappedCategories);
 
   // 현재 인덱스 관리
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   // 이전 카테고리로 이동
   const handlePrevClick = () => {
@@ -56,7 +96,7 @@ const Scrap = () => {
         <ContentWrapper>
           <Title>내 스크랩</Title>
           <ArticleContainer>
-            <ArticleList />
+            <ArticleList articleArray={articles} />
           </ArticleContainer>
         </ContentWrapper>
       </Div>
@@ -100,13 +140,6 @@ const Button = styled.img`
   cursor: pointer;
 `;
 
-// 카테고리 이미지 스타일
-const CategoryImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-`;
-
 const ContentWrapper = styled.div`
   flex: 1;
   display: flex;
@@ -146,10 +179,6 @@ const CategoryWrapper = styled.div`
   justify-content: center;
   color: #333;
 `;
-
-// interface ImgProps {
-//   imgsrc: string;
-// }
 
 const Img = styled.img`
   width: 100%;
