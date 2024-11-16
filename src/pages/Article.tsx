@@ -51,7 +51,7 @@ const Article = () => {
           ))}
         </TagContainer>
       </Header>
-      {id ? <Content data={article} /> : <p>invalid approach!</p>}
+      {article ? <Content data={article} /> : <p>invalid approach!</p>}
     </Div>
   );
 };
