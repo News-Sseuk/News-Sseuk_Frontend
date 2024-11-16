@@ -79,7 +79,7 @@ export const fetchEmailValidCheck = async (email: string) => {
       result: response.data.result,
       isSuccess: response.data.isSuccess,
     };
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
@@ -112,7 +112,7 @@ export const fetchSignUp = async (loginInfo) => {
 };
 
 // 공통 에러 핸들러 함수
-const handleApiError = (err: any) => {
+const handleApiError = (err) => {
   if (err.response && err.response.status === 401) {
     throw new Error("Unauthorized");
   } else if (err.response && err.response.status === 403) {
@@ -167,7 +167,7 @@ export const fetchUserInfo = async () => {
     if (response.data.isSuccess) {
       return response.data;
     }
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
@@ -183,7 +183,7 @@ export const fetchUserPrefers = async () => {
       result: response.data.result,
       isSuccess: response.data.isSuccess,
     };
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
@@ -205,7 +205,7 @@ export const fetchCategoryArticle = async ({
     if (response.data.isSuccess) {
       return response.data.result;
     }
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
@@ -226,10 +226,9 @@ export const fetchSearch = async (props: searchApiInterface) => {
     if (response.data.isSuccess) {
       return response.data;
     }
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
-  Í;
 };
 
 //기록기반  (검색 페이지)
@@ -239,7 +238,7 @@ export const fetchRecordRecommend = async () => {
     if (response.data) {
       return response.data;
     }
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
@@ -253,7 +252,7 @@ export const fetchContentRecommend = async (id: string) => {
     if (response.data) {
       return response.data;
     }
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
@@ -298,7 +297,7 @@ export const fetchArticle = async (id: string) => {
     if (response.data.isSuccess) {
       return response.data.result;
     }
-  } catch (err: any) {
+  } catch (err) {
     handleApiError(err);
   }
 };
