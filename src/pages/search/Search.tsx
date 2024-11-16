@@ -2,10 +2,6 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-//assets
-import searchIcon from "../../assets/searchIcon.png";
-import arrow_back from "../../assets/arrow_back.png";
-
 //api
 import {
   fetchTrendingKeyWords,
@@ -14,8 +10,8 @@ import {
 
 //component
 import RecentSearch from "../../components/search/RecentSearch";
-import SearchResult from "./SearchResult";
 import ArticleList from "../../components/home/ArticleList";
+import SearchBar from "../../components/search/SearchBar";
 
 const SEARCH_STATUS = {
   IDLE: "IDLE", // 검색 전
@@ -57,34 +53,31 @@ const Search = () => {
 
   const handleSearchClick = (searchInput) => {
     if (searchInput) {
-      nav(`/search/${searchInput}`, { replace: true });
-      setSearchStatus(SEARCH_STATUS.RESULT);
-    }
-  };
+      const existingHistory = JSON.parse(
+        localStorage.getItem("searchHistory") || "[]"
+      );
+      const updatedHistory = [
+        searchInput,
+        ...existingHistory.filter((item) => item !== searchInput),
+      ].slice(0, 5); // 최대 5개까지만 유지
 
-  const handleSearchChange = (e) => {
-    const input = e.target.value;
-    setSearchInput(input);
-    setSearchStatus(SEARCH_STATUS.SEARCHING);
+      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+
+      // 상태 업데이트 및 네비게이션
+      setSearchStatus(SEARCH_STATUS.RESULT);
+      nav(`/search/${searchInput}`, { replace: true });
+    }
   };
 
   return (
     <Div>
       <Header>
-        <SearchBarWrapper>
-          {searchStatus === SEARCH_STATUS.SEARCHING && (
-            <Button onClick={() => setSearchStatus(SEARCH_STATUS.IDLE)} />
-          )}
-          <SearchBar
-            placeholder=" 오늘의 뉴-쓱"
-            value={searchInput}
-            onClick={() => setSearchStatus(SEARCH_STATUS.SEARCHING)}
-            onChange={handleSearchChange}
-          />
-          <Icon onClick={() => handleSearchClick(searchInput)} />
-        </SearchBarWrapper>
-
-        {/* 검색 상태에 따른 렌더링 */}
+        <SearchBar
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          onSearch={handleSearchClick}
+          onCancel={() => setSearchStatus(SEARCH_STATUS.IDLE)}
+        />
         {searchStatus === SEARCH_STATUS.SEARCHING && <RecentSearch />}
         {searchStatus === SEARCH_STATUS.IDLE && (
           <NotSearching>
@@ -117,19 +110,12 @@ const Search = () => {
             </RecommendList>
           </RecommendSection>
         )}
-
-        {/* 검색 결과 */}
-        {searchStatus === SEARCH_STATUS.RESULT && (
-          <SearchResult searchQuery={searchInput} />
-        )}
       </Contents>
     </Div>
   );
 };
 
 export default Search;
-
-// 스타일 컴포넌트들...
 
 const LoadingText = styled.div`
   text-align: center;
@@ -156,29 +142,6 @@ const Contents = styled.div`
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
-  }
-`;
-
-const SearchBarWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  margin-bottom: 30px;
-  gap: 10px;
-`;
-
-const SearchBar = styled.input`
-  border: none;
-  border-bottom: 2px solid #003d62;
-  width: 100%;
-  margin: 0 0.5rem;
-  height: 4vh;
-  outline: none;
-  &::placeholder {
-    color: rgba(0, 61, 98, 0.5);
-    font-weight: 600;
   }
 `;
 
@@ -226,25 +189,6 @@ const RecommendList = styled.div`
 `;
 
 const NotSearching = styled.div``;
-
-const Button = styled.div`
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 1rem;
-  height: 1rem;
-  background-image: url(${arrow_back});
-  border: none;
-  cursor: pointer;
-`;
-
-const Icon = styled.div`
-  background-image: url(${searchIcon});
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 1.2rem;
-  height: 1.2rem;
-  justify-content: flex-start;
-`;
 
 const RecommendTag = styled.span`
   display: flex;

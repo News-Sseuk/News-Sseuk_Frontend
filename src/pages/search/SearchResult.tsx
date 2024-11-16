@@ -6,63 +6,67 @@ import { fetchSearch } from "../../api/user-controller";
 import type { searchApiInterface } from "../../api/user-controller";
 import { getCursorTime } from "../../utils/get-cursor-time";
 import type { ArticleType } from "../../components/home/ArticleList";
+import { useParams } from "react-router-dom";
+import SearchBar from "../../components/search/SearchBar";
 
-interface Props {
-  searchQuery: string;
-}
-
-const SearchResult = (props: Props) => {
+const SearchResult = () => {
+  const { searchQuery } = useParams<{ searchQuery: string }>(); // searchQuery를 명시적으로 정의
+  const [searchInput, setSearchInput] = useState(searchQuery || "");
   const [isFiltered, setIsFiltered] = useState(false); // 필터링 on/off
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(getFormattedDate());
   const [number, setNumber] = useState(0);
   const [isLatest, setIsLatest] = useState(true); // 최신순 / 신뢰도순
   const [articles, setArticles] = useState<ArticleType[]>([]); // 검색 결과
 
-  const handleToggle = () => {
-    setIsFiltered(!isFiltered);
-  };
+  const handleToggle = () => setIsFiltered((prev) => !prev);
 
-  const handleOrder = (booleanValue: boolean) => {
-    setIsLatest(booleanValue);
+  const handleOrder = (isLatestOrder: boolean) => setIsLatest(isLatestOrder);
+
+  const handleSearchClick = (searchInput: string) => {
+    console.log("검색 실행:", searchInput);
+    // 필요하면 검색 로직 추가
   };
 
   useEffect(() => {
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })} ${currentDate.toLocaleTimeString("ko-KR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })}`;
-    setDate(formattedDate);
+    console.log("searchQuery :>> ", searchQuery);
+    setDate(getFormattedDate()); // 날짜 업데이트
 
     // 필터 상태와 정렬 기준 변경 시 검색 API 호출
     const fetchSearchResults = async () => {
+      if (!searchQuery) return; // searchQuery가 없으면 종료
       const searchParams: searchApiInterface = {
-        keyword: props.searchQuery as string,
+        keyword: searchQuery,
         onOff: isFiltered ? "on" : "off",
         sort: isLatest ? "latest" : "reliable",
         cursorTime: getCursorTime(),
       };
 
-      const result = await fetchSearch(searchParams);
-      if (result) {
-        setArticles(result.data); // 예시로 데이터 설정
-        setNumber(result.data.length);
+      try {
+        const result = await fetchSearch(searchParams);
+        if (result) {
+          setArticles(result.data);
+          setNumber(result.data.length);
+        }
+      } catch (error) {
+        console.error("검색 결과를 불러오는 중 오류 발생:", error);
+        setArticles([]);
+        setNumber(0);
       }
     };
 
     fetchSearchResults();
-  }, [isFiltered, isLatest, props.searchQuery]);
+  }, [isFiltered, isLatest, searchQuery]);
 
   return (
     <Container>
       <HeaderWrapper>
+        <SearchBar
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          onSearch={handleSearchClick}
+        />
         <Header>
-          <SearchText>"{props.searchQuery}"</SearchText>
+          <SearchText>"{searchQuery}"</SearchText>
           <Toggle isActive={isFiltered} onToggle={handleToggle}></Toggle>
         </Header>
         <Footer>
@@ -91,6 +95,19 @@ const SearchResult = (props: Props) => {
 };
 
 export default SearchResult;
+
+const getFormattedDate = () => {
+  const currentDate = new Date();
+  return `${currentDate.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  })} ${currentDate.toLocaleTimeString("ko-KR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })}`;
+};
 
 const Container = styled.div`
   display: flex;

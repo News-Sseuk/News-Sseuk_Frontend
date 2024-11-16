@@ -1,43 +1,46 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-type RecentSearchProps = {
-  searchQuery: string;
-};
-const RecentSearch = ({ searchQuery }: RecentSearchProps) => {
-  const dummyList = ["최근검색어 1", "최근검색어2", "최근검색어3", "4", "5"];
+const RecentSearch = () => {
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+
+  // 로컬 스토리지에서 검색 기록 가져오기 및 초기화
   useEffect(() => {
-    // 로컬 스토리지에서 검색 기록 가져오기
-    const storedHistory =
-      JSON.parse(localStorage.getItem("searchHistory")) || [];
-
-    // 중복 검색어 제거 후 최신 검색어 추가
-    const updatedHistory = [
-      searchQuery,
-      ...storedHistory.filter((item) => item !== searchQuery),
-    ];
-
-    // 최대 5개까지만 저장
-    if (updatedHistory.length > 5) {
-      updatedHistory.pop();
+    const storedHistory = JSON.parse(
+      localStorage.getItem("searchHistory") || "[]"
+    );
+    // 데이터가 배열인지 확인
+    if (Array.isArray(storedHistory)) {
+      setSearchHistory(storedHistory);
+    } else {
+      setSearchHistory([]); // 배열이 아닌 경우 빈 배열로 초기화
     }
-
-    // 업데이트된 검색 기록을 로컬 스토리지에 저장
-    localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
-    console.log(storedHistory);
   }, []);
 
-  //text 클릭 시 해당 검색어로 api 연결 로직
+  // 검색어 삭제
+  const handleDelete = useCallback(
+    (itemToDelete: string) => {
+      const updatedHistory = searchHistory.filter(
+        (item) => item !== itemToDelete
+      );
+      setSearchHistory(updatedHistory);
+      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+    },
+    [searchHistory]
+  );
 
-  // x 클릭 시, localStoragehttps://blog.naver.com/dtb08213/223635970759에서 삭제,
+  // 검색어 클릭 시 API 연결
+  const handleSearchClick = useCallback((item: string) => {
+    console.log(`검색어: ${item}로 API 호출`); // API 호출 로직 추가
+  }, []);
 
   return (
     <Searching>
       <Title>최근 검색어</Title>
-      {dummyList?.map((item) => (
-        <RecentSearched>
-          <Text>{item}</Text>
-          <DeleteButton>X</DeleteButton>
+      {searchHistory.map((item) => (
+        <RecentSearched key={item}>
+          <Text onClick={() => handleSearchClick(item)}>{item}</Text>
+          <DeleteButton onClick={() => handleDelete(item)}>X</DeleteButton>
         </RecentSearched>
       ))}
     </Searching>

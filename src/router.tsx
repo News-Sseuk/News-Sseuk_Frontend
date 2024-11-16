@@ -10,6 +10,7 @@ import MyPage from "./pages/mypage/MyPage";
 import MainLayout from "./components/common/MainLayout";
 import InfoEdit from "./pages/mypage/InfoEdit";
 import CategoryEditPage from "./pages/mypage/CategoryEdit";
+import SearchResult from "./pages/search/SearchResult";
 // import Loading from "./pages/Loading";
 
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+      },
+      {
+        path: "/search/:searchQuery",
+        element: <SearchResult />,
       },
     ],
   },
