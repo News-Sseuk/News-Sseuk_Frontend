@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ArticleList from "../home/ArticleList";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchContentRecommend } from "../../api/user-controller";
 
 interface Props {
@@ -9,16 +9,15 @@ interface Props {
 
 // 개별 기사 페이지 추천 -> 3개
 const Recommendation = (props: Props) => {
+  const [articles, setArticles] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       console.log("fetchData api 실행");
       try {
-        if (id) {
+        if (props.id) {
           const data = await fetchContentRecommend(props.id);
-          console.log(data);
-
           if (data) {
-            console.log(data);
+            setArticles(data);
           }
         }
       } catch {
@@ -30,7 +29,7 @@ const Recommendation = (props: Props) => {
   return (
     <Container>
       <Title>관련 기사도 확인해보세요</Title>
-      <ArticleList />
+      <ArticleList articleArray={articles} />
     </Container>
   );
 };
