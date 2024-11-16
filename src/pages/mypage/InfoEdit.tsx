@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchSignOut, updateUserInfo } from "../../api/user-controller";
 import { useEffect, useState } from "react";
 import arrow_back from "../../assets/arrow_back.png";
+import Input from "../../components/login/Input";
 
 const InfoEdit = () => {
   const [username, setUserName] = useState(localStorage.getItem("userName"));
@@ -15,9 +16,7 @@ const InfoEdit = () => {
       setUserName(nickname);
     } else {
       alert("세션이 만료되었습니다. 다시 로그인하세요");
-      () => {
-        handleLogOutClick();
-      };
+      handleLogOutClick();
     }
   }, []);
   const nav = useNavigate();
@@ -39,14 +38,16 @@ const InfoEdit = () => {
   };
 
   const handleEdit = async () => {
-    const result = await updateUserInfo(newName);
-    if (result.isSuccess) {
-      alert("수정이 완료되었어요!");
-      setUserName(newName);
-      setNewName(newName);
-      localStorage.setItem("userName", newName);
-    } else {
-      alert("다시 시도해주세요");
+    if (newName && newName?.length > 0) {
+      const result = await updateUserInfo(newName);
+      if (result.isSuccess) {
+        alert("수정이 완료되었어요!");
+        setUserName(newName);
+        setNewName(newName);
+        localStorage.setItem("userName", newName);
+      } else {
+        alert("다시 시도해주세요");
+      }
     }
   };
 
@@ -73,7 +74,7 @@ const InfoEdit = () => {
       <EditContainer>
         <EditWrapper>
           <Title>이름</Title>
-          <Input value={newName} onChange={handleNameChange}></Input>
+          <Input value={newName ?? ""} onChange={handleNameChange}></Input>
         </EditWrapper>
       </EditContainer>
       <CompleteButton onClick={handleEdit}>수정 완료</CompleteButton>
@@ -180,12 +181,6 @@ const Title = styled.div`
   font-weight: 700;
   margin-right: 1rem;
   font-size: 0.9rem;
-`;
-
-const Input = styled.input`
-  border: none;
-  border-bottom: 2px solid black;
-  outline: none;
 `;
 
 const FooterContainer = styled.div`

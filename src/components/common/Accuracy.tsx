@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-const Accuracy = () => {
-  return <Container>90%</Container>;
+interface Props {
+  accuracy: number | undefined;
+}
+
+const Accuracy = (props: Props) => {
+  return <Container>{props.accuracy}</Container>;
 };
 
 export default Accuracy;

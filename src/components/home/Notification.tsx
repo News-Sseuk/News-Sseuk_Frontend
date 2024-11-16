@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import CategoryButton from "./CategoryButton";
+import HashtagButton from "../common/HashtagButton";
 // interface NotificationProps {
 //     objectList: {
 //       title: string;
@@ -22,7 +22,7 @@ const Notification = () => {
       <InfoWrapper>
         <Time>2024.04.25 19:18</Time>
         <CategoryWrapper>
-          <CategoryButton category={"국내법"} />
+          <HashtagButton category={"국내법"} />
         </CategoryWrapper>
       </InfoWrapper>
     </Container>

@@ -259,13 +259,9 @@ export const fetchContentRecommend = async (id: string) => {
 
 // 개인정보 수정 (/mypage/edit)
 
-interface UpdateData {
-  name: string;
-}
-
-export const updateUserInfo = async (data: UpdateData) => {
+export const updateUserInfo = async (name: string) => {
   try {
-    const response = await axiosInstance.patch(`mypage/name`, data);
+    const response = await axiosInstance.patch(`mypage/name`, name);
     return response.data;
   } catch (error) {
     console.error("Error updating data:", error);

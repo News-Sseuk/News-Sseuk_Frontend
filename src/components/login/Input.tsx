@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Input = ({
-  id = Math.floor(Math.random() * 10000 + 1), // random 아이디 부여
+  id = `${Math.floor(Math.random() * 10000 + 1)}`,
   type = "text",
   value = "",
   onChange,

@@ -2,10 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 
 type UseInputProps = {
   initValue?: string;
-  rule?: (value: string) => string;
+  rule?: (value: string) => string | undefined;
 };
 
-// 초기 값과 유효성 검사 함수를 받는 커스텀 훅
 const useInput = ({ initValue = "", rule }: UseInputProps) => {
   const [value, setValue] = useState(initValue);
   const [valid, setValid] = useState("");
@@ -14,12 +13,11 @@ const useInput = ({ initValue = "", rule }: UseInputProps) => {
     setValue(e.target.value);
   }, []);
 
-  // value가 변경되면 유효성 검사하기
   useEffect(() => {
     if (rule) {
-      setValid(rule(value));
+      setValid(rule(value) || ""); // rule의 결과가 undefined일 경우 빈 문자열로 설정
     }
-  }, [value, rule]);
+  }, [value, rule]); // `rule` 추가
 
   return {
     value,

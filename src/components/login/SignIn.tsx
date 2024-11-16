@@ -4,7 +4,6 @@ import useInput from "../../hooks/useInput";
 import { fetchSignIn, fetchUserPrefers } from "../../api/user-controller";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { useEffect } from "react";
 
 //data
 import { categoryListState } from "../../store/atom";

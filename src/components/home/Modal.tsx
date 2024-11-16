@@ -13,7 +13,7 @@ interface ModalProps {
   }[];
 }
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, objectList }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose }) => {
   const modalRef = useRef(null);
 
   return (

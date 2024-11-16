@@ -9,41 +9,55 @@ import { useNavigate } from "react-router-dom";
 const SignUp = ({ setIsJoinOpen, setIsLoginOpen }) => {
   const nav = useNavigate();
   const [isEmailValid, setIsEmailValid] = useState(false);
-  const emailRule = (v = "") => {
-    if (v === "") return;
+  const emailRule = (v: string) => {
+    if (v === "") return ""; // 빈 문자열 반환
     if (!v.includes("@")) {
       return "형식이 올바르지 않습니다.";
     }
+    return "";
   };
 
-  const passwordRule = (v = "") => {
+  const passwordRule = (v: string) => {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
-    if (v.length !== 0) {
-      if (!regex.test(v)) {
-        return "영어, 숫자를 포함한 8~15자리 비밀번호를 입력해주세요";
-      }
+    if (v.length !== 0 && !regex.test(v)) {
+      return "영어, 숫자를 포함한 8~15자리 비밀번호를 입력해주세요";
     }
+    return "";
   };
 
   const {
     value: email,
     valid: validEmail,
     onChange: onChangeEmail,
-  } = useInput("", emailRule);
+  } = useInput({
+    initValue: "",
+    rule: emailRule,
+  });
 
   const {
     value: name,
     valid: validName,
     onChange: onChangeName,
-  } = useInput("");
+  } = useInput({
+    initValue: "",
+  });
 
-  const { value: id, valid: validId, onChange: onChangeId } = useInput("");
+  const {
+    value: id,
+    valid: validId,
+    onChange: onChangeId,
+  } = useInput({
+    initValue: "",
+  });
 
   const {
     value: password,
     valid: validPassWord,
     onChange: onChangePassWord,
-  } = useInput("", passwordRule);
+  } = useInput({
+    initValue: "",
+    rule: passwordRule,
+  });
 
   // 서버 이메일 중복 검사
   const handleEmailValidation = async () => {
@@ -54,7 +68,7 @@ const SignUp = ({ setIsJoinOpen, setIsLoginOpen }) => {
     } else {
       try {
         const result = await fetchEmailValidCheck(email);
-        if (result.result === false) {
+        if (result?.result === false) {
           alert("이미 등록된 이메일입니다.");
         } else {
           setIsEmailValid(true);

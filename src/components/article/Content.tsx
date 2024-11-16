@@ -30,7 +30,7 @@ const Content = (props: Props) => {
         <Text>{props.data?.publishedDate}</Text>
         <Text>{props.data?.press}</Text>
         <Text>{props.data?.journalist}</Text>
-        <Accuracy></Accuracy>
+        <Accuracy accuracy={props.data?.reliability}></Accuracy>
       </InfoContainer>
       {props.data?.image?.length !== undefined ? (
         <Img src={props.data?.image[0]} />

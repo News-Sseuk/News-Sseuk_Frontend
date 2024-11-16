@@ -9,19 +9,20 @@ import ArticleList from "../components/home/ArticleList";
 import { fetchCategoryArticle } from "../api/user-controller";
 import { useCategoryContext } from "../context/CategoryContext";
 import { getCursorTime } from "../utils/get-cursor-time";
+import type { ArticleType } from "../components/home/ArticleList";
 
 const Home = () => {
   const { ref, inView } = useInView({ threshold: 0 });
-  const [articleArray, setArticleArray] = useState([]);
+  const [articleArray, setArticleArray] = useState<ArticleType[]>([]);
   const [cursorTime, setCursorTime] = useState(getCursorTime());
 
   const nav = useNavigate();
-  const { category } = useParams();
+  const { category } = useParams<string>();
   const { selectedCategories } = useCategoryContext();
 
   // API 호출 함수
   const fetchArticles = async (newCursorTime) => {
-    const decodedCategory = decodeURIComponent(category);
+    const decodedCategory = category ? decodeURIComponent(category) : "";
 
     if (category) {
       const articles = await fetchCategoryArticle({
@@ -57,10 +58,6 @@ const Home = () => {
     nav(`/home/${encodeURIComponent(newCategory)}`);
   };
 
-  // const handleAlarmClick = () => {
-  //   handleOpenModal();
-  // };
-
   return (
     <Div>
       <Header>
@@ -91,7 +88,6 @@ const Home = () => {
 
 export default Home;
 
-// 스타일 컴포넌트 정의
 const Div = styled.div`
   width: 100%;
   height: 100%;

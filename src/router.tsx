@@ -9,10 +9,8 @@ import Notification from "./components/home/Notification";
 import MyPage from "./pages/mypage/MyPage";
 import MainLayout from "./components/common/MainLayout";
 import InfoEdit from "./pages/mypage/InfoEdit";
-import Test from "./pages/test";
 import CategoryEditPage from "./pages/mypage/CategoryEdit";
 // import Loading from "./pages/Loading";
-import SearchResult from "./pages/search/SearchResult";
 
 const router = createBrowserRouter([
   {
@@ -50,14 +48,6 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
-      },
-      {
-        path: "/search/:query",
-        element: <SearchResult />,
-      },
-      {
-        path: "/test",
-        element: <Test />,
       },
     ],
   },
