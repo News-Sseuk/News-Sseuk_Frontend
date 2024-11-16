@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+//utils
 import styled from "styled-components";
-import Toggle from "../../components/common/ToggleSwitch";
-import ArticleList from "../../components/home/ArticleList";
+import { useEffect, useState } from "react";
+import { getCursorTime } from "../../utils/get-cursor-time";
+import { useParams } from "react-router-dom";
+
+//api
 import { fetchSearch } from "../../api/user-controller";
 import type { searchApiInterface } from "../../api/user-controller";
-import { getCursorTime } from "../../utils/get-cursor-time";
 import type { ArticleType } from "../../components/home/ArticleList";
-import { useParams } from "react-router-dom";
+
+//components
+import Toggle from "../../components/common/ToggleSwitch";
+import ArticleList from "../../components/home/ArticleList";
 import SearchBar from "../../components/search/SearchBar";
 
 const SearchResult = () => {
-  const { searchQuery } = useParams<{ searchQuery: string }>(); // searchQuery를 명시적으로 정의
+  const { searchQuery } = useParams<{ searchQuery: string }>();
   const [searchInput, setSearchInput] = useState(searchQuery || "");
   const [isFiltered, setIsFiltered] = useState(false); // 필터링 on/off
   const [date, setDate] = useState(getFormattedDate());
@@ -22,13 +27,24 @@ const SearchResult = () => {
 
   const handleOrder = (isLatestOrder: boolean) => setIsLatest(isLatestOrder);
 
-  const handleSearchClick = (searchInput: string) => {
-    console.log("검색 실행:", searchInput);
-    // 필요하면 검색 로직 추가
+  const handleSearchClick = async (searchInput: string) => {
+    const searchParams: searchApiInterface = {
+      keyword: searchInput,
+      onOff: "off",
+      sort: "latest",
+      cursorTime: getCursorTime(),
+    };
+
+    try {
+      const result = await fetchSearch(searchParams);
+      if (result) setArticles(result.data);
+    } catch (error) {
+      console.error("검색 결과 오류:", error);
+      setArticles([]);
+    }
   };
 
   useEffect(() => {
-    console.log("searchQuery :>> ", searchQuery);
     setDate(getFormattedDate()); // 날짜 업데이트
 
     // 필터 상태와 정렬 기준 변경 시 검색 API 호출
@@ -124,11 +140,13 @@ const HeaderWrapper = styled.div`
 const Header = styled.div`
   display: flex;
   gap: 26px;
+  padding: 0px 10px;
 `;
 
 const Footer = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0px 10px;
 `;
 
 const SearchText = styled.div`

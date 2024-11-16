@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import searchIcon from "../../assets/searchIcon.png";
 import arrow_back from "../../assets/arrow_back.png";
-import { useState } from "react";
 
 interface SearchBarProps {
   searchInput: string;
   setSearchInput: (value: string) => void;
-  onSearch: (input: string) => void;
-  onCancel?: () => void; // 검색 취소 버튼 동작
+  onSearch: (searchInput: string) => void;
+  onCancel?: () => void; // 검색 취소 버튼
 }
 
 const SearchBar = ({
@@ -16,23 +15,33 @@ const SearchBar = ({
   onSearch,
   onCancel,
 }: SearchBarProps) => {
-  const [isSearching, setIsSearching] = useState(false);
+  const handleSearchClick = () => {
+    if (searchInput) {
+      // 검색 기록 업데이트
+      const existingHistory = JSON.parse(
+        localStorage.getItem("searchHistory") || "[]"
+      );
+      const updatedHistory = [
+        searchInput,
+        ...existingHistory.filter((item) => item !== searchInput),
+      ].slice(0, 5); // 최대 5개 유지
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
-    setIsSearching(true);
+      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+
+      // 검색 실행
+      onSearch(searchInput);
+    }
   };
 
   return (
     <Wrapper>
-      {isSearching && onCancel && <CancelButton onClick={onCancel} />}
+      {onCancel && <CancelButton onClick={onCancel} />}
       <SearchInput
         placeholder="오늘의 뉴-쓱"
         value={searchInput}
-        onChange={handleInputChange}
-        onFocus={() => setIsSearching(true)}
+        onChange={(e) => setSearchInput(e.target.value)}
       />
-      <SearchButton onClick={() => onSearch(searchInput)} />
+      <SearchButton onClick={handleSearchClick} />
     </Wrapper>
   );
 };
