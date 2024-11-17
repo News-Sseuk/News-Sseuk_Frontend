@@ -12,7 +12,6 @@ const Report = (props: Props) => {
     try {
       const data = await fetchReport({ articleId, reason });
       if (data) {
-        console.log("신고 api status 200");
         props.onClose();
       }
     } catch (error) {

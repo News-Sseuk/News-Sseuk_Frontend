@@ -34,7 +34,7 @@ const SignIn = () => {
             nav(`/home/${encodeURIComponent(data.result[0])}`);
           }
         } catch {
-          console.log("category setting 에러");
+          throw new Error("category 불러오기 중 오류");
         }
       }
     } catch {

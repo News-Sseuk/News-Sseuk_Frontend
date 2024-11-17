@@ -85,7 +85,6 @@ const SignUp = ({ setIsJoinOpen, setIsLoginOpen }) => {
   // 회원가입 요청
   const handleClickSignUp = async () => {
     const loginInfo = { name: name, email: id, password: password };
-    console.log(loginInfo);
     const passwordError = passwordRule(password);
     if (passwordError) {
       alert(passwordError);

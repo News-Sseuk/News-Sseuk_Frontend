@@ -54,7 +54,6 @@ axiosInstance.interceptors.response.use(
           return axiosInstance(originalRequest); // 실패한 요청 재시도
         } catch (refreshError) {
           console.log("토큰 갱신 실패:", refreshError);
-          throw refreshError;
         }
       }
     }
@@ -278,7 +277,6 @@ interface UpdateCategory {
 export const updateCategory = async (categoryList: UpdateCategory) => {
   try {
     const response = await axiosInstance.patch(`mypage/category`, categoryList);
-    console.log("Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error updating data:", error);

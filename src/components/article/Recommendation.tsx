@@ -12,7 +12,6 @@ const Recommendation = (props: Props) => {
   const [articles, setArticles] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      console.log("fetchData api 실행");
       try {
         if (props.id) {
           const data = await fetchContentRecommend(props.id);
@@ -21,7 +20,7 @@ const Recommendation = (props: Props) => {
           }
         }
       } catch {
-        console.log("내용 기반 추천 기사 fetching 오류 발생");
+        throw new Error("내용 기반 기사 추천 fetching 오류");
       }
     };
     fetchData();

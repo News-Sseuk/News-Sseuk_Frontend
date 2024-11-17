@@ -4,20 +4,17 @@ import { useEffect, useState, useCallback } from "react";
 const RecentSearch = () => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
-  // 로컬 스토리지에서 검색 기록 가져오기 및 초기화
   useEffect(() => {
     const storedHistory = JSON.parse(
       localStorage.getItem("searchHistory") || "[]"
     );
-    // 데이터가 배열인지 확인
     if (Array.isArray(storedHistory)) {
       setSearchHistory(storedHistory);
     } else {
-      setSearchHistory([]); // 배열이 아닌 경우 빈 배열로 초기화
+      setSearchHistory([]);
     }
   }, []);
 
-  // 검색어 삭제
   const handleDelete = useCallback(
     (itemToDelete: string) => {
       const updatedHistory = searchHistory.filter(

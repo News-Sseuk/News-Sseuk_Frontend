@@ -25,11 +25,11 @@ const Article = () => {
           }
         }
       } catch {
-        console.log("개별 기사 fetching 오류 발생");
+        throw new Error("개별기사 fetching 오류");
       }
     };
     fetchData();
-  }, [id]); // id를 의존성 배열에 추가하여 변경될 때마다 fetchData가 호출되도록 함
+  }, [id]);
 
   return (
     <Div>

@@ -10,7 +10,6 @@ const CategoryEdit = () => {
   const nav = useNavigate();
   const { selectedCategories } = useCategoryContext();
 
-  console.log(selectedCategories);
   const handleSaveChanges = async () => {
     const result = await fetchOnboardingCategory(selectedCategories);
     if (result.isSuccess) {

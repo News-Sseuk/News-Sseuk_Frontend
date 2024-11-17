@@ -40,7 +40,6 @@ const Search = () => {
 
         setTrendingKeywords(keywordsData.result.trending || []);
         setUserName(keywordsData.result.name || "");
-        console.log("keywordsData :>> ", keywordsData);
         setRecommend(recommendData || []);
       } catch (error) {
         console.error("Error fetching data:", error);
