@@ -24,8 +24,7 @@ const SignIn = () => {
     const userInfo = { email: email, password: password };
     try {
       const result = await fetchSignIn(userInfo); //reponse.data
-      console.log(result);
-      if (result) {
+      if (result.accessToken !== null) {
         // 로그인 시, category 불러와서 localStorage에 category로 저장
         try {
           const data = await fetchUserPrefers();
@@ -35,8 +34,7 @@ const SignIn = () => {
             nav(`/home/${encodeURIComponent(data.result[0])}`);
           }
         } catch {
-          alert("아직 카테고리를 설정하지 않았어요. 카테고리를 설정해주세요!");
-          nav("/onboarding");
+          console.log("category setting 에러");
         }
       }
     } catch {

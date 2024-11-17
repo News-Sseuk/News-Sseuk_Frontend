@@ -117,8 +117,8 @@ const handleApiError = (err) => {
     throw new Error("Unauthorized");
   } else if (err.response && err.response.status === 403) {
     throw new Error("Forbidden");
-  } else {
-    console.error("API 호출 중 오류 발생:", err);
+  } else if (err.response && err.response.status === 500) {
+    throw new Error("Internal server error");
     throw err;
   }
 };

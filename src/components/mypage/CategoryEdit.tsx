@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { useNavigate } from "react-router-dom";
 import { useCategoryContext } from "../../context/CategoryContext";
 import Button from "../login/Button";
@@ -14,6 +15,7 @@ const CategoryEdit = () => {
     const result = await fetchOnboardingCategory(selectedCategories);
     if (result.isSuccess) {
       alert("카테고리 설정이 완료되었어요!");
+      localStorage.setItem("category", JSON.stringify(selectedCategories));
       nav(`/home/${selectedCategories[0]}`);
     }
   };

@@ -12,7 +12,7 @@ import { Link, useLocation, LinkProps } from "react-router-dom";
 import { useCategoryContext } from "../../context/CategoryContext";
 
 interface NavItemProps extends LinkProps {
-  isActive?: boolean;
+  isactive?: boolean;
 }
 
 const NavigationBar = () => {
@@ -24,17 +24,17 @@ const NavigationBar = () => {
     <NavBar>
       <NavItem
         to={`/home/${encodeURIComponent(selectedCategories[0])}`}
-        isActive={checkActive("/home")}
+        isactive={checkActive("/home")}
       >
         <Icon src={checkActive("/home") ? Home_active : HomeIcon} />
       </NavItem>
-      <NavItem to="/search" isActive={checkActive("/search")}>
+      <NavItem to="/search" isactive={checkActive("/search")}>
         <Icon src={checkActive("/search") ? Search_active : SearchIcon} />
       </NavItem>
-      <NavItem to="/scrap" isActive={checkActive("/scrap")}>
+      <NavItem to="/scrap" isactive={checkActive("/scrap")}>
         <Icon src={checkActive("/scrap") ? Scrap_active : ScrapIcon} />
       </NavItem>
-      <NavItem to="/mypage" isActive={checkActive("/mypage")}>
+      <NavItem to="/mypage" isactive={checkActive("/mypage")}>
         <Icon src={checkActive("/mypage") ? Mypage_active : MypageIcon} />
       </NavItem>
     </NavBar>
@@ -55,7 +55,15 @@ const NavBar = styled.nav`
   box-sizing: border-box;
 `;
 
-const NavItem = styled((props: NavItemProps) => <Link {...props} />)`
+interface NavItemProps extends Omit<LinkProps, "isactive"> {
+  isactive?: boolean;
+}
+
+const NavItem = styled(({ isactive, ...props }: NavItemProps) => (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+  <Link {...props} />
+))`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,7 +71,7 @@ const NavItem = styled((props: NavItemProps) => <Link {...props} />)`
   flex: 1;
   text-decoration: none;
   font-size: 10px;
-  color: ${({ isActive }) => (isActive ? "#10D99B" : "black")};
+  color: ${({ isactive }) => (isactive ? "#10D99B" : "black")};
 `;
 
 const Icon = styled.img`
