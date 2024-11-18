@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 const RecentSearch = () => {
+  const nav = useNavigate();
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const RecentSearch = () => {
 
   // 검색어 클릭 시 API 연결
   const handleSearchClick = useCallback((item: string) => {
-    console.log(`검색어: ${item}로 API 호출`); // API 호출 로직 추가
+    nav(`/search/${item}`, { replace: true });
   }, []);
 
   return (

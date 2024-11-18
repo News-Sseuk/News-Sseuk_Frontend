@@ -58,11 +58,10 @@ const Search = () => {
       const updatedHistory = [
         searchInput,
         ...existingHistory.filter((item) => item !== searchInput),
-      ].slice(0, 5); // 최대 5개까지만 유지
+      ].slice(0, 5);
 
       localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
 
-      // 상태 업데이트 및 네비게이션
       setSearchStatus(SEARCH_STATUS.RESULT);
       nav(`/search/${searchInput}`, { replace: true });
     }
