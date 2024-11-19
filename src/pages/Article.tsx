@@ -12,9 +12,6 @@ const Article = () => {
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleType>();
 
-  // 더미 데이터 (예: 카테고리)
-  const dummyList = ["헌법재판소", "유산", "가족제도"];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,7 +43,7 @@ const Article = () => {
             isCategory={true}
             category={article?.category}
           ></HashtagButton>
-          {dummyList.map((category, idx) => (
+          {article?.hashTagList.map((category, idx) => (
             <HashtagButton key={idx} category={category} />
           ))}
         </TagContainer>
