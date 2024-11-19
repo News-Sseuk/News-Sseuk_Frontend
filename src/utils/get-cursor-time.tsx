@@ -13,5 +13,5 @@ export const getTime = () => {
   const formattedDate = date.toISOString().split("T")[0];
   const formattedTime = date.toTimeString().split(" ")[0];
 
-  return `${formattedDate}${formattedTime}`;
+  return `${formattedDate} ${formattedTime}`;
 };

@@ -27,6 +27,18 @@ const Search = () => {
   const [userName, setUserName] = useState("");
   const [recommend, setRecommend] = useState([]);
 
+  // const dummyTrendingKeywords = [
+  //   "트럼프",
+  //   "일론 머스크",
+  //   "우크라",
+  //   "날씨",
+  //   "파업",
+  //   "화재",
+  //   "재테크",
+  //   "AI",
+  //   "자율주행",
+  //   "북한",
+  // ];
   const nav = useNavigate();
 
   useEffect(() => {

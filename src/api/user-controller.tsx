@@ -23,40 +23,49 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// 응답 처리에서 401 에러가 발생하면 RefreshToken으로 AccessToken 갱신
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     if (
       error.response &&
-      error.response.status === 401 &&
+      error.response.status === 403 &&
+      error.response.data?.code === "COMMON5000" &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      const accessToken = {
-        accessToken: localStorage.getItem("accessToken"),
-      };
-      if (accessToken) {
-        try {
-          const { data } = await axiosInstance.post(`/user/refresh`, {
-            accessToken,
-          });
-          localStorage.setItem("accessToken", data.result.accessToken); // 새로운 accessToken 저장
+
+      try {
+        // Refresh 토큰 요청
+        const expiredAccessToken = localStorage.getItem("accessToken");
+        const request = { accessToken: expiredAccessToken };
+        const response = await axiosInstance.post("/user/refresh", request);
+
+        if (response.data.isSuccess) {
+          // 새로운 AccessToken 저장
+          localStorage.setItem("accessToken", response.data.result.accessToken);
+
+          // Axios 헤더 업데이트
           axiosInstance.defaults.headers[
             "Authorization"
-          ] = `Bearer ${data.result.accessToken}`;
+          ] = `Bearer ${response.data.result.accessToken}`;
           originalRequest.headers[
             "Authorization"
-          ] = `Bearer ${data.result.accessToken}`;
-          return axiosInstance(originalRequest); // 실패한 요청 재시도
-        } catch (refreshError) {
-          console.log("토큰 갱신 실패:", refreshError);
+          ] = `Bearer ${response.data.result.accessToken}`;
+
+          // 실패한 요청 재시도
+          return axiosInstance(originalRequest);
         }
+      } catch (refreshError) {
+        // 갱신 실패 처리
+        console.error("토큰 갱신 실패:", refreshError);
+        localStorage.removeItem("accessToken"); // 실패 시 토큰 삭제
+        window.location.href = "/"; // 로그인 페이지로 리다이렉트
+        return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
@@ -116,10 +125,7 @@ const handleApiError = (err) => {
     throw new Error("Unauthorized");
   } else if (err.response && err.response.status === 403) {
     throw new Error("Forbidden");
-  } else if (err.response && err.response.status === 500) {
-    throw new Error("Internal server error");
-    throw err;
-  }
+  } else throw err;
 };
 
 //로그아웃
