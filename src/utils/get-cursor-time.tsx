@@ -6,3 +6,12 @@ export const getCursorTime = (): string => {
   ).toISOString();
   return localISOTime;
 };
+
+export const getTime = () => {
+  const date = new Date();
+
+  const formattedDate = date.toISOString().split("T")[0];
+  const formattedTime = date.toTimeString().split(" ")[0];
+
+  return `${formattedDate}${formattedTime}`;
+};

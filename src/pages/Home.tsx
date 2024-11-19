@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
@@ -12,49 +12,63 @@ import { getCursorTime } from "../utils/get-cursor-time";
 import type { ArticleType } from "../components/home/ArticleList";
 
 const Home = () => {
-  const { ref, inView } = useInView({ threshold: 0 });
   const [articleArray, setArticleArray] = useState<ArticleType[]>([]);
-  const [cursorTime, setCursorTime] = useState(getCursorTime());
+  const [cursorTime, setCursorTime] = useState<string>();
+
+  // ArticleList에 ref 연결
+  const articleListRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { count } = useInfiniteScroll({
+    target: articleListRef, // ArticleList ref 전달
+    targetArray: articleArray,
+    threshold: 0.2,
+    endPoint: 3,
+  });
 
   const nav = useNavigate();
   const { category } = useParams<string>();
   const { selectedCategories } = useCategoryContext();
 
-  // API 호출 함수
-  const fetchArticles = async (newCursorTime) => {
-    const decodedCategory = category ? decodeURIComponent(category) : "";
+  const fetchArticles = async (newCursorTime: string) => {
+    if (isLoading) return;
+    setIsLoading(true);
 
-    if (category) {
-      const articles = await fetchCategoryArticle({
-        category: decodedCategory,
-        cursortime: newCursorTime,
-      });
+    try {
+      const decodedCategory = category ? decodeURIComponent(category) : "";
+      if (decodedCategory) {
+        const articles = await fetchCategoryArticle({
+          category: decodedCategory,
+          cursortime: newCursorTime,
+        });
 
-      if (articles && articles.length > 0) {
-        setArticleArray((prev) => [...prev, ...articles]);
+        if (articles && articles.length > 0) {
+          setArticleArray((prev) => [...prev, ...articles]);
 
-        // 마지막 article의 date를 ISO 형식으로 변환하여 cursorTime으로 설정
-        const lastArticleDate = articles[articles.length - 1].date;
-        const dateObject = new Date(lastArticleDate.replace(" ", "T"));
-        setCursorTime(dateObject.toISOString());
+          const lastArticleDate = articles[articles.length - 1].date;
+          const dateObject = new Date(lastArticleDate.replace(" ", "T"));
+          setCursorTime(dateObject.toISOString());
+        }
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // category 변경 시 처음 API 호출
   useEffect(() => {
-    setArticleArray([]); // 새로운 카테고리로 변경 시 기존 기사 초기화
-    fetchArticles(getCursorTime());
+    if (count > 0) {
+      fetchArticles(cursorTime || getCursorTime());
+    }
+  }, [count]);
+
+  useEffect(() => {
+    setArticleArray([]);
+    const initialCursorTime = getCursorTime();
+    setCursorTime(initialCursorTime);
+    fetchArticles(initialCursorTime);
   }, [category]);
 
-  // 무한 스크롤: inView가 true일 때마다 fetchArticles 호출
-  useEffect(() => {
-    if (inView) {
-      fetchArticles(cursorTime);
-    }
-  }, [inView]);
-
-  const handleCategoryClick = (newCategory) => {
+  const handleCategoryClick = (newCategory: string) => {
     nav(`/home/${encodeURIComponent(newCategory)}`);
   };
 
@@ -78,9 +92,10 @@ const Home = () => {
           ))}
         </CategoryList>
       </Header>
-      <Contents>
+      <Contents ref={articleListRef}>
+        {" "}
+        {/* ref 연결 */}
         <ArticleList articleArray={articleArray} />
-        <div ref={ref}></div>
       </Contents>
     </Div>
   );

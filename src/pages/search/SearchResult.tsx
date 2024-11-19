@@ -1,7 +1,7 @@
 //utils
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { getCursorTime } from "../../utils/get-cursor-time";
+import { getTime } from "../../utils/get-cursor-time";
 import { useParams } from "react-router-dom";
 
 //api
@@ -32,7 +32,7 @@ const SearchResult = () => {
       keyword: searchInput,
       onOff: "off",
       sort: "latest",
-      cursorTime: getCursorTime(),
+      cursorTime: getTime(),
     };
 
     try {
@@ -54,7 +54,7 @@ const SearchResult = () => {
         keyword: searchQuery,
         onOff: isFiltered ? "on" : "off",
         sort: isLatest ? "latest" : "reliable",
-        cursorTime: getCursorTime(),
+        cursorTime: getTime(),
       };
 
       try {
