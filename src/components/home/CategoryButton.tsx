@@ -13,7 +13,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
 }) => {
   return (
     <Container
-      isClicked={isClicked}
+      $isClicked={isClicked}
       onClick={() => {
         handleClick(category);
       }}
@@ -25,15 +25,15 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
 
 export default CategoryButton;
 
-const Container = styled.div<{ isClicked: boolean }>`
+const Container = styled.div<{ $isClicked: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 11px 15px;
   border: none;
   border-radius: 10px;
-  background-color: ${({ isClicked }) => (isClicked ? "#003d62" : "#FFFCFC")};
-  color: ${({ isClicked }) => (isClicked ? "#FFFCFC" : "#003d62")};
+  background-color: ${({ $isClicked }) => ($isClicked ? "#003d62" : "#FFFCFC")};
+  color: ${({ $isClicked }) => ($isClicked ? "#FFFCFC" : "#003d62")};
   font-size: 10px;
   font-weight: 700;
   cursor: pointer;
