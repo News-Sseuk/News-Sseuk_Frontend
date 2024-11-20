@@ -46,8 +46,7 @@ const Home = () => {
           setArticleArray((prev) => [...prev, ...articles]);
 
           const lastArticleDate = articles[articles.length - 1].date;
-          const dateObject = new Date(lastArticleDate.replace(" ", "T"));
-          setCursorTime(dateObject.toISOString());
+          setCursorTime(lastArticleDate);
         }
       }
     } finally {

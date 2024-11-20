@@ -8,6 +8,7 @@ export interface ArticleType {
   publishedDate: string;
   reliability: number;
   title: string;
+  issue: string;
 }
 
 type ArticleListProps = {

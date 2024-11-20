@@ -5,16 +5,21 @@ interface Props {
 }
 
 const Accuracy = (props: Props) => {
-  return <Container>{props.accuracy}</Container>;
+  const $isLow = props.accuracy ? props.accuracy < 30 : false;
+  return <Container $isLow={$isLow}>{props.accuracy}%</Container>;
 };
 
 export default Accuracy;
 
-const Container = styled.div`
-  background-color: ${({ theme }) => theme.colors.green};
+interface ContainerProps {
+  $isLow: boolean;
+}
+const Container = styled.div<ContainerProps>`
+  background-color: ${({ theme, $isLow }) =>
+    $isLow ? theme.colors.pink : theme.colors.green};
   border-radius: 6px;
   padding: 4px 5px;
-  color: ${({ theme }) => theme.colors.main};
+  color: ${({ theme, $isLow }) => ($isLow ? "white" : theme.colors.green)};
   font-size: 11px;
   font-weight: 700;
 `;

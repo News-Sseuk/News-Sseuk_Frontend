@@ -9,6 +9,14 @@ const ArticleCard = ({ data }: { data: ArticleType }) => {
 
   return (
     <Container>
+      {data.issue ? (
+        <IssueContainer>
+          <IssueWrppaer>{data.issue}</IssueWrppaer>
+        </IssueContainer>
+      ) : (
+        <></>
+      )}
+
       <HashtagList>
         <HashtagButton isCategory={true} category={data?.category} />
         {data?.hashTagList?.length !== 0
@@ -86,4 +94,21 @@ const Accuracy = styled.div`
   font-size: 0.5rem;
   border-radius: 0.4rem;
   color: #003d62;
+`;
+
+const IssueContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const IssueWrppaer = styled.div`
+  background-color: #adb5bd;
+  width: 90%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 10px 20px;
 `;
