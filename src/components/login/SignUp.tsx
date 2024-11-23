@@ -46,6 +46,7 @@ const SignUp = ({ setIsJoinOpen, setIsLoginOpen }) => {
     value: id,
     valid: validId,
     onChange: onChangeId,
+    setValue: setId,
   } = useInput({
     initValue: "",
   });
@@ -72,9 +73,10 @@ const SignUp = ({ setIsJoinOpen, setIsLoginOpen }) => {
           alert("이미 등록된 이메일입니다.");
         } else {
           setIsEmailValid(true);
-          alert(
-            "중복 확인 완료! 아이디와 비밀번호를 입력한 후 회원가입을 완료해주세요!"
-          );
+          setId(email),
+            alert(
+              "중복 확인 완료! 아이디와 비밀번호를 입력한 후 회원가입을 완료해주세요!"
+            );
         }
       } catch {
         alert("이메일 검증 실패. 다시 시도해주세요");
