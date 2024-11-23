@@ -45,6 +45,7 @@ const InfoEdit = () => {
         setUserName(newName);
         setNewName(newName);
         localStorage.setItem("userName", newName);
+        nav("/mypage");
       } else {
         alert("다시 시도해주세요");
       }
