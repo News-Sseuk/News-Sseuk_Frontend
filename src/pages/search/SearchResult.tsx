@@ -30,23 +30,6 @@ const SearchResult = () => {
 
   const handleOrder = (isLatestOrder: boolean) => setIsLatest(isLatestOrder);
 
-  // const handleSearchClick = async (searchInput: string) => {
-  //   const searchParams: searchApiInterface = {
-  //     keyword: searchInput,
-  //     onOff: "off",
-  //     sort: "latest",
-  //     cursorTime: getTime(),
-  //   };
-
-  //   try {
-  //     const result = await fetchSearch(searchParams);
-  //     if (result) setArticles(result.data);
-  //   } catch (error) {
-  //     console.error("검색 결과 오류:", error);
-  //     setArticles([]);
-  //   }
-  // };
-
   const handleSearchClick = () => {
     nav(`/search/${searchInput}`, { replace: true });
   };
