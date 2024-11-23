@@ -4,8 +4,8 @@ import edit from "../../assets/edit.png";
 import { useNavigate } from "react-router-dom";
 import { fetchSignOut, updateUserInfo } from "../../api/user-controller";
 import { useEffect, useState } from "react";
-import arrow_back from "../../assets/arrow_back.png";
 import Input from "../../components/login/Input";
+import BackButton from "../../components/common/BackButton";
 
 const InfoEdit = () => {
   const [username, setUserName] = useState(localStorage.getItem("userName"));
@@ -53,14 +53,7 @@ const InfoEdit = () => {
 
   return (
     <Div>
-      <BackButton
-        onClick={() => {
-          nav(-1);
-        }}
-      >
-        <BackImg src={arrow_back} />
-        <div>뒤로 가기</div>
-      </BackButton>
+      <BackButton />
       <InfoWrapper>
         <ProfileImg>
           <Img src={rate1} />
@@ -208,15 +201,3 @@ const CompleteButton = styled.div`
   width: 80%;
   margin-top: 30px;
 `;
-
-const BackButton = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 50px;
-  cursor: pointer;
-  gap: 20px;
-`;
-
-const BackImg = styled.img``;
