@@ -2,14 +2,15 @@ import styled from "styled-components";
 import ArticleList from "../home/ArticleList";
 import { useEffect, useState } from "react";
 import { fetchContentRecommend } from "../../api/user-controller";
+import Spinner from "../../assets/spinner.gif";
 
 interface Props {
   id: string;
 }
 
-// 개별 기사 페이지 추천 -> 3개
 const Recommendation = (props: Props) => {
   const [articles, setArticles] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +29,13 @@ const Recommendation = (props: Props) => {
   return (
     <Container>
       <Title>관련 기사도 확인해보세요</Title>
-      <ArticleList articleArray={articles} />
+      {articles.length > 0 ? (
+        <ArticleList articleArray={articles} />
+      ) : (
+        <SpinnerWrppaer>
+          <img src={Spinner} width="30px" />
+        </SpinnerWrppaer>
+      )}
     </Container>
   );
 };
@@ -51,4 +58,10 @@ const Title = styled.div`
   text-align: left;
   margin-bottom: 10px;
   padding: 0px 10px;
+`;
+
+const SpinnerWrppaer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
 `;
