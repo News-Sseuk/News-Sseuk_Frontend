@@ -31,7 +31,7 @@ const ArticleCard = ({ data }: { data: ArticleType }) => {
       </Article>
       <InfoWrapper>
         <Date> {data?.publishedDate}</Date>
-        <Accuracy accuracy={data?.reliability} />
+        {data?.reliability ? <Accuracy accuracy={data?.reliability} /> : null}
       </InfoWrapper>
     </Container>
   );
