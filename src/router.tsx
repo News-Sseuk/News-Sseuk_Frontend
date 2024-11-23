@@ -5,12 +5,12 @@ import Onboarding from "./pages/auth/Onboarding";
 import Article from "./pages/Article";
 import Scrap from "./pages/scrap/Scrap";
 import Search from "./pages/search/Search";
-import Notification from "./components/home/Notification";
 import MyPage from "./pages/mypage/MyPage";
 import MainLayout from "./components/common/MainLayout";
 import InfoEdit from "./pages/mypage/InfoEdit";
 import CategoryEditPage from "./pages/mypage/CategoryEdit";
 import SearchResult from "./pages/search/SearchResult";
+import NotificationEdit from "./pages/mypage/NotificationEdit";
 // import Loading from "./pages/Loading";
 
 const router = createBrowserRouter([
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       { path: "/mypage", element: <MyPage /> },
       { path: "/mypage/category", element: <CategoryEditPage /> },
-      { path: "/mypage/notification", element: <Notification /> },
+      { path: "/mypage/notification", element: <NotificationEdit /> },
       { path: "/mypage/edit", element: <InfoEdit /> },
       {
         path: "/scrap",
