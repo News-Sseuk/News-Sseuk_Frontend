@@ -20,7 +20,6 @@ const Report = (props: Props) => {
     try {
       const data = await fetchReport({ articleId, reason });
       if (data) {
-        alert("신고 완료!");
         props.onClose();
       }
     } catch (error) {
@@ -45,7 +44,7 @@ export default Report;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px; /* 모달의 너비를 적절하게 설정합니다 */
+  width: 300px;
   padding: 30px 20px;
   gap: 15px;
   background-color: white;
@@ -55,7 +54,7 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  z-index: 1000; /* 모달을 최상단에 표시합니다 */
+  z-index: 1000;
 `;
 
 const Reason = styled.div`

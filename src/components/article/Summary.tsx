@@ -7,6 +7,7 @@ import { useState } from "react";
 import Report from "./Report";
 import Share from "./Share"; // Share 컴포넌트 import
 import { postScrap } from "../../api/user-controller";
+import Toast from "../common/Toast";
 
 interface Props {
   content: string;
@@ -15,6 +16,8 @@ interface Props {
 
 const Summary = (props: Props) => {
   const [modalType, setModalType] = useState<"report" | "share" | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const handleReportClick = () => {
     setModalType("report");
@@ -28,7 +31,8 @@ const Summary = (props: Props) => {
     try {
       const isSuccess = await postScrap(props.articleId);
       if (isSuccess) {
-        alert("기사 스크랩 완료!");
+        setToastMessage("스크랩 완료!");
+        setIsSuccess(true);
       }
     } catch (error) {
       console.error("스크랩 API 호출 중 오류 발생:", error);
@@ -36,6 +40,12 @@ const Summary = (props: Props) => {
   };
 
   const closeModal = () => {
+    setModalType(null);
+  };
+
+  const closeByReport = () => {
+    setToastMessage("신고 완료!");
+    setIsSuccess(true);
     setModalType(null);
   };
 
@@ -57,13 +67,19 @@ const Summary = (props: Props) => {
           <>
             <Dimmed onClick={closeModal} />
             {modalType === "report" ? (
-              <Report articleId={props.articleId} onClose={closeModal} />
+              <Report articleId={props.articleId} onClose={closeByReport} />
             ) : (
-              <Share onClose={closeModal} /> // Share 모달 추가
+              <Share onClose={closeModal} />
             )}
           </>,
           document.getElementById("aside-root") as HTMLElement
         )}
+
+      <Toast
+        text={toastMessage}
+        visible={isSuccess}
+        setIsVisible={setIsSuccess}
+      />
     </Container>
   );
 };
