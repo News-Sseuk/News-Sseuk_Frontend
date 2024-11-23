@@ -96,9 +96,12 @@ const IssueContainer = styled.div`
 `;
 
 const IssueWrppaer = styled.div`
+  display: flex;
   background-color: #adb5bd;
   width: 90%;
   height: 100%;
   border-radius: 10px;
   padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
 `;
