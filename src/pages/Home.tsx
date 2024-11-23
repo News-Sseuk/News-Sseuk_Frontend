@@ -77,10 +77,11 @@ const Home = () => {
       {isLoading ? <Loading /> : null}
       <Header>
         <Title>
+          <Icon />
+
           <Text>
             {new Date().getMonth() + 1}월 {new Date().getDate()}일, 오늘의 뉴쓱
           </Text>
-          <Icon />
         </Title>
         <CategoryList>
           {selectedCategories.map((cat, index) => (

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import HashtagButton from "./HashtagButton";
 import { useNavigate } from "react-router-dom";
 import type { ArticleType } from "../home/ArticleList";
+import Accuracy from "./Accuracy";
 
 const ArticleCard = ({ data }: { data: ArticleType }) => {
   const nav = useNavigate();
@@ -30,7 +31,7 @@ const ArticleCard = ({ data }: { data: ArticleType }) => {
       </Article>
       <InfoWrapper>
         <Date> {data?.publishedDate}</Date>
-        <Accuracy>{data?.reliability ?? "90"}%</Accuracy>
+        <Accuracy accuracy={data?.reliability} />
       </InfoWrapper>
     </Container>
   );
@@ -83,14 +84,6 @@ const Date = styled.div`
   margin-right: 1rem;
   font-size: 0.7rem;
   left: 0;
-`;
-
-const Accuracy = styled.div`
-  background-color: #cde499;
-  padding: 0.2rem 0.5rem;
-  font-size: 0.5rem;
-  border-radius: 0.4rem;
-  color: #003d62;
 `;
 
 const IssueContainer = styled.div`
