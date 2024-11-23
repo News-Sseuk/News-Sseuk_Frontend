@@ -5,7 +5,6 @@ import type { ArticleType } from "../home/ArticleList";
 
 const ArticleCard = ({ data }: { data: ArticleType }) => {
   const nav = useNavigate();
-  const dummy = ["dummy1", "hashtag", "hashtag"];
 
   return (
     <Container>
@@ -23,9 +22,7 @@ const ArticleCard = ({ data }: { data: ArticleType }) => {
           ? data?.hashTagList?.map((category, idx) => (
               <HashtagButton key={idx} category={category} />
             ))
-          : dummy.map((category, idx) => (
-              <HashtagButton key={idx} category={category} />
-            ))}
+          : null}
       </HashtagList>
       <Article>
         <Title onClick={() => nav(`/article/${data.id}`)}>{data?.title} </Title>
