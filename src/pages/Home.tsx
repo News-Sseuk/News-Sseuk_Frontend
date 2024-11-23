@@ -16,7 +16,6 @@ const Home = () => {
   const [articleArray, setArticleArray] = useState<ArticleType[]>([]);
   const [cursorTime, setCursorTime] = useState<string>();
 
-  // ArticleList에 ref 연결
   const articleListRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

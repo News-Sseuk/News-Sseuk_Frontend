@@ -18,7 +18,6 @@ interface NavItemProps extends LinkProps {
 const NavigationBar = () => {
   const location = useLocation();
   const { selectedCategories } = useCategoryContext();
-  console.log("selectedCategories :>> ", selectedCategories);
   const checkActive = (path: string) => location.pathname.includes(path);
 
   return (
