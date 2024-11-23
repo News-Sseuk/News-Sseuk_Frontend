@@ -37,6 +37,8 @@ const LayoutContainer = styled.div`
     display: none;
   }
   margin: 0 auto;
+  font-family: "Pretendard", "Pretendard-Regular", "Apple SD Gothic Neo",
+    sans-serif;
 `;
 
 const Content = styled.div`
