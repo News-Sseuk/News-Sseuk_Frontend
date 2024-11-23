@@ -7,11 +7,20 @@ interface Props {
 }
 
 const Report = (props: Props) => {
+  const report = [
+    "부정확한 요약",
+    "비논리적인 문제제기",
+    "타당하지 않은 근거",
+    "편협한 시각",
+    "무차별적 비판",
+  ];
+
   const handleReasonClick = async (reason: string) => {
     const articleId = props.articleId;
     try {
       const data = await fetchReport({ articleId, reason });
       if (data) {
+        alert("신고 완료!");
         props.onClose();
       }
     } catch (error) {
@@ -21,41 +30,11 @@ const Report = (props: Props) => {
 
   return (
     <Wrapper>
-      <Reason
-        onClick={() => {
-          handleReasonClick("INACCURATE_SUMMARY");
-        }}
-      >
-        부정확한 요약
-      </Reason>
-      <Reason
-        onClick={() => {
-          handleReasonClick("ILLOGICAL_STRUCTURE");
-        }}
-      >
-        비논리적인 문제제기
-      </Reason>
-      <Reason
-        onClick={() => {
-          handleReasonClick("INVALID_GROUNDS");
-        }}
-      >
-        타당하지 않은 근거
-      </Reason>
-      <Reason
-        onClick={() => {
-          handleReasonClick("NARROW_VIEW");
-        }}
-      >
-        편협한 시각
-      </Reason>
-      <Reason
-        onClick={() => {
-          handleReasonClick("SEVERE_CRITICISM");
-        }}
-      >
-        무차별적 비판
-      </Reason>
+      {report.map((reason, index) => (
+        <Reason key={index} onClick={() => handleReasonClick(reason)}>
+          {reason}
+        </Reason>
+      ))}
       <Title>신고하기</Title>
     </Wrapper>
   );
