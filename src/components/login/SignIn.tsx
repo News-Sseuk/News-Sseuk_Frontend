@@ -3,10 +3,8 @@ import styled from "styled-components";
 import useInput from "../../hooks/useInput";
 import { fetchSignIn, fetchUserPrefers } from "../../api/user-controller";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 
-//data
-import { categoryListState } from "../../store/atom";
+import { useCategoryContext } from "../../context/CategoryContext";
 
 //components
 import Button from "./Button";
@@ -18,18 +16,18 @@ const SignIn = () => {
   const { value: password, onChange: onChangePassWord } = useInput({
     initValue: "",
   });
-  const setCategoryList = useSetRecoilState(categoryListState);
+
+  const { updateCategories } = useCategoryContext();
 
   const handleLogin = async () => {
     const userInfo = { email: email, password: password };
     try {
       const result = await fetchSignIn(userInfo); //reponse.data
       if (result.accessToken !== null) {
-        // 로그인 시, category 불러와서 localStorage에 category로 저장
         try {
           const data = await fetchUserPrefers();
           if (data && data.result) {
-            setCategoryList(data.result);
+            updateCategories(data.result);
             localStorage.setItem("category", JSON.stringify(data.result));
             nav(`/home/${encodeURIComponent(data.result[0])}`);
           }
