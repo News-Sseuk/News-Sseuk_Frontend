@@ -123,12 +123,13 @@ const InfoContainer = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 1rem 0;
+  margin: 10px 0;
+  padding: 0px 10px;
 `;
 
 const ProfileImg = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 `;
 
 const Info = styled.div`
@@ -174,7 +175,6 @@ const EditButton = styled.div<ImgProps>`
   margin-left: auto;
   display: flex;
   align-self: center;
-  margin-right: 1rem;
 `;
 
 const ButtonWrapper = styled.div`
