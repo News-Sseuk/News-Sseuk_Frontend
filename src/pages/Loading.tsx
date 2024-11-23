@@ -1,10 +1,14 @@
 import styled from "styled-components";
+import Spinner from "../assets/spinner.gif";
 
 const Loading = () => {
   return (
     <Container>
-      뉴쓱이 당신을 위해 <br />
-      믿을 수 있는 정보를 가져오고 있어요.
+      <img src={Spinner} alt="로딩중" />
+      <div>
+        뉴쓱이 당신을 위해 <br />
+        믿을 수 있는 정보를 가져오고 있어요.
+      </div>
     </Container>
   );
 };
@@ -17,9 +21,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 100px;
   font-size: 23px;
   line-height: 29px;
   font-weight: 700;
+  height: 100%;
+  width: 100%;
   color: ${({ theme }) => theme.colors.main};
+  gap: 40px;
 `;
