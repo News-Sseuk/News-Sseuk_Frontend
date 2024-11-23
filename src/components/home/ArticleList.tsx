@@ -17,8 +17,8 @@ type ArticleListProps = {
 const ArticleList = ({ articleArray }: ArticleListProps) => {
   return (
     <div>
-      {Array.isArray(articleArray) && // 배열인지 확인
-        articleArray.map((article) => (
+      {articleArray &&
+        articleArray?.map((article) => (
           <ArticleCard key={article.id} data={article} />
         ))}
     </div>
