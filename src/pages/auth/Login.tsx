@@ -1,10 +1,6 @@
 //utils
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-//asset
-import kakao_login from "../../assets/kakao_login.png";
 
 //component
 import HiddenDiv from "../../components/login/HiddenDiv";
@@ -14,7 +10,6 @@ import SignIn from "../../components/login/SignIn";
 const Login = () => {
   const [isJoinOpen, setIsJoinOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const nav = useNavigate();
 
   const handleJoinClick = () => {
     setIsJoinOpen(!isJoinOpen);
@@ -24,10 +19,6 @@ const Login = () => {
   const handleLoginClick = () => {
     setIsLoginOpen(!isLoginOpen);
     setIsJoinOpen(false);
-  };
-
-  const handleKaKao = () => {
-    // nav("/onboarding");
   };
 
   return (
@@ -105,14 +96,5 @@ const ButtonContainer = styled.div`
   align-items: center;
   gap: 0.8rem;
   color: white;
-  transition: margin-top 0.3s ease; /* DropDownDiv가 열릴 때 여유 공간을 확보 */
-`;
-
-const KakaoLogin = styled.img`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 45px;
-  cursor: pointer;
+  transition: margin-top 0.3s ease;
 `;
