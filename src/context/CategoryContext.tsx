@@ -10,6 +10,7 @@ import { fetchUserPrefers } from "../api/user-controller";
 interface CategoryContextType {
   selectedCategories: string[];
   handleCategorySelection: (category: string, isSelected: boolean) => void;
+  updateCategories: (categories: string[]) => void;
 }
 
 const CategoryContext = createContext<CategoryContextType | undefined>(
@@ -30,6 +31,7 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         const data = await fetchUserPrefers();
         if (data && data.result) {
           setSelectedCategory(data.result);
+          console.log("category provider useEffect :>> ", data.result);
         }
       } catch {
         alert("아직 카테고리를 설정하지 않았어요. 카테고리를 설정해주세요!");
@@ -46,9 +48,13 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
     );
   };
 
+  const updateCategories = (newCategories: string[]) => {
+    setSelectedCategory(newCategories);
+  };
+
   return (
     <CategoryContext.Provider
-      value={{ selectedCategories, handleCategorySelection }}
+      value={{ selectedCategories, handleCategorySelection, updateCategories }}
     >
       {children}
     </CategoryContext.Provider>
