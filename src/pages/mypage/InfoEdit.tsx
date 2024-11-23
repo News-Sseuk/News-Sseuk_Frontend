@@ -77,7 +77,7 @@ const InfoEdit = () => {
           <Input value={newName ?? ""} onChange={handleNameChange}></Input>
         </EditWrapper>
       </EditContainer>
-      <CompleteButton onClick={handleEdit}>수정 완료</CompleteButton>
+      <CompleteButton onClick={handleEdit}>수정하기</CompleteButton>
       <FooterContainer>
         <FooterText onClick={handleLogOutClick}>로그아웃</FooterText>
         <FooterText>|</FooterText>
