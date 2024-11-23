@@ -33,4 +33,7 @@ const StyledCategory = styled.div<{ selected: boolean }>`
   padding: 5px 10px;
   white-space: normal;
   word-break: keep-all;
+  &:hover {
+    background-color: #c5d3e8;
+  }
 `;

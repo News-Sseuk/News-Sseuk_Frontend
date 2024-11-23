@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import arrow_back from "../../assets/arrow_back.png";
 
 import { useNavigate } from "react-router-dom";
 import { useCategoryContext } from "../../context/CategoryContext";
@@ -21,9 +22,14 @@ const CategoryEdit = () => {
 
   return (
     <Div>
-      <TextContainer>
-        <Title>관심 카테고리 수정</Title>
-      </TextContainer>
+      <BackButton
+        onClick={() => {
+          nav(-1);
+        }}
+      >
+        <img src={arrow_back} />
+        <div>관심 카테고리 수정하기</div>
+      </BackButton>
       <CategoryContainer />
       <Button handleClick={handleSaveChanges} title="변경사항 저장" />
     </Div>
@@ -41,13 +47,12 @@ const Div = styled.div`
   padding: 20px 10px;
 `;
 
-const TextContainer = styled.div`
-  color: #003d62;
-  margin-bottom: 20px;
-`;
-
-const Title = styled.div`
-  font-weight: 700;
-  margin-bottom: 2rem;
-  font-size: 1.2rem;
+const BackButton = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 50px;
+  cursor: pointer;
+  gap: 20px;
 `;
