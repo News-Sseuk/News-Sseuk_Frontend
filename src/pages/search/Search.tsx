@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../assets/spinner.gif";
 
 //api
 import {
@@ -12,6 +13,7 @@ import {
 import RecentSearch from "../../components/search/RecentSearch";
 import ArticleList from "../../components/home/ArticleList";
 import SearchBar from "../../components/search/SearchBar";
+import Loading from "../Loading";
 
 const SEARCH_STATUS = {
   IDLE: "IDLE", // 검색 전
@@ -81,6 +83,7 @@ const Search = () => {
 
   return (
     <Div>
+      {loading ? <Loading /> : null}
       <Header>
         <SearchBar
           searchInput={searchInput}
@@ -94,7 +97,9 @@ const Search = () => {
             <KeywordSection>
               <Title>지금 뜨는 뉴쓱</Title>
               {loading ? (
-                <LoadingText>로딩 중...</LoadingText>
+                <LoadingText>
+                  <img src={Spinner} width={"20px"} />
+                </LoadingText>
               ) : (
                 <KeywordList>
                   {trendingKeywords.map((keyword) => (

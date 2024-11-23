@@ -10,6 +10,7 @@ import { fetchCategoryArticle } from "../api/user-controller";
 import { useCategoryContext } from "../context/CategoryContext";
 import { getCursorTime } from "../utils/get-cursor-time";
 import type { ArticleType } from "../components/home/ArticleList";
+import Loading from "./Loading";
 
 const Home = () => {
   const [articleArray, setArticleArray] = useState<ArticleType[]>([]);
@@ -20,7 +21,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { count } = useInfiniteScroll({
-    target: articleListRef, // ArticleList ref 전달
+    target: articleListRef,
     targetArray: articleArray,
     threshold: 0.2,
     endPoint: 3,
@@ -73,6 +74,7 @@ const Home = () => {
 
   return (
     <Div>
+      {isLoading ? <Loading /> : null}
       <Header>
         <Title>
           <Text>
@@ -92,8 +94,6 @@ const Home = () => {
         </CategoryList>
       </Header>
       <Contents ref={articleListRef}>
-        {" "}
-        {/* ref 연결 */}
         <ArticleList articleArray={articleArray} />
       </Contents>
     </Div>
