@@ -123,10 +123,11 @@ const Title = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   gap: 30px;
   margin-bottom: 10px;
+  padding: 0 10px;
 `;
 
 const Text = styled.div`
