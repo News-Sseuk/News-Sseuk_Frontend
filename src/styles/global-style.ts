@@ -5,7 +5,6 @@ export const GlobalStyle = createGlobalStyle`
        --vh: 100%;
    }
 
-   @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -27,7 +26,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  font-family: "Pretendard", "Pretendard-Regular", 'Apple SD Gothic Neo', sans-serif;
+  font-family: "Pretendard-Regular", 'Apple SD Gothic Neo', sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
