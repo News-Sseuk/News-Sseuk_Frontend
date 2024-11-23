@@ -28,7 +28,7 @@ const LayoutContainer = styled.div`
   min-width: 300px;
   max-width: 820px;
   width: 100%;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
