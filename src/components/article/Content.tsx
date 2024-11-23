@@ -62,6 +62,8 @@ const Title = styled.div`
   font-weight: 700;
   font-size: 20px;
   line-height: 29px;
+  justify-content: flex-start;
+  width: 100%;
 `;
 
 const InfoContainer = styled.div`
