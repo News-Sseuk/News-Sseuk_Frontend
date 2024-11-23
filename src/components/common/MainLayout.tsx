@@ -26,7 +26,7 @@ export default MainLayout;
 const LayoutContainer = styled.div`
   background-color: #fcfafa;
   min-width: 300px;
-  max-width: 780px;
+  max-width: 820px;
   width: 100%;
   height: 100vh;
   display: flex;
