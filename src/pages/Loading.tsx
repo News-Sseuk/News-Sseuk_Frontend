@@ -23,14 +23,14 @@ const Container = styled.div`
   align-items: center;
   position: fixed;
   height: 100vh;
-  width: 100%;
+  width: 95%;
   color: ${({ theme }) => theme.colors.main};
   gap: 40px;
   z-index: 1000;
 `;
 
 const Text = styled.div`
-  font-size: 23px;
+  font-size: 18px;
   line-height: 29px;
   font-weight: 700;
 `;

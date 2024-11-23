@@ -103,5 +103,7 @@ const IssueWrppaer = styled.div`
   border-radius: 10px;
   padding: 10px 20px;
   justify-content: center;
+  font-size: 12px;
+  line-height: 18px;
   align-items: center;
 `;

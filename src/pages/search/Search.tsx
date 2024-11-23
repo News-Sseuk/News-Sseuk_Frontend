@@ -152,13 +152,7 @@ const Header = styled.div`
   margin: 10px;
 `;
 
-const Contents = styled.div`
-  flex: 1 1 auto;
-  overflow-y: auto;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
+const Contents = styled.div``;
 
 const KeywordSection = styled.div`
   width: 100%;
@@ -177,10 +171,10 @@ const StickyTitle = styled(Title)`
   position: sticky;
   top: 0;
   z-index: 10;
-  padding-left: 1rem;
   margin: 0;
-  width: 100vw;
+  width: 100%;
   height: 2rem;
+  padding: 0px 12px;
 `;
 
 const KeywordList = styled.div`

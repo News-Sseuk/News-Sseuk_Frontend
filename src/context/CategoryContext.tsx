@@ -31,7 +31,6 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         const data = await fetchUserPrefers();
         if (data && data.result) {
           setSelectedCategory(data.result);
-          console.log("category provider useEffect :>> ", data.result);
         }
       } catch {
         alert("아직 카테고리를 설정하지 않았어요. 카테고리를 설정해주세요!");
