@@ -9,6 +9,7 @@ import {
   getScrappedCategories,
   getScrappedArticles,
 } from "../../api/user-controller";
+import Loading from "../Loading";
 
 const Scrap = () => {
   const [scrappedCategories, setScrappedCategories] = useState([]);
@@ -20,12 +21,13 @@ const Scrap = () => {
       try {
         // 1. 카테고리 불러오는 api
         const categories = await getScrappedCategories();
+        console.log("categories :>> ", categories);
         if (categories) {
           setScrappedCategories(categories);
           if (categories.length > 0) {
             const articleResponse = await getScrappedArticles(categories[0]);
             if (articleResponse) {
-              setArticles(articleResponse);
+              setArticles(articleResponse.articleList);
             }
           }
         }
@@ -36,6 +38,10 @@ const Scrap = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log("Updated articles:", articles);
+  }, [articles]);
+
   //카테고리 변경 시 기사 업데이트
   useEffect(() => {
     const fetchArticles = async () => {
@@ -44,7 +50,7 @@ const Scrap = () => {
         try {
           const articlesResponse = await getScrappedArticles(category);
           if (articlesResponse) {
-            setArticles(articlesResponse.result);
+            setArticles(articlesResponse.articleList);
           }
         } catch (error) {
           console.error("Error fetching articles:", error);
@@ -53,7 +59,7 @@ const Scrap = () => {
     };
 
     fetchArticles();
-  }, [currentIndex, scrappedCategories]);
+  }, [currentIndex]);
 
   // 카테고리에 맞는 이미지 가져오기
   const images = getImage(scrappedCategories);
@@ -80,6 +86,7 @@ const Scrap = () => {
 
   return (
     <>
+      {!scrappedCategories ? <Loading /> : null}
       <Div>
         <Header>
           <Button src={left_vector} onClick={handlePrevClick} />
