@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { getTime } from "../../utils/get-cursor-time";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 //api
 import { fetchSearch } from "../../api/user-controller";
@@ -10,12 +10,15 @@ import type { searchApiInterface } from "../../api/user-controller";
 import type { ArticleType } from "../../components/home/ArticleList";
 
 //components
-import Toggle from "../../components/common/ToggleSwitch";
+import Toggle from "../../components/search/ToggleSwitch";
 import ArticleList from "../../components/home/ArticleList";
 import SearchBar from "../../components/search/SearchBar";
 
 const SearchResult = () => {
+  const nav = useNavigate();
   const { searchQuery } = useParams<{ searchQuery: string }>();
+  console.log("searchQuery :>> ", searchQuery);
+
   const [searchInput, setSearchInput] = useState(searchQuery || "");
   const [isFiltered, setIsFiltered] = useState(false); // 필터링 on/off
   const [date, setDate] = useState(getFormattedDate());
@@ -27,21 +30,25 @@ const SearchResult = () => {
 
   const handleOrder = (isLatestOrder: boolean) => setIsLatest(isLatestOrder);
 
-  const handleSearchClick = async (searchInput: string) => {
-    const searchParams: searchApiInterface = {
-      keyword: searchInput,
-      onOff: "off",
-      sort: "latest",
-      cursorTime: getTime(),
-    };
+  // const handleSearchClick = async (searchInput: string) => {
+  //   const searchParams: searchApiInterface = {
+  //     keyword: searchInput,
+  //     onOff: "off",
+  //     sort: "latest",
+  //     cursorTime: getTime(),
+  //   };
 
-    try {
-      const result = await fetchSearch(searchParams);
-      if (result) setArticles(result.data);
-    } catch (error) {
-      console.error("검색 결과 오류:", error);
-      setArticles([]);
-    }
+  //   try {
+  //     const result = await fetchSearch(searchParams);
+  //     if (result) setArticles(result.data);
+  //   } catch (error) {
+  //     console.error("검색 결과 오류:", error);
+  //     setArticles([]);
+  //   }
+  // };
+
+  const handleSearchClick = () => {
+    nav(`/search/${searchInput}`, { replace: true });
   };
 
   useEffect(() => {
