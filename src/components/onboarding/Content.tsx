@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 //components
 import Button from "../../components/login/Button";
 import CategoryContainer from "../../components/onboarding/CategoryContainer";
-import { useCategoryContext } from "../../context/CategoryContext"; // Import the context
+import { useCategoryContext } from "../../context/CategoryContext";
 import { fetchOnboardingCategory } from "../../api/user-controller";
 
 const Content = () => {
   const nav = useNavigate();
-  const { selectedCategories } = useCategoryContext(); // Access the selected categories
+  const { selectedCategories } = useCategoryContext();
 
   const handleComplete = async () => {
     const result = await fetchOnboardingCategory(selectedCategories);

@@ -4,7 +4,7 @@ import HashtagButton from "../components/common/HashtagButton";
 import arrow_back from "../assets/arrow_back.png";
 import Content from "../components/article/Content";
 import { useEffect, useState } from "react";
-import { fetchArticle } from "../api/user-controller"; // postUserHistory 가져오기
+import { fetchArticle } from "../api/user-controller";
 import type { ArticleType } from "../components/home/ArticleList";
 
 const Article = () => {
