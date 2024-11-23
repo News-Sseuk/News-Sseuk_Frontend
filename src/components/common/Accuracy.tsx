@@ -19,7 +19,7 @@ const Container = styled.div<ContainerProps>`
     $isLow ? theme.colors.pink : theme.colors.green};
   border-radius: 6px;
   padding: 4px 5px;
-  color: ${({ theme, $isLow }) => ($isLow ? "white" : theme.colors.green)};
+  color: ${({ theme, $isLow }) => ($isLow ? "white" : theme.colors.main)};
   font-size: 11px;
   font-weight: 700;
 `;
