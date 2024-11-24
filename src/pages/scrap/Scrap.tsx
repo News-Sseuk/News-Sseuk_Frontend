@@ -10,6 +10,8 @@ import {
   getScrappedArticles,
 } from "../../api/user-controller";
 import Loading from "../Loading";
+import empty from "../../assets/empty.png";
+import defaultImg from "../../assets/main.png";
 
 const Scrap = () => {
   const [scrappedCategories, setScrappedCategories] = useState([]);
@@ -21,7 +23,6 @@ const Scrap = () => {
       try {
         // 1. 카테고리 불러오는 api
         const categories = await getScrappedCategories();
-        console.log("categories :>> ", categories);
         if (categories) {
           setScrappedCategories(categories);
           if (categories.length > 0) {
@@ -37,10 +38,6 @@ const Scrap = () => {
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log("Updated articles:", articles);
-  }, [articles]);
 
   //카테고리 변경 시 기사 업데이트
   useEffect(() => {
@@ -93,7 +90,9 @@ const Scrap = () => {
 
           <CarouselContainer>
             <CategoryWrapper>
-              <Img src={currentImage}></Img>
+              <Img
+                src={currentImage === undefined ? defaultImg : currentImage}
+              ></Img>
               <CategoryName>{currentCategory}</CategoryName>
             </CategoryWrapper>
           </CarouselContainer>
@@ -102,9 +101,16 @@ const Scrap = () => {
 
         <ContentWrapper>
           <Title>내 스크랩</Title>
-          <ArticleContainer>
-            <ArticleList articleArray={articles} />
-          </ArticleContainer>
+          {articles.length > 0 ? (
+            <ArticleContainer>
+              <ArticleList articleArray={articles} />
+            </ArticleContainer>
+          ) : (
+            <NoContent>
+              <img src={empty} />
+              <div>스크랩한 기사가 없어요</div>
+            </NoContent>
+          )}
         </ContentWrapper>
       </Div>
     </>
@@ -199,4 +205,14 @@ const CategoryName = styled.div`
   font-weight: 700;
   font-size: 0.8rem;
   margin: 0.2rem;
+`;
+
+const NoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
 `;
