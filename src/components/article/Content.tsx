@@ -61,7 +61,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 700;
+  font-weight: 500;
   font-size: 20px;
   line-height: 29px;
   justify-content: flex-start;

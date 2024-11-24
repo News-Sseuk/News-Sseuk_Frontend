@@ -32,7 +32,7 @@ const Container = styled.div`
 const Text = styled.div`
   font-size: 18px;
   line-height: 29px;
-  font-weight: 700;
+  font-weight: 500;
 `;
 
 // background-color: #fcfafa;

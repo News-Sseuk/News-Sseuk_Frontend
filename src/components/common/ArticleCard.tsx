@@ -61,7 +61,7 @@ const Article = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: 0.5rem;
   cursor: pointer;
 `;

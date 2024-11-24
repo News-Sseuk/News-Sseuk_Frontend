@@ -97,7 +97,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 29px;
   letter-spacing: 0.01em;
   text-align: left;

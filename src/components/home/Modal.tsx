@@ -89,7 +89,7 @@ const Button = styled.div`
   color: white;
   border-radius: 10px;
   padding: 9px 15px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 11px;
 `;
 

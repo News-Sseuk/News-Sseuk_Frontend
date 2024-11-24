@@ -50,7 +50,7 @@ const Header = styled.div`
 
 const Title = styled.div`
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 `;
 
 const CloseButton = styled.div`

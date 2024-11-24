@@ -35,6 +35,6 @@ const Container = styled.div<{ $isClicked: boolean }>`
   background-color: ${({ $isClicked }) => ($isClicked ? "#003d62" : "#FFFCFC")};
   color: ${({ $isClicked }) => ($isClicked ? "#FFFCFC" : "#003d62")};
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
 `;

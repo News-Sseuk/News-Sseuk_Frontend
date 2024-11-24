@@ -144,7 +144,7 @@ const Footer = styled.div`
 
 const SearchText = styled.div`
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 29px;
   letter-spacing: 0.01em;
   text-align: left;
@@ -159,7 +159,7 @@ const InfoText = styled.div`
 const OrderContainer = styled.div`
   display: flex;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 13px;
   gap: 10px;
 `;

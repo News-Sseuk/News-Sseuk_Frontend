@@ -202,7 +202,7 @@ const Img = styled.img`
 
 const CategoryName = styled.div`
   color: rgba(0, 61, 98, 1);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.8rem;
   margin: 0.2rem;
 `;

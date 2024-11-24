@@ -131,7 +131,7 @@ const Info = styled.div`
 `;
 
 const Nickname = styled.div`
-  font-weight: 700;
+  font-weight: 500;
   margin-left: 0;
 `;
 
@@ -172,7 +172,7 @@ const EditWrapper = styled.div`
 
 const Title = styled.div`
   display: flex;
-  font-weight: 700;
+  font-weight: 500;
   margin-right: 1rem;
   font-size: 0.9rem;
 `;

@@ -21,5 +21,5 @@ const Container = styled.div<ContainerProps>`
   padding: 4px 5px;
   color: ${({ theme, $isLow }) => ($isLow ? "white" : theme.colors.main)};
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
 `;

@@ -46,7 +46,7 @@ const TextContainer = styled.div`
 `;
 
 const Welcome = styled.div`
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: 2rem;
   font-size: 1.2rem;
 `;

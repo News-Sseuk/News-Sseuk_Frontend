@@ -61,7 +61,7 @@ const Reason = styled.div`
 
 const Title = styled.div`
   color: #003d62;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 29px;
   font-size: 20px;
   background-color: white;
