@@ -32,8 +32,8 @@ export const CategoryProvider = ({ children }: CategoryProviderProps) => {
         if (data && data.result) {
           setSelectedCategory(data.result);
         }
-      } catch {
-        alert("아직 카테고리를 설정하지 않았어요. 카테고리를 설정해주세요!");
+      } catch (err) {
+        throw new Error("카테고리 불러오는 중 오류");
       }
     };
     if (location !== "/") loadCategories();

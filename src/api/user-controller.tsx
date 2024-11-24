@@ -23,52 +23,52 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-//     if (
-//       error.response &&
-//       error.response.status === 403 &&
-//       error.response.data?.code === "COMMON5000" &&
-//       !originalRequest._retry
-//     ) {
-//       originalRequest._retry = true;
+    if (
+      error.response &&
+      error.response.status === 500 &&
+      error.response.data?.code === "TOKEN4002" &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
 
-//       try {
-//         // Refresh 토큰 요청
-//         const expiredAccessToken = localStorage.getItem("accessToken");
-//         const request = { accessToken: expiredAccessToken };
-//         const response = await axiosInstance.post("/user/refresh", request);
+      try {
+        // Refresh 토큰 요청
+        const expiredAccessToken = localStorage.getItem("accessToken");
+        const request = { accessToken: expiredAccessToken };
+        const response = await axiosInstance.post("/user/refresh", request);
 
-//         if (response.data.isSuccess) {
-//           // 새로운 AccessToken 저장
-//           localStorage.setItem("accessToken", response.data.result.accessToken);
+        if (response.data.isSuccess) {
+          // 새로운 AccessToken 저장
+          localStorage.setItem("accessToken", response.data.result.accessToken);
 
-//           // Axios 헤더 업데이트
-//           axiosInstance.defaults.headers[
-//             "Authorization"
-//           ] = `Bearer ${response.data.result.accessToken}`;
-//           originalRequest.headers[
-//             "Authorization"
-//           ] = `Bearer ${response.data.result.accessToken}`;
+          // Axios 헤더 업데이트
+          axiosInstance.defaults.headers[
+            "Authorization"
+          ] = `Bearer ${response.data.result.accessToken}`;
+          originalRequest.headers[
+            "Authorization"
+          ] = `Bearer ${response.data.result.accessToken}`;
 
-//           // 실패한 요청 재시도
-//           return axiosInstance(originalRequest);
-//         }
-//       } catch (refreshError) {
-//         // 갱신 실패 처리
-//         console.error("토큰 갱신 실패:", refreshError);
-//         localStorage.removeItem("accessToken"); // 실패 시 토큰 삭제
-//         window.location.href = "/"; // 로그인 페이지로 리다이렉트
-//         return Promise.reject(refreshError);
-//       }
-//     }
+          // 실패한 요청 재시도
+          return axiosInstance(originalRequest);
+        }
+      } catch (refreshError) {
+        // 갱신 실패 처리
+        console.error("토큰 갱신 실패:", refreshError);
+        localStorage.removeItem("accessToken"); // 실패 시 토큰 삭제
+        window.location.href = "/"; // 로그인 페이지로 리다이렉트
+        return Promise.reject(refreshError);
+      }
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
 
 // interface EmailValidResponse {
 //   code: string;

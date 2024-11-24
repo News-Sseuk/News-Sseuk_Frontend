@@ -43,9 +43,11 @@ const Article = () => {
             isCategory={true}
             category={article?.category}
           ></HashtagButton>
-          {article?.hashTagList.map((category, idx) => (
-            <HashtagButton key={idx} category={category} />
-          ))}
+          {article?.hashTagList && article?.hashTagList.length > 0
+            ? article?.hashTagList.map((category, idx) => (
+                <HashtagButton key={idx} category={category} />
+              ))
+            : null}
         </TagContainer>
       </Header>
       {article ? <Content data={article} /> : <p>invalid approach!</p>}

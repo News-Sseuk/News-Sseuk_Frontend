@@ -31,16 +31,16 @@ const MyPage = () => {
           setUserInfo(userResponse.result);
           localStorage.setItem("userName", userResponse.result.name);
         } else {
-          console.error("Failed to fetch user info:", userResponse.message);
+          console.log("Failed to fetch user info:", userResponse.message);
         }
 
         if (historyResponse) {
           setHistory(historyResponse.result);
         } else {
-          console.error("Failed to fetch history:", historyResponse.message);
+          console.log("Failed to fetch history:", historyResponse.message);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.log("Error fetching data:", error);
       }
     };
 
@@ -89,13 +89,13 @@ const MyPage = () => {
       </ReadingBadge>
       <HistorySection>
         <Title>기사 히스토리</Title>
-        <HistoryList>
-          {history && history.length > 0 ? (
-            <ArticleList articleArray={history} />
-          ) : (
-            <NoHistory>아직 읽은 기사가 없어요</NoHistory>
-          )}
-        </HistoryList>
+        {history && history.length > 0 ? (
+          <HistoryList>
+            <ArticleList articleArray={history} />{" "}
+          </HistoryList>
+        ) : (
+          <NoHistory>아직 읽은 기사가 없어요</NoHistory>
+        )}
       </HistorySection>
     </Div>
   );
@@ -240,6 +240,11 @@ const HistoryList = styled.div`
 `;
 
 const NoHistory = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   text-align: center;
   font-size: 14px;
   padding: 20px;

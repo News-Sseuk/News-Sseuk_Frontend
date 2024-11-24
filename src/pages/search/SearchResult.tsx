@@ -50,8 +50,8 @@ const SearchResult = () => {
       try {
         const result = await fetchSearch(searchParams);
         if (result) {
-          setArticles(result.data);
-          setNumber(result.data.length);
+          setArticles(result.result);
+          setNumber(result.result.length);
         }
       } catch (error) {
         console.error("검색 결과를 불러오는 중 오류 발생:", error);
@@ -118,6 +118,9 @@ const getFormattedDate = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const HeaderWrapper = styled.div`
