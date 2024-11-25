@@ -61,8 +61,6 @@ const Scrap = () => {
   // 카테고리에 맞는 이미지 가져오기
   const images = getImage(scrappedCategories);
 
-  // 현재 인덱스 관리
-
   // 이전 카테고리로 이동
   const handlePrevClick = () => {
     setCurrentIndex((prev) =>

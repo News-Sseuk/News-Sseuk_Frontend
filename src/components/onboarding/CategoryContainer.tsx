@@ -3,6 +3,8 @@ import { useCategoryContext } from "../../context/CategoryContext"; // CategoryC
 import Category from "./Category";
 
 const categories = [
+  "연애",
+
   "국회_정당",
   "대통령실",
   "북한",
@@ -51,7 +53,6 @@ const categories = [
   "유럽",
   "중동_아프리카",
   "세계 일반",
-  "연애",
 ];
 
 const CategoryContainer = () => {

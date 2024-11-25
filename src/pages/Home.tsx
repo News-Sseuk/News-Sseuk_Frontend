@@ -1,70 +1,22 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+//utils
 import styled from "styled-components";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useCategoryContext } from "../context/CategoryContext";
 
+//components
 import notification from "../assets/notification.svg";
 import CategoryButton from "../components/home/CategoryButton";
-import ArticleList from "../components/home/ArticleList";
-import { fetchCategoryArticle } from "../api/user-controller";
-import { useCategoryContext } from "../context/CategoryContext";
-import { getCursorTime } from "../utils/get-cursor-time";
-import type { ArticleType } from "../components/home/ArticleList";
-import Loading from "./Loading";
+import ArticleList from "./InfiniteTest";
 
 const Home = () => {
-  const [articleArray, setArticleArray] = useState<ArticleType[]>([]);
-  const [cursorTime, setCursorTime] = useState<string>();
-
-  const articleListRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const { count } = useInfiniteScroll({
-    target: articleListRef,
-    targetArray: articleArray,
-    threshold: 0.2,
-    endPoint: 3,
-  });
-
   const nav = useNavigate();
   const { category } = useParams<string>();
+  const [currentCategory, setCurrentCategory] = useState<string>();
   const { selectedCategories } = useCategoryContext();
 
-  const fetchArticles = async (newCursorTime: string) => {
-    if (isLoading) return;
-    setIsLoading(true);
-
-    try {
-      const decodedCategory = category ? decodeURIComponent(category) : "";
-      if (decodedCategory) {
-        const articles = await fetchCategoryArticle({
-          category: decodedCategory,
-          cursortime: newCursorTime,
-        });
-
-        if (articles && articles.length > 0) {
-          setArticleArray((prev) => [...prev, ...articles]);
-
-          const lastArticleDate = articles[articles.length - 1].date;
-          setCursorTime(lastArticleDate);
-        }
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (count > 0) {
-      fetchArticles(cursorTime || getCursorTime());
-    }
-  }, [count]);
-
-  useEffect(() => {
-    setArticleArray([]);
-    const initialCursorTime = getCursorTime();
-    setCursorTime(initialCursorTime);
-    fetchArticles(initialCursorTime);
+    setCurrentCategory(category);
   }, [category]);
 
   const handleCategoryClick = (newCategory: string) => {
@@ -73,7 +25,6 @@ const Home = () => {
 
   return (
     <Div>
-      {isLoading ? <Loading /> : null}
       <Header>
         <Title>
           <Icon />
@@ -92,8 +43,8 @@ const Home = () => {
           ))}
         </CategoryList>
       </Header>
-      <Contents ref={articleListRef}>
-        <ArticleList articleArray={articleArray} />
+      <Contents>
+        <ArticleList category={currentCategory} />
       </Contents>
     </Div>
   );
