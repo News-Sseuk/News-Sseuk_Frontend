@@ -16,12 +16,11 @@ const Share = (props: Props) => {
   return (
     <Wrapper>
       <ImageContainer>
-        <Img src={kakao} />
-        <Img src={insta} />
-        <Img src={facebook} />
-        <Img src={everytime} />
+        <Img src={kakao} onClick={handleLinkClick} />
+        <Img src={insta} onClick={handleLinkClick} />
+        <Img src={facebook} onClick={handleLinkClick} />
+        <Img src={everytime} onClick={handleLinkClick} />
       </ImageContainer>
-      <Reason onClick={handleLinkClick}>공유링크</Reason>
       <Title>공유하기</Title>
     </Wrapper>
   );
@@ -33,7 +32,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px; /* 모달의 너비를 적절하게 설정합니다 */
+  width: 300px;
   padding: 30px 20px;
   gap: 15px;
   background-color: white;
@@ -43,20 +42,7 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
-  z-index: 1000; /* 모달을 최상단에 표시합니다 */
-`;
-
-const Reason = styled.div`
-  display: flex;
-  text-align: center;
-  font-size: 14px;
-  line-height: 29px;
-  font-weight: 400;
-  background-color: #eae1e1;
-  border-radius: 4px;
-  padding: 2px 10px;
-  cursor: pointer;
-  width: 240px;
+  z-index: 1000;
 `;
 
 const Title = styled.div`
