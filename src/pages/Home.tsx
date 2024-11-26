@@ -20,6 +20,7 @@ const Home = () => {
   }, [category]);
 
   const handleCategoryClick = (newCategory: string) => {
+    setCurrentCategory(newCategory);
     nav(`/home/${encodeURIComponent(newCategory)}`);
   };
 
