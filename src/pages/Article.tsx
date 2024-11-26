@@ -9,6 +9,7 @@ import type { ArticleType } from "../components/home/ArticleList";
 
 const Article = () => {
   const nav = useNavigate();
+
   const { id } = useParams<{ id: string }>();
   const [article, setArticle] = useState<ArticleType>();
 
@@ -61,7 +62,7 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   justify-content: center;
   align-items: center;
 `;

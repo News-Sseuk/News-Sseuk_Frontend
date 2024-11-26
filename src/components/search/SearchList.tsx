@@ -34,7 +34,6 @@ const ArticleList = (props: Props) => {
 
     try {
       const result = await fetchSearch(searchParams);
-      console.log("result :>> ", result);
       if (result) {
         setArticleArray((prev) => [...prev, ...result.result]);
         const lastId = result[result.length - 1].id;

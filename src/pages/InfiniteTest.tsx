@@ -62,7 +62,6 @@ const ArticleList = (props: Props) => {
           const lastArticleDate = articles[articles.length - 1].publishedDate;
           const dateObject = lastArticleDate.replace(" ", "T");
           setCursorTime(dateObject);
-          console.log("마지막 article date :>> ", lastArticleDate);
         }
       }
     } finally {

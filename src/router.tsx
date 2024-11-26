@@ -11,7 +11,6 @@ import InfoEdit from "./pages/mypage/InfoEdit";
 import CategoryEditPage from "./pages/mypage/CategoryEdit";
 import SearchResult from "./pages/search/SearchResult";
 import NotificationEdit from "./pages/mypage/NotificationEdit";
-// import Loading from "./pages/Loading";
 
 const router = createBrowserRouter([
   {
