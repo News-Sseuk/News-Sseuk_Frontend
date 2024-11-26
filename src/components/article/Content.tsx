@@ -3,6 +3,8 @@ import tmp from "../../assets/category/culture.png";
 import Summary from "./Summary";
 import Recommendation from "./Recommendation";
 import Accuracy from "../common/Accuracy";
+import { useLocation } from "react-router-dom";
+import { useRef, useEffect } from "react";
 
 type ArticleType = {
   title?: string;
@@ -23,9 +25,17 @@ interface Props {
 }
 
 const Content = (props: Props) => {
+  const { pathname } = useLocation();
+  const headRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    console.log("haeadRef.current :>> ", headRef.current);
+    headRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [pathname]);
+
   return (
     <Container>
-      <Title>{props.data?.title} </Title>
+      <Title ref={headRef}>{props.data?.title} </Title>
       <InfoContainer>
         <Text>{props.data?.publishedDate}</Text>
         <Text>{props.data?.press}</Text>
