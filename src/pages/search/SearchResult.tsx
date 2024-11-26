@@ -1,30 +1,21 @@
 //utils
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { getTime } from "../../utils/get-cursor-time";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-//api
-import { fetchSearch } from "../../api/user-controller";
-import type { searchApiInterface } from "../../api/user-controller";
-import type { ArticleType } from "../../components/home/ArticleList";
 
 //components
 import Toggle from "../../components/search/ToggleSwitch";
-import ArticleList from "../../components/home/ArticleList";
+import ArticleList from "../../components/search/SearchList";
 import SearchBar from "../../components/search/SearchBar";
 
 const SearchResult = () => {
   const nav = useNavigate();
   const { searchQuery } = useParams<{ searchQuery: string }>();
-  console.log("searchQuery :>> ", searchQuery);
 
   const [searchInput, setSearchInput] = useState(searchQuery || "");
   const [isFiltered, setIsFiltered] = useState(false); // 필터링 on/off
-  const [date, setDate] = useState(getFormattedDate());
-  const [number, setNumber] = useState(0);
+  const [date] = useState(getFormattedDate());
   const [isLatest, setIsLatest] = useState(true); // 최신순 / 신뢰도순
-  const [articles, setArticles] = useState<ArticleType[]>([]); // 검색 결과
 
   const handleToggle = () => setIsFiltered((prev) => !prev);
 
@@ -33,35 +24,6 @@ const SearchResult = () => {
   const handleSearchClick = () => {
     nav(`/search/${searchInput}`, { replace: true });
   };
-
-  useEffect(() => {
-    setDate(getFormattedDate()); // 날짜 업데이트
-
-    // 필터 상태와 정렬 기준 변경 시 검색 API 호출
-    const fetchSearchResults = async () => {
-      if (!searchQuery) return; // searchQuery가 없으면 종료
-      const searchParams: searchApiInterface = {
-        keyword: searchQuery,
-        onOff: isFiltered ? "on" : "off",
-        sort: isLatest ? "latest" : "reliable",
-        cursorTime: getTime(),
-      };
-
-      try {
-        const result = await fetchSearch(searchParams);
-        if (result) {
-          setArticles(result.result);
-          setNumber(result.result.length);
-        }
-      } catch (error) {
-        console.error("검색 결과를 불러오는 중 오류 발생:", error);
-        setArticles([]);
-        setNumber(0);
-      }
-    };
-
-    fetchSearchResults();
-  }, [isFiltered, isLatest, searchQuery]);
 
   return (
     <Container>
@@ -77,7 +39,7 @@ const SearchResult = () => {
         </Header>
         <Footer>
           <InfoText>
-            {date} 기준 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 관련기사 {number}개
+            {date} 기준 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 관련기사 개
           </InfoText>
           <OrderContainer>
             <Order
@@ -95,7 +57,11 @@ const SearchResult = () => {
           </OrderContainer>
         </Footer>
       </HeaderWrapper>
-      <ArticleList articleArray={articles} />
+      <ArticleList
+        searchInput={searchInput}
+        isFiltered={isFiltered}
+        isLatest={isLatest}
+      />
     </Container>
   );
 };
