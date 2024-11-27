@@ -44,8 +44,8 @@ const Content = (props: Props) => {
           <Accuracy accuracy={props.data?.reliability}></Accuracy>
         ) : null}
       </InfoContainer>
-      {props.data?.image?.length !== undefined ? (
-        <Img src={props.data?.image[0]} />
+      {props.data.image && props.data?.image?.length > 0 ? (
+        <Img referrerPolicy="no-referrer" src={props.data.image[0]} />
       ) : (
         <Img src={tmp} />
       )}
