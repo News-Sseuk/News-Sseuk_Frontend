@@ -29,7 +29,6 @@ const Content = (props: Props) => {
   const headRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    console.log("haeadRef.current :>> ", headRef.current);
     headRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [pathname]);
 
@@ -102,6 +101,5 @@ const StyledContent = styled.div`
 
 const Img = styled.img`
   width: 100%;
-  height: 30%;
   margin: 20px 0;
 `;
