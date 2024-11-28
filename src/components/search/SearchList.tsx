@@ -46,7 +46,6 @@ const ArticleList = (props: Props) => {
 
   // 필터 또는 정렬 상태가 변경될 때 새 검색 요청 수행
   useEffect(() => {
-    console.log("api호출 :>> ");
     setArticleArray([]); // 이전 검색 결과 초기화
     const initialCursorTime = getTime();
     setLastArticleId(initialCursorTime);

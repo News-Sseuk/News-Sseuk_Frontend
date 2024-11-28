@@ -87,6 +87,9 @@ const Container = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const HeaderWrapper = styled.div`
