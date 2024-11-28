@@ -16,12 +16,10 @@ interface Props {
 
 const ArticleList = (props: Props) => {
   const [articleArray, setArticleArray] = useState<ArticleType[]>([]);
-  const [lastArticleId, setLastArticleId] = useState<string | undefined>(
-    getTime()
-  );
+  const [lastArticleId, setLastArticleId] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchSearchResults = async () => {
+  const fetchSearchResults = async (newCursorTime: string) => {
     if (isLoading) return;
     setIsLoading(true);
 
@@ -29,15 +27,15 @@ const ArticleList = (props: Props) => {
       keyword: props.searchInput,
       onOff: props.isFiltered ? "on" : "off",
       sort: props.isLatest ? "latest" : "reliable",
-      cursorTime: lastArticleId || getTime(), // 마지막 ID를 우선적으로 사용
+      cursorTime: newCursorTime,
     };
 
     try {
       const result = await fetchSearch(searchParams);
-      if (result) {
-        setArticleArray((prev) => [...prev, ...result.result]);
-        const lastId = result[result.length - 1].id;
-        setLastArticleId(lastId); // 마지막 ID 업데이트
+      if (result && result.length > 0) {
+        setArticleArray((prev) => [...prev, ...result]);
+        const lastDate = result[result.length - 1]?.publishedDate;
+        setLastArticleId(lastDate); // 마지막 ID 업데이트
       }
     } catch (error) {
       console.error("검색 결과를 불러오는 중 오류 발생:", error);
@@ -48,9 +46,11 @@ const ArticleList = (props: Props) => {
 
   // 필터 또는 정렬 상태가 변경될 때 새 검색 요청 수행
   useEffect(() => {
+    console.log("api호출 :>> ");
     setArticleArray([]); // 이전 검색 결과 초기화
-    setLastArticleId(getTime()); // 초기 커서 값 설정
-    fetchSearchResults();
+    const initialCursorTime = getTime();
+    setLastArticleId(initialCursorTime);
+    fetchSearchResults(initialCursorTime);
   }, [props.isFiltered, props.isLatest, props.searchInput]);
 
   const articleListRef = useRef<HTMLDivElement>(null);
@@ -64,8 +64,8 @@ const ArticleList = (props: Props) => {
 
   // 스크롤 이벤트 발생 시 추가 검색 요청 수행
   useEffect(() => {
-    if (count > 0) {
-      fetchSearchResults();
+    if (count > 0 && articleArray[articleArray.length - 1]?.hasNext) {
+      fetchSearchResults(lastArticleId || getTime());
     }
   }, [count]);
 

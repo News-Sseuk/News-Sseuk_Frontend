@@ -39,18 +39,18 @@ const SearchResult = () => {
         </Header>
         <Footer>
           <InfoText>
-            {date} 기준 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 관련기사 개
+            {date} 기준 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 관련기사
           </InfoText>
           <OrderContainer>
             <Order
               onClick={() => handleOrder(true)}
-              isActive={isLatest === true}
+              $isActive={isLatest === true}
             >
               최신순
             </Order>
             <Order
               onClick={() => handleOrder(false)}
-              isActive={isLatest === false}
+              $isActive={isLatest === false}
             >
               신뢰도순
             </Order>
@@ -58,7 +58,7 @@ const SearchResult = () => {
         </Footer>
       </HeaderWrapper>
       <ArticleList
-        searchInput={searchInput}
+        searchInput={searchQuery ?? ""}
         isFiltered={isFiltered}
         isLatest={isLatest}
       />
@@ -130,8 +130,8 @@ const OrderContainer = styled.div`
   gap: 10px;
 `;
 
-const Order = styled.div<{ isActive: boolean }>`
-  color: ${(props) => (props.isActive ? "#000000" : "#00000033")};
-  font-weight: ${(props) => (props.isActive ? "bold" : "normal")};
+const Order = styled.div<{ $isActive: boolean }>`
+  color: ${(props) => (props.$isActive ? "#000000" : "#00000033")};
+  font-weight: ${(props) => (props.$isActive ? "bold" : "normal")};
   cursor: pointer;
 `;

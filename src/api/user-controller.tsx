@@ -229,7 +229,7 @@ export const fetchSearch = async (props: searchApiInterface) => {
       `/search/${props.keyword}/${props.onOff}/${props.sort}/${props.cursorTime}`
     );
     if (response.data.isSuccess) {
-      return response.data;
+      return response.data.result;
     }
   } catch (err) {
     handleApiError(err);

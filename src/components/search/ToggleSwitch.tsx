@@ -9,8 +9,8 @@ interface ToggleProps {
 const Toggle: React.FC<ToggleProps> = ({ isActive, onToggle }) => {
   return (
     <ToggleContainer onClick={onToggle}>
-      <ToggleSwitch isActive={isActive}>
-        <ToggleCircle isActive={isActive}>
+      <ToggleSwitch $isActive={isActive}>
+        <ToggleCircle $isActive={isActive}>
           {isActive ? "ON" : "OFF"}
         </ToggleCircle>
       </ToggleSwitch>
@@ -28,7 +28,7 @@ const ToggleContainer = styled.div`
   color: #16324f; /* text color */
 `;
 
-const ToggleSwitch = styled.div<{ isActive: boolean }>`
+const ToggleSwitch = styled.div<{ $isActive: boolean }>`
   width: 50px;
   height: 22px;
   border-radius: 12px;
@@ -40,12 +40,12 @@ const ToggleSwitch = styled.div<{ isActive: boolean }>`
   transition: background-color 0.3s ease;
 `;
 
-const ToggleCircle = styled.div<{ isActive: boolean }>`
+const ToggleCircle = styled.div<{ $isActive: boolean }>`
   position: absolute;
-  left: ${({ isActive }) => (isActive ? "23px" : "-18px")};
+  left: ${({ $isActive }) => ($isActive ? "23px" : "-18px")};
   height: 22px;
   border-radius: 10px;
-  background-color: ${({ isActive }) => (isActive ? "#a5d63f" : "#FFC7C2")};
+  background-color: ${({ $isActive }) => ($isActive ? "#a5d63f" : "#FFC7C2")};
   display: flex;
   align-items: center;
   justify-content: center;

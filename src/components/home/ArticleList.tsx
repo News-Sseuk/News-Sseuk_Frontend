@@ -9,6 +9,7 @@ export interface ArticleType {
   reliability: number;
   title: string;
   issue: string;
+  hasNext?: boolean;
 }
 
 type ArticleListProps = {
